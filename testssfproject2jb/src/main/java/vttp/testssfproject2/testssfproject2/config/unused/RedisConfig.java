@@ -1,4 +1,4 @@
-package vttp.testssfproject2.testssfproject2.config;
+package vttp.testssfproject2.testssfproject2.config.unused;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,8 +10,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import vttp.testssfproject2.testssfproject2.constant.ConstantVar;
-import vttp.testssfproject2.testssfproject2.model.GameSession;
+import vttp.testssfproject2.testssfproject2.model.unused.GameSession;
+import vttp.testssfproject2.testssfproject2.unused.ConstantVar;
 
 @Configuration
 public class RedisConfig {

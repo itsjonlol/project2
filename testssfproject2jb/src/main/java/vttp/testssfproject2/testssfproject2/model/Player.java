@@ -17,7 +17,7 @@ public class Player {
 
     public Player() {
         this.vote=0;
-        this.mascot="/mascot/mascot1.svg";
+        this.mascot="../mascot/mascot1.svg";
     }
 
 
@@ -26,7 +26,7 @@ public class Player {
     public Player(String name) {
         this.vote=0;
         this.name = name;
-        this.mascot="/mascot/mascot1.svg";
+        this.mascot="../mascot/mascot1.svg";
     }
 
 

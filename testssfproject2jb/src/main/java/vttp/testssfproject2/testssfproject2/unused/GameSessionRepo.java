@@ -1,10 +1,10 @@
-package vttp.testssfproject2.testssfproject2.repo;
+package vttp.testssfproject2.testssfproject2.unused;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import vttp.testssfproject2.testssfproject2.model.GameSession;
+import vttp.testssfproject2.testssfproject2.model.unused.GameSession;
 
 @Repository
 public class GameSessionRepo {
