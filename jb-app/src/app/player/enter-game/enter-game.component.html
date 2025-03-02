@@ -1,0 +1,26 @@
+
+
+
+<div class="col-md-6 offset-md-3">
+    <h3> Join a room!</h3>
+    <form (ngSubmit) = "onSubmit(gameCode)">
+    
+        <div class="form-group">
+            <label> Enter game room code displayed on screen </label>
+            <input type="number" class ="form-control" id = "gameCode"
+                [(ngModel)] = "gameCode" name = "gameCode">
+        </div>
+
+        
+    
+        @if (errorMessage) {
+            <p> {{errorMessage}} </p>
+        }
+        <button class = "btn btn-success" type ="submit">Submit</button>
+    
+    </form>
+    </div> 
+
+    {{gameCode}}
+
+    <router-outlet />

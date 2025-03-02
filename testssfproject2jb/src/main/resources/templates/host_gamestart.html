@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host - Game Started</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+</head>
+<body>
+    <h1>Game Started</h1>
+
+    <div id="imageContainer"></div>
+
+    <!-- <p><strong>Game Code:</strong> <span id="gameCode" th:text="${gameCode}"></span></p>
+    <p>Prompt: <span id="gamePrompt"></span></p>
+    
+    <button id="nextRound" disabled>Next Round</button>
+
+    <script th:inline="javascript">
+        const gameCode = /*[[${gameCode}]]*/ '';
+        const socket = new SockJS('/game');
+        const stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function () {
+            stompClient.subscribe(`/topic/game/${gameCode}`, function (message) {
+                const gameData = JSON.parse(message.body);
+
+                // Display the prompt sent from the server
+                const gamePrompt = document.getElementById("gamePrompt");
+                gamePrompt.textContent = gameData.prompt;
+
+                // Enable the "Next Round" button if all players have submitted their answers
+                const nextButton = document.getElementById("nextRound");
+                nextButton.disabled = !gameData.allAnswersSubmitted;
+            });
+        });
+
+        document.getElementById("nextRound").addEventListener("click", function () {
+            stompClient.send(`/app/nextRound/${gameCode}`, {});
+        });
+    </script> -->
+
+    <script th:inline="javascript">
+
+        const gameCode = /*[[${gameCode}]]*/ '';  // Ensure this is set dynamically
+        console.log("Game Code:", gameCode); // Verify if it's being injected correctly
+        const hostSocket = new SockJS('/game');
+        const hostStompClient = Stomp.over(hostSocket);
+
+
+        hostStompClient.connect({}, function () {
+            console.log("Host connected to WebSocket");
+            hostStompClient.subscribe(`/topic/game/${gameCode}`, function (message) {
+                console.log("Game Update for Host:", message.body);
+                // const imageData = JSON.parse(message.body);
+
+                const imgElement = new Image();
+                imgElement.src = message.body; // The received imageData (Base64 string) directly as the image source
+                imgElement.alt = "Player's Canvas Submission";
+
+                // Optionally, set some styles for the image (you can add CSS if needed)
+                imgElement.style.maxWidth = "500px"; // Example size limit
+                imgElement.style.margin = "10px";
+
+                imgElement.style.border = "5px solid #333"; // You can customize the border color and thickness
+                imgElement.style.padding = "10px"; // Optional, for space between the image and border
+                imgElement.style.borderRadius = "10px"; // Optional, for rounded corners
+
+                // Append the image to a specific container on the page
+                const imageContainer = document.getElementById('imageContainer');
+                imageContainer.appendChild(imgElement);
+
+                
+            });
+        });
+
+       
+    </script>
+</body>
+</html>

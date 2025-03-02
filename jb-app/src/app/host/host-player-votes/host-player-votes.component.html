@@ -1,0 +1,11 @@
+<p>host-player-votes works!</p>
+
+{{players | json}}
+
+@for (player of players; let idx = $index; track idx) {
+    <p>{{player.name}}</p>
+    <p>{{player.vote}}</p>
+    <img [src]="player.mascot" height="80px" width="80px">
+    
+ 
+}

@@ -1,0 +1,15 @@
+<p>player-results works!</p>
+
+{{username}}
+
+{{gameCode}}
+
+@if(isWinner) {
+    <h1>Congratulations, {{username}}!</h1>
+    <h2>You won!!!</h2>
+} @else {
+    <h1>What a shame,{{username}} </h1>
+    <h2>You lost... F...</h2>
+}
+
+{{submission | json}}

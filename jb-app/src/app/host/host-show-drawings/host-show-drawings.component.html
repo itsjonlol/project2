@@ -1,0 +1,18 @@
+<p>host-show-drawings works!</p>
+
+
+<!-- <pre>{{submission | json}}</pre> -->
+
+<!--<pre> {{drawing | json}}</pre> -->
+<!-- <p>{{finishedAllDrawings}}</p> -->
+<div>
+    <p>Name: {{drawing.playerName}}</p>
+    <p>Title: {{drawing.title}}</p>
+    <p>Description: {{drawing.description}} </p>
+    <img [src]="drawing.imageUrl">
+</div>
+
+{{timerCountDown}} seconds left!
+
+<button (click)="nextDrawing()">Next</button>
+

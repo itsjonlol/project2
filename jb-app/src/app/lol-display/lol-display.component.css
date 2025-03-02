@@ -1,0 +1,25 @@
+canvas {
+  border: 1px solid #ccc;
+}
+
+.controls {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.stroke-color {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.color-picker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

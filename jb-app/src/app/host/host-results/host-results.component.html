@@ -1,0 +1,20 @@
+<p>host-results works!</p>
+
+{{username}}
+{{gameCode}}
+
+{{drawings | json}}
+
+
+@for (s of submission.playerSubmissions; let idx = $index; track idx) {
+    @if (idx===0) {
+        
+        <p>{{s.playerName}} WINNER!!!!</p>
+        <p>{{s.total}}</p>
+    } @else {
+        <p>{{s.playerName}}</p>
+        <p>{{s.total}}</p>
+    }
+}
+
+<button (click)="endGame()">End game</button>
