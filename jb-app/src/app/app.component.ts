@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { FireAuthService } from './services/fire-auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,34 @@ import { RouterModule, RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css',
   
 })
-export class AppComponent {
-  title = 'jb-app';
+export class AppComponent implements OnInit {
+
+  fireAuthService = inject(FireAuthService);
+
+  router = inject(Router)
+
+  ngOnInit(): void {
+    this.fireAuthService.user$.subscribe(user => {
+      if (user) {
+        
+        this.fireAuthService.currentUserSig.set({
+          email:user.email!,
+          username: user.displayName!
+        })
+        localStorage.setItem('username',JSON.stringify(user.displayName));
+      } else {
+        this.fireAuthService.currentUserSig.set(null)
+      }
+      console.log(this.fireAuthService.currentUserSig())
+    })
+  }
+
+
+  logout(): void {
+    this.fireAuthService.logout()
+    localStorage.removeItem('username')
+    this.router.navigate(['/login'])
+
+    
+  }
 }

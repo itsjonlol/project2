@@ -18,10 +18,10 @@ export class UserService {
 
   getUser(): Observable<User> {
     // Include withCredentials to send the session cookie along with the request
-    return this.httpClient.get<User>(this.loginUrl, { withCredentials: true });
+    return this.httpClient.get<User>(this.loginUrl);
   }
   logout(): Observable<Object> {
-    return this.httpClient.post(this.logoutUrl, {}, { withCredentials: true });
+    return this.httpClient.post(this.logoutUrl, {});
   }
 
   

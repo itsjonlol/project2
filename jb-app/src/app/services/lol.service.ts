@@ -12,6 +12,6 @@ export class LolService {
   constructor(private http: HttpClient) {}
 
   getLol(): Observable<any> {
-    return this.http.get<any>(this.apiUrl,{withCredentials:true});
+    return this.http.get<any>(this.apiUrl);
   }
 }

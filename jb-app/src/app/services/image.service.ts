@@ -43,7 +43,7 @@ export class ImageService {
     const formData = new FormData();
     formData.append('name', 'canvasImage');
     formData.append('file', file);
-    return this.httpClient.post<UploadResponse>(`${this.backendUrl}/upload`, formData,{withCredentials:true});
+    return this.httpClient.post<UploadResponse>(`${this.backendUrl}/upload`, formData);
 
   }
 }

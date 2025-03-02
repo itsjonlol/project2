@@ -1,0 +1,58 @@
+
+
+@if (errorMessage) {
+    <div><p class="text-danger"> {{errorMessage}}</p></div>
+  }
+  
+  <div class="container">
+    <div class="row mt-5 d-flex justify-content-center">
+      <div class="col-12 col-md-8 col-lg-4">
+        <div class="card shadow">
+          <div class="card-body">
+            <form [formGroup]="form" (submit)="onSubmit()">
+              <div class="mb-3 text-center">
+                <h4 class="text-dark text-muted">Login Via Email</h4>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" placeholder="Email" formControlName="email">
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" placeholder="Password" formControlName="password">
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Login</button>
+  
+              <div class="text-center mt-3">
+                <a [routerLink]="['/register']" class="text-decoration-none">Need Account? <span class="text-danger">Register</span></a>
+              </div>
+            </form>
+  
+            <div class="row mt-3">
+              <div class="col">
+                <a type="button" (click)="loginViaGoogle()" class="text-decoration-none d-block">
+                  <div class="card shadow text-center">
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                      <img src="/images/google-icon.svg" alt="" height="24px" width="24px" class="me-2">
+                      Sign In with Google
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col">
+                <button (click)="loginViaGitHub()" class="btn btn-dark d-flex align-items-center justify-content-center w-100 p-2 shadow">
+                  <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
+                       alt="GitHub Logo" height="24px" width="24px" class="me-2">
+                  Sign In with GitHub
+                </button>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

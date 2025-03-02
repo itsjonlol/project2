@@ -15,13 +15,13 @@ export class GameService {
   private backendUrl = 'http://localhost:4000/api';
 
   postAccessRoom(gameEntry:GameEntry):Observable<object> {
-    return this.httpClient.post<GameEntry>(`${this.backendUrl}/accessroom`,gameEntry,{withCredentials:true});
+    return this.httpClient.post<GameEntry>(`${this.backendUrl}/accessroom`,gameEntry);
     
   }
 
   getGameRoom():Observable<GameRoomResponse> {
 
-    return this.httpClient.get<GameRoomResponse>(`${this.backendUrl}/getgameroom`,{withCredentials:true});
+    return this.httpClient.get<GameRoomResponse>(`${this.backendUrl}/getgameroom`);
   }
 
 

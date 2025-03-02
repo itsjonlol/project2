@@ -1,0 +1,62 @@
+.lobby-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .game-code {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff5c5c;
+  }
+  
+  .buttons-container {
+    margin: 20px 0;
+  }
+  
+  .players-container {
+    margin-top: 30px;
+  }
+  
+  .player-card {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+  }
+  
+  .player-box {
+    background-color: #f3f3f3;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 3px 3px 0 #000;
+    transition: transform 0.2s ease-in-out;
+    width: 140px;
+  }
+  
+  .player-box:hover {
+    transform: scale(1.05);
+  }
+  
+  .player-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #333;
+    background-color: #ffcc00;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    box-shadow: 2px 2px 0 #000;
+  }
+  
+  .mascot-image {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 2px 2px 0 #000;
+  }

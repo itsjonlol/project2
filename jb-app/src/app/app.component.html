@@ -1,10 +1,23 @@
 <!-- app.component.html -->
 
-<nav>
+<!-- <nav>
   <a routerLink="/login">Login</a> |
   <a routerLink="/dashboard">Dashboard</a> 
   <a routerLink="/testsub">testsub</a> 
-  <a routerLink="/lol-display">Dummy Page</a>  <!-- ✅ Link to dummy page -->
+  <a routerLink="/lol-display">Dummy Page</a>  
 </nav>
-<h1>My Angular App</h1>
+<h1>My Angular App</h1> -->
+
+
+@if(fireAuthService.currentUserSig()) {
+  <div>
+      {{fireAuthService.currentUserSig()?.username}}
+      {{fireAuthService.currentUserSig()?.email}}
+      <span (click)="logout()">Logout</span>
+  </div>
+}
+
+
+
+
 <router-outlet></router-outlet>

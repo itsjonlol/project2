@@ -1,19 +1,20 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { LolDisplayComponent } from './lol-display/lol-display.component';
-import { HostLobbyComponent } from './host/host-lobby/host-lobby.component';
-import { HostPromptComponent } from './host/host-prompt/host-prompt.component';
-import { JoinGameComponent } from './join-game/join-game.component';
-import { DrawingsComponent } from './drawings/drawings.component';
-import {EnterGameComponent} from './player/enter-game/enter-game.component';
-import {PlayerLobbyComponent} from './player/player-lobby/player-lobby.component';
-import {PlayerDrawingComponent} from './player/player-drawing/player-drawing.component';
-import { TestsubComponent } from './testsub/testsub.component';
-import { HostShowDrawingsComponent } from './host/host-show-drawings/host-show-drawings.component';
-import { PlayerVoteInputComponent } from './player/player-vote-input/player-vote-input.component';
-import { PlayerResultsComponent } from './player/player-results/player-results.component';
-import { HostResultsComponent } from './host/host-results/host-results.component';
+import { LoginComponent } from './components/extcomponents/login/login.component';
+import { DashboardComponent } from './components/extcomponents/dashboard/dashboard.component';
+import { LolDisplayComponent } from './components/notusedcomponents/lol-display/lol-display.component';
+import { HostLobbyComponent } from './components/hostcomponents/host-lobby/host-lobby.component';
+import { HostPromptComponent } from './components/hostcomponents/host-prompt/host-prompt.component';
+import { JoinGameComponent } from './components/notusedcomponents/join-game/join-game.component';
+import { DrawingsComponent } from './components/notusedcomponents/drawings/drawings.component';
+import {EnterGameComponent} from './components/playercomponents/enter-game/enter-game.component';
+import {PlayerLobbyComponent} from './components/playercomponents/player-lobby/player-lobby.component';
+import {PlayerDrawingComponent} from './components/playercomponents/player-drawing/player-drawing.component';
+import { TestsubComponent } from './components/notusedcomponents/testsub/testsub.component';
+import { HostShowDrawingsComponent } from './components/hostcomponents/host-show-drawings/host-show-drawings.component';
+import { PlayerVoteInputComponent } from './components/playercomponents/player-vote-input/player-vote-input.component';
+import { PlayerResultsComponent } from './components/playercomponents/player-results/player-results.component';
+import { HostResultsComponent } from './components/hostcomponents/host-results/host-results.component';
+import { RegisterComponent } from './components/extcomponents/register/register.component';
 
 
 
@@ -21,6 +22,7 @@ import { HostResultsComponent } from './host/host-results/host-results.component
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
+    {path:'register',component:RegisterComponent},
     { path: 'dashboard', component: DashboardComponent },
     {path:'lol-display',component: LolDisplayComponent},
     {
