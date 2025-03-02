@@ -328,7 +328,7 @@ public class WebSocketController {
 
         
 
-        // Map<Integer,Submission> gameSubmissionMap;
+    
 
         //mongo way
         PlayerSubmission playerSubmissionM = new PlayerSubmission(playerName, title, description, imageUrl);
