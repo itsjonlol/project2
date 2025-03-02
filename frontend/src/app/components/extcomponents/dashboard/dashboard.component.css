@@ -1,0 +1,72 @@
+
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 25px;
+  }
+  
+  .game-title {
+    color: #fff;
+    font-size: 3.5rem;
+    margin-bottom: 50px;
+    text-shadow: 0 0 15px rgba(78, 111, 255, 0.8);
+  }
+  
+  .game-button {
+    position: relative;
+    width: 300px;
+    padding: 18px 0;
+    margin: 8px 0;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  .host-button {
+    background: linear-gradient(135deg, #6e5ff8, #9c5ff8);
+    color: white;
+    box-shadow: 0 8px 20px rgba(110, 95, 248, 0.4);
+  }
+  
+  .join-button {
+    background: linear-gradient(135deg, #ff5e62, #ff9966);
+    color: white;
+    box-shadow: 0 8px 20px rgba(255, 94, 98, 0.4);
+  }
+  
+  .game-button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+    z-index: -1;
+  }
+  
+  .game-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+  }
+  
+  .game-button:hover:before {
+    left: 100%;
+  }
+  
+  .button-icon {
+    margin-right: 10px;
+    font-size: 1.2em;
+  }

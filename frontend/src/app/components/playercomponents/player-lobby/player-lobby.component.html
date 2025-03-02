@@ -1,5 +1,12 @@
 <p>player-lobby works!</p>
-<h1>
-    <p>Waiting for host to start the game for code: {{gameCode}}</p>
-</h1>
+
+@if(!gameStarted) {
+    <h1>
+        <p>Waiting for host to start the game for code: {{gameCode}}</p>
+    </h1>
+} @else {
+    <app-player-drawing></app-player-drawing>
+}
+
+<button type="button" class="btn btn-danger" (click)="disconnect()">Leave room</button>
 

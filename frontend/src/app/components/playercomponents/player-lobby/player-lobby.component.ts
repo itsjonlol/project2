@@ -3,10 +3,11 @@ import { WebSocketService } from '../../../services/websocket.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameNameDetails, GameSession, GameState } from '../../../models/gamemodels';
 import { StompSubscription } from '@stomp/stompjs';
+import { PlayerDrawingComponent } from '../player-drawing/player-drawing.component';
 
 @Component({
   selector: 'app-player-lobby',
-  imports: [],
+  imports: [PlayerDrawingComponent],
   templateUrl: './player-lobby.component.html',
   styleUrl: './player-lobby.component.css'
 })
@@ -25,6 +26,9 @@ export class PlayerLobbyComponent implements OnInit,OnDestroy {
   router = inject(Router);
 
   private gameStateSubscription!: StompSubscription;
+
+  //trial
+  gameStarted:boolean=false;
   
 
   ngOnInit(): void {
@@ -38,7 +42,8 @@ export class PlayerLobbyComponent implements OnInit,OnDestroy {
     }
     this.gameNameDetails = {
       gameCode: this.gameCode,
-      name: this.username
+      name: this.username,
+      role: "player"
     };
     
     this.wsService.connect();
@@ -56,7 +61,8 @@ export class PlayerLobbyComponent implements OnInit,OnDestroy {
           
           if (data.gameState === GameState.STARTED) {
             // console.log(true);
-            this.router.navigate(['player','draw',this.gameCode])
+            this.gameStarted=true;
+            // this.router.navigate(['player','draw',this.gameCode])
           }
           
          
@@ -67,10 +73,21 @@ export class PlayerLobbyComponent implements OnInit,OnDestroy {
 
   }
 
+  disconnect():void {
+    if (this.gameStateSubscription) {
+      this.gameStateSubscription.unsubscribe();
+    }
+    this.wsService.publish(`/app/disconnect/${this.gameCode}`,this.gameNameDetails)
+    this.wsService.disconnect()
+    this.router.navigate(['/dashboard'])
+  }
+
   ngOnDestroy(): void {
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
     }
+    this.wsService.publish(`/app/disconnect/${this.gameCode}`,this.gameNameDetails)
+    this.wsService.disconnect()
   }
 
 }

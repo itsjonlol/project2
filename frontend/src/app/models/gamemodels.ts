@@ -34,6 +34,7 @@ export interface GameSession {
 export interface GameNameDetails {
     gameCode:number;
     name:string;
+    role?:string;
 }
 
 export interface UploadResponse {

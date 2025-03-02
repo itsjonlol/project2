@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
           email:user.email!,
           username: user.displayName!
         })
-        localStorage.setItem('username',JSON.stringify(user.displayName));
+        localStorage.setItem('username',user.displayName || '');
       } else {
         this.fireAuthService.currentUserSig.set(null)
       }

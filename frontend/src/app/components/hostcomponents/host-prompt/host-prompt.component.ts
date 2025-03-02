@@ -54,7 +54,7 @@ export class HostPromptComponent implements OnInit,OnDestroy{
     } else {
       console.error('Game code not found in route parameters.');
     }
-    this.wsService.connect();
+    // this.wsService.connect();
     this.wsService.isConnected$.subscribe((isConnected) => {
       if (isConnected) {
         console.log("Websocket connected");
@@ -161,6 +161,7 @@ export class HostPromptComponent implements OnInit,OnDestroy{
     if (this.submissionSubscription) {
       this.submissionSubscription.unsubscribe();
     }
+    console.log("prompt destroyed")
     this.wsService.disconnect();
     
   }

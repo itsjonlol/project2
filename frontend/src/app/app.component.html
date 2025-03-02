@@ -13,6 +13,7 @@
   <div>
       {{fireAuthService.currentUserSig()?.username}}
       {{fireAuthService.currentUserSig()?.email}}
+      <a [routerLink]="['/dashboard']">Dashboard</a>
       <span (click)="logout()">Logout</span>
   </div>
 }

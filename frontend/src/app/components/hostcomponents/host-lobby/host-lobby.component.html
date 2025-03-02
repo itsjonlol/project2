@@ -11,33 +11,47 @@
 <button id="startGame" [disabled]="players.length < 2">Start Game</button>
 <button (click)="testStartGame()">Join a Game</button> -->
 
-<div class="lobby-container">
-  <h1>Host Game Lobby</h1>
-  <p><strong>Game Code:</strong> <span class="game-code">{{gameRoomResponse?.gameCode}}</span></p>
-  <p>Host: {{ username }}</p>
-  <p>Share this code with your friends so they can join the game!</p>
+<!-- <p>Current Game State: {{ gameStateManagerService.gameStateManager$ | async }}</p> -->
+{{currentGameState}}
 
-  <!-- Buttons -->
-  <div class="buttons-container">
-    <button id="startGame" class="btn btn-primary" (click)="startGame()">🚀 Start Game</button>
-    <button class="btn btn-danger" (click)="disconnect()">Disconnect</button>
-  </div>
+@if (!gameStarted) {
 
-  <!-- Players and Mascots -->
-  <div class="players-container">
-    <h2>👥 Players Joined:</h2>
-    
-    <div class="row justify-content-center">
-      <div class="col-md-3 col-sm-6 player-card" *ngFor="let player of players">
-        <div class="player-box">
-          <div class="player-name">{{ player.name }}</div>
-          <img class="mascot-image" [src]="player.mascot" alt="Mascot">
+
+  <div class="lobby-container">
+    <h1>Host Game Lobby</h1>
+    <p><strong>Game Code:</strong> <span class="game-code">{{gameRoomResponse?.gameCode}}</span></p>
+    <p>Host: {{ username }}</p>
+    <p>Share this code with your friends so they can join the game!</p>
+  
+    <!-- Buttons -->
+    <div class="buttons-container">
+      <button id="startGame" class="btn btn-primary" (click)="startGame()">🚀 Start Game</button>
+      <button class="btn btn-danger" (click)="disconnect()">Disconnect</button>
+    </div>
+  
+    <!-- Players and Mascots -->
+    <div class="players-container">
+      <h2>👥 Players Joined:</h2>
+      
+      <div class="row justify-content-center">
+        <div class="col-md-3 col-sm-6 player-card" *ngFor="let player of players">
+          <div class="player-box">
+            <div class="player-name">{{ player.name }}</div>
+            <img class="mascot-image" [src]="player.mascot" alt="Mascot">
+          </div>
         </div>
       </div>
+  
+      <p *ngIf="players.length === 0">Waiting for players to join...</p>
     </div>
-
-    <p *ngIf="players.length === 0">Waiting for players to join...</p>
   </div>
-</div>
+} 
+
+@if (gameStarted) {
+  <app-host-prompt></app-host-prompt>
+}
+
+
+
 
 

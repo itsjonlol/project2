@@ -7,10 +7,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { GameState, UploadResponse } from '../../../models/gamemodels';
 import { FormsModule } from '@angular/forms';
 import { StompSubscription } from '@stomp/stompjs';
+import { PlayerVoteInputComponent } from '../player-vote-input/player-vote-input.component';
 
 @Component({
   selector: 'app-player-drawing',
-  imports: [FormsModule],
+  imports: [FormsModule,PlayerVoteInputComponent],
   templateUrl: './player-drawing.component.html',
   styleUrl: './player-drawing.component.css'
 })
@@ -37,6 +38,9 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
   isDrawingMode:boolean = true;
 
   private gameStateSubscription!: StompSubscription;
+
+  //trial
+  isVoting:boolean = false;
 
 
 
@@ -81,7 +85,9 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
             // console.log(true);
 
             this.onSubmitDetails();  
-            this.router.navigate(['player','vote',this.gameCode])
+
+            this.isVoting=true;
+            // this.router.navigate(['player','vote',this.gameCode])
 
             //TO COMMENT OUT
             // setTimeout(()=>this.router.navigate(['player','vote',this.gameCode]),3000)
@@ -95,8 +101,8 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
   }
   ngAfterViewInit(): void {
     
-    
-    this.updateBrush();
+    this.initializeCanvas();
+    // this.updateBrush();
     // this.canvas = new fabric.Canvas('myCanvas');
     // this.canvas.add(new fabric.IText('Hello Fabric!'));
     // this.canvas.add(new fabric.IText('Hello World !'))
@@ -185,6 +191,7 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
     }
+    this.wsService.disconnect();
   }
 
 }

@@ -15,6 +15,7 @@ import { PlayerVoteInputComponent } from './components/playercomponents/player-v
 import { PlayerResultsComponent } from './components/playercomponents/player-results/player-results.component';
 import { HostResultsComponent } from './components/hostcomponents/host-results/host-results.component';
 import { RegisterComponent } from './components/extcomponents/register/register.component';
+import { Host } from '@angular/core';
 
 
 
@@ -31,6 +32,10 @@ export const routes: Routes = [
         {
           path: 'lobby', // Child route
           component: HostLobbyComponent
+        },
+        {
+          path:'lobby/:gameCode',
+          component:HostLobbyComponent
         },
         {
           path: 'prompt/:gameCode',

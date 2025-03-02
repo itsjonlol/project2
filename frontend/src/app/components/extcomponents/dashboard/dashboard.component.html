@@ -13,8 +13,14 @@
   <button (click)="joinGame()">Join a Game</button>
 </div> -->
 
-<div class="d-flex flex-column justify-content-center align-items-center vh-100">
-  <button class="btn btn-primary mb-3 w-50" (click)="hostGame()">Host a Game</button>
-  <button class="btn btn-secondary w-50" (click)="enterGame()">Enter a Game</button>
+<div class="game-container">
+  <h1 class="game-title">LET'S PLAY A GAME!</h1>
+  
+  <button class="game-button host-button" (click)="hostGame()">
+    <span class="button-icon">🎮</span> Host a Game
+  </button>
+  
+  <button class="game-button join-button" (click)="enterGame()">
+    <span class="button-icon">🚀</span> Join a Game
+  </button>
 </div>
-

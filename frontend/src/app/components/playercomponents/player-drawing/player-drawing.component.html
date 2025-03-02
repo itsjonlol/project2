@@ -1,5 +1,9 @@
 <p>player-drawing works!</p>
 
+
+@if (!isVoting){
+
+
 <div class="canvas-container">
     <canvas id="canvas"></canvas>
   
@@ -54,3 +58,7 @@
 
 {{gameCode}}
 {{username}}
+} @else {
+    <app-player-vote-input></app-player-vote-input>
+
+}

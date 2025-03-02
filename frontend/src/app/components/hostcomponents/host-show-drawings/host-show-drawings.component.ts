@@ -8,7 +8,7 @@ import { interval, Observable, Subject, Subscription, timer } from 'rxjs';
 
 @Component({
   selector: 'app-host-show-drawings',
-  imports: [],
+  imports: [JsonPipe],
   templateUrl: './host-show-drawings.component.html',
   styleUrl: './host-show-drawings.component.css'
 })
