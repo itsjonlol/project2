@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
@@ -227,8 +226,7 @@ public class WebSocketController {
      }
 
      @MessageMapping("/players/{gameCode}")
-     @SendTo("/topic/players/{gameCode}")
-     public GameSess manageGamePlayers(@Payload String message,
+     public void manageGamePlayers(@Payload String message,
      @DestinationVariable("gameCode") Integer gameCode) {
         // GameSess gameSess = new GameSess();
         // gameSessionsMap.putIfAbsent(gameCode, new ArrayList<>()); // ✅ Initialize only once
@@ -261,10 +259,24 @@ public class WebSocketController {
         Player player = new Player(playerName);
         gameRoomService.addPlayers(gameCode, player);
         
-        GameSess gameSess = gameRoomService.getGameSession(gameCode);
+        // GameSess gameSess = gameRoomService.getGameSession(gameCode);
+        Submission submission = gameRoomService.getRoomSubmission(gameCode);
+        messagingTemplate.convertAndSend("/topic/players/" + gameCode,submission);
 
+      
+     }
 
-        return gameSess;
+     @MessageMapping("/disconnect/{gameCode}") 
+     public void manageDisconnections(@Payload String message,
+     @DestinationVariable("gameCode") Integer gameCode) {
+        System.out.println("disconnected ---> "+ message);
+        JsonObject jsonObject = getJsonObjectFromPayloadString(message);
+        String playerName = jsonObject.getString("name");
+        String role = jsonObject.getString("role");
+        gameRoomService.removePlayers(gameCode, playerName, role);
+        Submission submission = gameRoomService.getRoomSubmission(gameCode);
+        messagingTemplate.convertAndSend("/topic/players/" + gameCode,submission);
+
      }
 
      @MessageMapping("/playersubmission/{gameCode}")

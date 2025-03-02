@@ -2,6 +2,7 @@ package vttp.testssfproject2.testssfproject2.repo;
 
 
 
+import java.util.Collections;
 import java.util.Optional;
 
 import org.bson.Document;
@@ -39,11 +40,13 @@ public class GameRoomRepo {
 
         Query query = new Query(criteria);
 
+        System.out.println("The game code searched for is "+gameCode);
         
 
         Document document =  mongoTemplate.findOne(query,Document.class,C_GAMEROOM);
        
-
+        System.out.println(document==null);
+        
         if (document == null) {
             return Optional.empty();
         }
@@ -105,6 +108,23 @@ public class GameRoomRepo {
             .addToSet("players", player);
         
         mongoTemplate.updateFirst(query, updateOps, C_GAMEROOM);
+    }
+
+    public void removePlayers(Integer gameCode,String playerName, String role) {
+        Query query = new Query(Criteria.where("_id").is(gameCode));
+        if (role.toLowerCase().equals("player")) {
+            
+            Update update = new Update()
+                .pull("players", Query.query(Criteria.where("name").is(playerName)))
+                .pull("submissions", Query.query(Criteria.where("playerName").is(playerName)));
+
+            mongoTemplate.updateFirst(query, update, C_GAMEROOM);
+        } else if (role.toLowerCase().equals("host")) {
+            Update update = new Update()
+                .set("players", Collections.emptyList())  
+                .set("submissions", Collections.emptyList()); 
+            mongoTemplate.updateFirst(query, update, C_GAMEROOM);
+        }
     }
 
     public void insertPlayerSubmission(Integer gameCode,PlayerSubmission playerSubmission) {

@@ -1,4 +1,4 @@
-package vttp.testssfproject2.testssfproject2.model;
+package vttp.testssfproject2.testssfproject2.model.unused;
 
 public class User {
     

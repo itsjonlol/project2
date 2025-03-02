@@ -44,7 +44,8 @@ public class GameRoomController {
         Map<String,Object> response = new HashMap<>();
         
         Optional<GameRoom> opt = gameRoomService.getGameRoom(gameCode);
-        System.out.println(opt.get().getGameState());
+        // System.out.println(opt.get().getGameState());
+        
 
         if (opt.isEmpty()){
             response.put("success", false);

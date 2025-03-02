@@ -21,6 +21,7 @@ public class GameRoomService {
     GameRoomRepo gameRoomRepo;
 
     public Optional<GameRoom> getGameRoom(Integer gameCode) {
+        System.out.println("getting game room from service...");
         return gameRoomRepo.getGameRoom(gameCode);
     }
     
@@ -64,6 +65,10 @@ public class GameRoomService {
 
     public GameSess getGameSession(Integer gameCode) {
         return gameRoomRepo.getGameSession(gameCode);
+    }
+
+    public void removePlayers(Integer gameCode,String playerName, String role) {
+        gameRoomRepo.removePlayers(gameCode, playerName, role);
     }
 }
 
