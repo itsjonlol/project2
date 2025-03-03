@@ -1,19 +1,22 @@
 import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { WebSocketService } from '../../../services/websocket.service';
 import { CommonModule, NgFor } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ImageData } from '../../../models/image-data'; // Import class
 import { Router } from '@angular/router';
 import { GameService } from '../../../services/game.service';
-import { GameRoomResponse, GameSession, GameState, GameStateManager, Player } from '../../../models/gamemodels';
+import { GameNameDetails, GameRoomResponse, GameSession, GameState, GameStateManager, Player, Submission } from '../../../models/gamemodels';
 import { Stomp, StompSubscription } from '@stomp/stompjs';
 import { HostPromptComponent } from "../host-prompt/host-prompt.component";
 import { GameStateService } from '../../../services/gamestate.service';
+import { HostPlayerVotesComponent } from '../host-player-votes/host-player-votes.component';
+import { HostShowDrawingsComponent } from '../host-show-drawings/host-show-drawings.component';
+import { HostResultsComponent } from '../host-results/host-results.component';
 
 @Component({
   selector: 'app-host-lobby',
   standalone:true,
-  imports: [CommonModule, NgFor, HostPromptComponent],
+  imports: [CommonModule, NgFor, HostPromptComponent,HostPlayerVotesComponent,HostShowDrawingsComponent,HostResultsComponent],
   templateUrl: './host-lobby.component.html',
   styleUrl: './host-lobby.component.css'
 })
@@ -39,11 +42,19 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
 
   gameStarted:boolean=false
 
-  gameStateManagerService = inject(GameStateService)
+  gameNameDetails!:GameNameDetails
+
+  // gameStateManagerService = inject(GameStateService)
 
   currentGameState:string|undefined ='' 
   
+  gameRoomState$!: Observable<GameStateManager>;
 
+  submission!:Submission;
+
+  submissionSubscription!:StompSubscription;
+
+  
 
 
   constructor(private wsService: WebSocketService,private ngZone: NgZone,private router: Router) {}
@@ -56,6 +67,8 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
     // Assume the host's username is stored in localStorage (set after Google OAuth)
     this.username = localStorage.getItem('username') || 'Host';
     this.wsService.connect();
+    
+
     this.gameService.getGameRoom().subscribe({
       next: (response:GameRoomResponse) => {
         this.gameRoomResponse = response;
@@ -64,18 +77,17 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
 
         // trial
         
-          this.router.navigate([`/host/lobby/${this.gameCode}`]);
-        
-        
-        
-        console.log(this.gameCode);
+        this.router.navigate([`/host/lobby/${this.gameCode}`]);
+        this.gameService.getGameRoomState(this.gameCode).subscribe(d=>this.currentGameState=d.gameState)
+      
         
         
         this.wsService.isConnected$.subscribe((isConnected) => {
           if (isConnected) {
             this.wsService.publish(`/app/initialisegame/${this.gameCode}`, { gameCode: this.gameCode });
             
-            this.gameStateManagerService.setGameState(this.gameCode,GameState.QUEUING)
+            
+            // this.gameStateManagerService.setGameState(this.gameCode,GameState.QUEUING)
             
             this.playerSubscription = this.wsService.client.subscribe(`/topic/players/${this.gameCode}`, (message) => {
               console.log(message.body);
@@ -83,23 +95,64 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
               this.players = data.players;
             })
 
-            this.gameStateManagerService.gameStateManager$.subscribe(d=>{
-              this.currentGameState = d?.gameState
-          })
-
+            this.submissionSubscription=this.wsService.client.subscribe(`/topic/submission/${this.gameCode}`, (message) => {
+              console.log(message.body)
+    
+              const data = JSON.parse(message.body);
+              const players = data.players;
+              const playerSubmissions = data.playerSubmissions;
+              this.submission = {
+                gameCode:this.gameCode,
+                players:players,
+                playerSubmissions:playerSubmissions
+              }
+     
+             })
+            
+          //   this.gameStateManagerService.gameStateManager$.subscribe(d=>{
+          //     this.currentGameState = d?.gameState
+          // })
+            // this.gameService.getGameRoomState(this.gameCode).subscribe(d=> this.currentGameState=d.gameState)
             this.gameStateSubscription=this.wsService.client.subscribe(`/topic/gamestate/${this.gameCode}`, (message) => {
               console.log(message.body);
 
               const data = JSON.parse(message.body);
               
-              if (data.gameState === GameState.STARTED || this.currentGameState===GameState.STARTED) {
-                
-                this.gameStarted=true;
+              if (data.gameState === GameState.STARTED) {
+                this.currentGameState = GameState.STARTED
+                // this.gameStarted=true;
                 // this.router.navigate(['host','prompt',this.gameCode])
               }
+              if (data.gameState === GameState.DESCRIBE){
+                this.currentGameState = GameState.DESCRIBE
+              }
+
+              if (data.gameState === GameState.VOTING) {
+                setTimeout(()=>this.currentGameState=GameState.VOTING,6000)
+                // this.currentGameState = GameState.VOTING
+              }
+
+              if (data.gameState === GameState.RESULTS) {
+                setTimeout(()=>this.currentGameState=GameState.RESULTS,2000)
+                
+              }
+              
+
+              if (data.gameState === GameState.FINISHED) {
+                
+              
+                setTimeout(() => {
+                  
+                  this.router.navigate(['/dashboard']);
+                }, 2000);
+              }
+
+              
               
              
             })
+
+           
 
   
           }
@@ -107,34 +160,55 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
 
       }
     })
+    
   }
-
-
+  
+  
   startGame(): void {
     console.log("game started");
     this.randomData = {
       gameCode:this.gameCode,
       gameState:GameState.STARTED
     }  
-    this.gameStateManagerService.setGameState(this.gameCode,GameState.STARTED)
+    // this.gameStateManagerService.setGameState(this.gameCode,GameState.STARTED)
     this.wsService.publish(`/app/gamestate/${this.gameCode}`,this.randomData);
   }
 
   disconnect(): void {
+
+    this.gameNameDetails = {
+      gameCode: this.gameCode,
+      name: this.username,
+      role: "host"
+    };
+    console.log(this.gameCode)
+    this.wsService.publish(`/app/disconnect/${this.gameCode}`,this.gameNameDetails)
     this.wsService.disconnect();
     setTimeout(()=>this.router.navigate(['/dashboard']),3000);
   }
 
   ngOnDestroy(): void {
-    
+
+    this.gameNameDetails = {
+      gameCode: this.gameCode,
+      name: this.username,
+      role: "host"
+    };
+    this.wsService.publish(`/app/disconnect/${this.gameCode}`,this.gameNameDetails)
     if (this.playerSubscription) {
       this.playerSubscription.unsubscribe(); 
     }
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
     }
+    if (this.submissionSubscription) {
+      this.submissionSubscription.unsubscribe();
+    }
     console.log("lobby destroyed...")
+    
     this.wsService.disconnect();
   }
   
 }
+
+

@@ -52,13 +52,13 @@ export class DashboardComponent {
     this.router.navigate(['/host','lobby']);
   }
 
-  joinGame(): void {
-    // Navigate to join game page
-    this.router.navigate(['/join-game']);
-  }
 
   enterGame(): void {
     this.router.navigate(['/enter-game']);
+  }
+
+  viewGallery():void {
+    this.router.navigate(['/testsub'])
   }
 
 

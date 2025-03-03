@@ -24,14 +24,13 @@ export class PlayerResultsComponent implements OnInit,OnDestroy{
   gameCode!:number;
   private gameStateSubscription!: StompSubscription;
 
+  @Input()
+  currentGameState!: string | undefined
+
   isWinner:boolean = false;
 
   @Input({required:true})
-  submission:Submission = {
-    gameCode: 0,
-    players: [],
-    playerSubmissions: []
-  }
+  submissionresults!:Submission 
 
   ngOnInit(): void {
     const gameCodeParam = this.activatedRoute.snapshot.paramMap.get('gameCode');
@@ -47,9 +46,16 @@ export class PlayerResultsComponent implements OnInit,OnDestroy{
   }
 
   private checkIfWinner() {
-    
-    if (this.submission.playerSubmissions[0].playerName === this.username) {
+    this.submissionresults.playerSubmissions.sort((a, b) => b.total - a.total);
+    if (this.submissionresults.playerSubmissions[0].playerName === this.username) {
       this.isWinner=true;
+    }
+  }
+
+  ngOnChanges():void {
+    if (this.currentGameState==="FINISHED") {
+        this.wsService.disconnect();
+        setTimeout(()=>this.router.navigate(["dashboard"]),2000);
     }
   }
 

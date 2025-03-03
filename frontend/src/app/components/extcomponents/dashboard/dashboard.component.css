@@ -45,6 +45,12 @@
     box-shadow: 0 8px 20px rgba(255, 94, 98, 0.4);
   }
   
+  .gallery-button {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    box-shadow: 0 8px 20px rgba(0, 198, 255, 0.4);
+  }
+  
   .game-button:before {
     content: '';
     position: absolute;

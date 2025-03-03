@@ -12,11 +12,52 @@
 <button (click)="testStartGame()">Join a Game</button> -->
 
 <!-- <p>Current Game State: {{ gameStateManagerService.gameStateManager$ | async }}</p> -->
-{{currentGameState}}
+<p>Parent Current game state: {{currentGameState}}</p>
 
-@if (!gameStarted) {
+<!-- <p>Game Code: {{ (gameRoomState$ | async)?.gameCode }}</p>
+<p>Game State: {{ (gameRoomState$ | async)?.gameState }}</p> -->
 
 
+
+
+<!-- @if (!gameStarted) {
+
+
+  <div class="lobby-container">
+    <h1>Host Game Lobby</h1>
+    <p><strong>Game Code:</strong> <span class="game-code">{{gameRoomResponse?.gameCode}}</span></p>
+    <p>Host: {{ username }}</p>
+    <p>Share this code with your friends so they can join the game!</p>
+  
+
+    <div class="buttons-container">
+      <button id="startGame" class="btn btn-primary" (click)="startGame()">🚀 Start Game</button>
+      <button class="btn btn-danger" (click)="disconnect()">Disconnect</button>
+    </div>
+  
+   
+    <div class="players-container">
+      <h2>👥 Players Joined:</h2>
+      
+      <div class="row justify-content-center">
+        <div class="col-md-3 col-sm-6 player-card" *ngFor="let player of players">
+          <div class="player-box">
+            <div class="player-name">{{ player.name }}</div>
+            <img class="mascot-image" [src]="player.mascot" alt="Mascot">
+          </div>
+        </div>
+      </div>
+  
+      <p *ngIf="players.length === 0">Waiting for players to join...</p>
+    </div>
+  </div>
+} 
+
+@if (gameStarted) {
+  <app-host-prompt></app-host-prompt>
+} -->
+
+@if (currentGameState === "QUEUING") {
   <div class="lobby-container">
     <h1>Host Game Lobby</h1>
     <p><strong>Game Code:</strong> <span class="game-code">{{gameRoomResponse?.gameCode}}</span></p>
@@ -45,11 +86,25 @@
       <p *ngIf="players.length === 0">Waiting for players to join...</p>
     </div>
   </div>
-} 
-
-@if (gameStarted) {
-  <app-host-prompt></app-host-prompt>
 }
+
+@if (currentGameState === "STARTED" || currentGameState ==="DESCRIBE") {
+  <app-host-prompt [currentGameState]="currentGameState"></app-host-prompt>
+}
+
+
+@if (currentGameState === "VOTING") {
+  <app-host-show-drawings [submissionshow]="submission"  ></app-host-show-drawings>
+
+  <app-host-player-votes [submissionvote]="submission"></app-host-player-votes>
+}
+
+@if (currentGameState === "RESULTS") {
+  <app-host-results [submissionresults]="submission"></app-host-results>
+}
+
+
+
 
 
 

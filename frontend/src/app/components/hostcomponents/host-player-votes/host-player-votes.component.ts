@@ -10,15 +10,15 @@ import { CommonModule, JsonPipe } from '@angular/common';
 })
 export class HostPlayerVotesComponent implements OnInit,DoCheck{
   @Input({required:true})
-  submission!:Submission
+  submissionvote!:Submission
 
   players!:Player[]
   ngOnInit(): void {
-    this.players = this.submission.players
+    this.players = this.submissionvote.players
   }
 
   ngDoCheck(): void {
-    this.players = this.submission.players
+    this.players = this.submissionvote.players
   }
 
   

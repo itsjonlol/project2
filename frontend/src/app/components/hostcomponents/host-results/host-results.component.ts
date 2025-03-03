@@ -23,11 +23,7 @@ export class HostResultsComponent implements OnInit,OnDestroy {
   private gameStateSubscription!: StompSubscription;
 
   @Input({required:true})
-  submission:Submission = {
-    gameCode: 0,
-    players: [],
-    playerSubmissions: []
-  }
+  submissionresults!: Submission
 
   drawings:PlayerSubmission[] =[]
   
@@ -42,8 +38,8 @@ export class HostResultsComponent implements OnInit,OnDestroy {
       console.error('Game code not found in route parameters.');
     }
 
-    this.drawings = this.submission.playerSubmissions;
-    this.submission.playerSubmissions.sort((a, b) => b.total - a.total);
+    this.drawings = this.submissionresults.playerSubmissions;
+    this.submissionresults.playerSubmissions.sort((a, b) => b.total - a.total);
     this.wsService.connect();
   }
 
@@ -54,6 +50,8 @@ export class HostResultsComponent implements OnInit,OnDestroy {
     } 
     this.wsService.publish(`/app/gamestate/${this.gameCode}`,data);
   }
+
+  
 
   ngOnDestroy(): void {
     this.wsService.disconnect();

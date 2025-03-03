@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GameEntry, GameRoomResponse } from '../models/gamemodels';
+import { GameEntry, GameRoomResponse, GameStateManager } from '../models/gamemodels';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,10 @@ export class GameService {
   getGameRoom():Observable<GameRoomResponse> {
 
     return this.httpClient.get<GameRoomResponse>(`${this.backendUrl}/getgameroom`);
+  }
+
+  getGameRoomState(gameCode:number):Observable<GameStateManager> {
+    return this.httpClient.get<GameStateManager>(`${this.backendUrl}/gamestate/${gameCode}`);
   }
 
 

@@ -1,4 +1,4 @@
-import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, input, OnDestroy, OnInit } from '@angular/core';
 import { WebSocketService } from '../../../services/websocket.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameState, GameStateManager, Submission } from '../../../models/gamemodels';
@@ -24,6 +24,9 @@ export class HostPromptComponent implements OnInit,OnDestroy{
   router = inject(Router);
   state!:GameStateManager
   
+
+  @Input()
+  currentGameState!:string | undefined
 
   gameCode!: number;
   username!:string;
@@ -54,36 +57,48 @@ export class HostPromptComponent implements OnInit,OnDestroy{
     } else {
       console.error('Game code not found in route parameters.');
     }
+    this.submission = {
+      gameCode:this.gameCode,
+      players:[],
+      playerSubmissions:[]
+    }
     // this.wsService.connect();
     this.wsService.isConnected$.subscribe((isConnected) => {
       if (isConnected) {
         console.log("Websocket connected");
+        if (this.gameStateSubscription) {
+          this.gameStateSubscription.unsubscribe();
+        }
 
         this.gameStateSubscription=this.wsService.client.subscribe(`/topic/gamestate/${this.gameCode}`, (message) => {
           console.log(message.body);
 
           const data = JSON.parse(message.body);
           
-          if (data.gameState === GameState.VOTING) {
-            // console.log(true);
-            // this.router.navigate(['host','showdrawings',this.gameCode])
-            // this.isDrawing = false;
+          // if (data.gameState === GameState.VOTING) {
+          //   // console.log(true);
+          //   // this.router.navigate(['host','showdrawings',this.gameCode])
+          //   // this.isDrawing = false;
 
-            //TO COMMENT OUT
-            setTimeout(()=>this.isDrawing=false,6000);
-          } 
-          if (data.gameState === GameState.RESULTS) {
-            // this.router.navigate(['host','results',this.gameCode])
+          //   //TO COMMENT OUT
+          //   setTimeout(()=>this.isDrawing=false,6000);
+          // } 
+          // if (data.gameState === GameState.RESULTS) {
+          //   // this.router.navigate(['host','results',this.gameCode])
     
-            setTimeout(()=>this.displayResults=true,2000);
-          }
-          if (data.gameState === GameState.FINISHED) {
-            setTimeout(()=>this.router.navigate(["dashboard"]));
-            this.wsService.disconnect();
-          }
+          //   setTimeout(()=>this.displayResults=true,2000);
+          // }
+          // if (data.gameState === GameState.FINISHED) {
+          //   setTimeout(()=>this.router.navigate(["dashboard"]));
+          //   this.wsService.disconnect();
+          // }
           
          
         })
+        
+        if (this.submissionSubscription) {
+          this.submissionSubscription.unsubscribe();
+        }
 
         this.submissionSubscription=this.wsService.client.subscribe(`/topic/submission/${this.gameCode}`, (message) => {
           console.log(message.body)
@@ -105,6 +120,10 @@ export class HostPromptComponent implements OnInit,OnDestroy{
       this.startTimer();
     },4000)
     
+    
+  }
+
+  ngOnChanges():void {
     
   }
 
@@ -155,14 +174,16 @@ export class HostPromptComponent implements OnInit,OnDestroy{
   }
   
   ngOnDestroy(): void {
+    // setTimeout(()=>this.isDrawing=false,6000);
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
     }
     if (this.submissionSubscription) {
       this.submissionSubscription.unsubscribe();
     }
+
     console.log("prompt destroyed")
-    this.wsService.disconnect();
+    // this.wsService.disconnect();
     
   }
 

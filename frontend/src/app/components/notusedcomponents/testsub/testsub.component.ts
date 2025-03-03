@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import * as fabric from 'fabric';
+import { GameStateService } from '../../../services/gamestate.service';
 
 @Component({
   selector: 'app-testsub',
@@ -17,7 +18,8 @@ export class TestsubComponent implements OnInit, AfterViewInit {
   public isErasing: boolean = false; // Eraser mode flag
   private backgroundColor: string = "white"; // Background color (same as canvas)
 
-
+  gameStateManagerService = inject(GameStateService)
+  currentGameState:string | undefined = ''
 
   // change color of brush
   // change width of brush
@@ -30,6 +32,7 @@ export class TestsubComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.initializeCanvas();
+    this.gameStateManagerService.gameStateManager$.subscribe(d=>this.currentGameState=d?.gameState)
   }
 
   ngAfterViewInit(): void {

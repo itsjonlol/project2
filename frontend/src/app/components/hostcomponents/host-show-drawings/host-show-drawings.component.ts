@@ -15,12 +15,7 @@ import { interval, Observable, Subject, Subscription, timer } from 'rxjs';
 export class HostShowDrawingsComponent implements OnInit{
   
   @Input({required:true})
-  submission:Submission = {
-    gameCode: 0,
-    players: [],
-    playerSubmissions: []
-  }
-
+  submissionshow!:Submission 
   
   drawing!:PlayerSubmission;
 
@@ -51,8 +46,6 @@ export class HostShowDrawingsComponent implements OnInit{
   finishedAllDrawings:boolean = false;
 
   
-
-
   ngOnInit(): void {
 
     const gameCodeParam = this.activatedRoute.snapshot.paramMap.get('gameCode');
@@ -65,7 +58,7 @@ export class HostShowDrawingsComponent implements OnInit{
     }
 
     this.wsService.connect();
-    this.drawing=this.submission.playerSubmissions[this.currentIndex];
+    this.drawing=this.submissionshow.playerSubmissions[this.currentIndex];
     //COMMENT IN
     // this.sendCurrentDrawing();
 
@@ -111,7 +104,7 @@ export class HostShowDrawingsComponent implements OnInit{
   protected nextDrawing() {
     this.currentIndex++;
     
-    this.drawing = this.submission.playerSubmissions[this.currentIndex];
+    this.drawing = this.submissionshow.playerSubmissions[this.currentIndex];
     this.sendCurrentDrawing();
     const data = {
       gameCode:this.gameCode,
@@ -123,7 +116,7 @@ export class HostShowDrawingsComponent implements OnInit{
     this.wsService.publish(`/app/gamestate/${this.gameCode}`,data);
     
 
-    if (this.currentIndex === (this.submission.players.length -1)) {
+    if (this.currentIndex === (this.submissionshow.players.length -1)) {
       this.finishedAllDrawings = true;
     }
     // this.emitResetVote.next(true);

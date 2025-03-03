@@ -1,12 +1,48 @@
 <p>player-lobby works!</p>
+<p>Parent {{currentGameState}}</p>
+{{gameStarted}}
 
-@if(!gameStarted) {
+<!-- @if(!gameStarted) {
+    <h1>
+        <p>Waiting for host to start the game for code: {{gameCode}}</p>
+    </h1>
+} 
+
+@if(gameStarted || currentGameState==="STARTED"){
+    <app-player-drawing [currentGameState]="currentGameState"></app-player-drawing>
+} -->
+
+@if (this.currentGameState==="QUEUING") {
+    <h1>Currently queuing...</h1>
+    <h1>
+        <p>Waiting for host to start the game for code: {{gameCode}}</p>
+    </h1>
+}
+@if (this.currentGameState==="STARTED" || this.currentGameState==="DESCRIBE") {
+
+    <app-player-drawing [currentGameState]="currentGameState"></app-player-drawing>
+
+} 
+
+@if( this.currentGameState==="VOTING") {
+    <app-player-vote-input [currentGameState]="currentGameState"></app-player-vote-input>
+}
+
+@if(this.currentGameState==="RESULTS" || this.currentGameState==="FINISHED") {
+    <app-player-results [currentGameState]="currentGameState" [submissionresults]="submission"></app-player-results>
+}
+
+<!-- @if(!gameStarted) {
     <h1>
         <p>Waiting for host to start the game for code: {{gameCode}}</p>
     </h1>
 } @else {
     <app-player-drawing></app-player-drawing>
-}
+} -->
+    
+<!-- @if (currentGameState === "RESULTS") {
+    <app-player-results></app-player-results>
+} -->
 
 <button type="button" class="btn btn-danger" (click)="disconnect()">Leave room</button>
 

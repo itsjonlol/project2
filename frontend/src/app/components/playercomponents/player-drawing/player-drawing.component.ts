@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebSocketService } from '../../../services/websocket.service';
 import * as fabric from 'fabric';
@@ -8,6 +8,7 @@ import { GameState, UploadResponse } from '../../../models/gamemodels';
 import { FormsModule } from '@angular/forms';
 import { StompSubscription } from '@stomp/stompjs';
 import { PlayerVoteInputComponent } from '../player-vote-input/player-vote-input.component';
+import { GameService } from '../../../services/game.service';
 
 @Component({
   selector: 'app-player-drawing',
@@ -42,7 +43,10 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
   //trial
   isVoting:boolean = false;
 
+  gameService = inject(GameService)
 
+  @Input()
+  currentGameState!:string | undefined
 
 
   private canvas!: fabric.Canvas;
@@ -64,34 +68,57 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
       console.error('Game code not found in route parameters.');
     }
 
+    
+
     this.initializeCanvas();
     this.wsService.connect();
+    // this.gameService.getGameRoomState(this.gameCode).subscribe(d=>this.currentGameState=d.gameState)
+    
+    /// from here
+
+
     this.wsService.isConnected$.subscribe((isConnected)=>{
       if (isConnected) {
+        if (this.gameStateSubscription) {
+          this.gameStateSubscription.unsubscribe();
+        }//unsubscribe from prev games
         this.gameStateSubscription=this.wsService.client.subscribe(`/topic/gamestate/${this.gameCode}`, (message) => {
           console.log(message.body);
 
-          const data = JSON.parse(message.body);
-          if (data.gameState === GameState.DESCRIBE) {
-            // console.log(true);
-            this.isDrawingMode=false;
-
-            // TO COMMENT OUT
-            this.submitCanvas();
-            
-          }
           
-          if (data.gameState === GameState.VOTING) {
-            // console.log(true);
+          const data = JSON.parse(message.body);
 
-            this.onSubmitDetails();  
+          // if (data.gameState === GameState.STARTED) {
+          //   console.log("New round started, resetting data...");
+          //   this.isDrawingMode = false;
+          //   this.isUploaded = false; // Reset upload state
+          //   this.uploadedImageUrl = ""; // Reset image URL
+          //   this.title = "";
+          //   this.description = "";
+          //   this.clearCanvas(); // Reset canvas
+          // }
 
-            this.isVoting=true;
-            // this.router.navigate(['player','vote',this.gameCode])
+          // if (data.gameState === GameState.DESCRIBE && this.isDrawingMode) {
+          //   // console.log(true);
+          //   // this.currentGameState= GameState.DESCRIBE
+          //   this.isDrawingMode=false;
 
-            //TO COMMENT OUT
-            // setTimeout(()=>this.router.navigate(['player','vote',this.gameCode]),3000)
-          }
+          //   // TO COMMENT OUT
+          //   this.submitCanvas();
+            
+          // }
+          
+          // if (data.gameState === GameState.VOTING ) {
+          //   // console.log(true);
+          //   // this.currentGameState= GameState.VOTING
+          //   this.onSubmitDetails();  
+
+          //   // this.isVoting=true;
+          //   // this.router.navigate(['player','vote',this.gameCode])
+
+          //   //TO COMMENT OUT
+          //   // setTimeout(()=>this.router.navigate(['player','vote',this.gameCode]),3000)
+          // }
 
 
           
@@ -99,6 +126,19 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
       }
     })
   }
+
+  ngOnChanges():void {
+    if (this.currentGameState === GameState.DESCRIBE) {
+      this.isDrawingMode=false;
+      this.submitCanvas()
+    }
+    // if (this.currentGameState === GameState.VOTING) {
+    //   this.submitCanvas();
+    // }
+  }
+
+  /// to here
+
   ngAfterViewInit(): void {
     
     this.initializeCanvas();
@@ -152,7 +192,7 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
   }
 
   submitCanvas() {
-    const dataUrl = this.canvas.toDataURL({ format: 'png', multiplier: 0.8 });
+    const dataUrl = this.canvas.toDataURL({ format: 'png', multiplier: 1.0 });
 
     var blob:Blob = this.imageService.dataURItoBlob(dataUrl);
 
@@ -188,10 +228,22 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
   }
 
   ngOnDestroy(): void {
+    
+    this.onSubmitDetails()
+
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
     }
     this.wsService.disconnect();
+    this.resetState();
+  }
+
+  private resetState(): void {
+    this.title = '';
+    this.description = '';
+    this.uploadedImageUrl = '';
+    this.isUploaded = false;
+    this.clearCanvas(); // Clear the canvas for the new round
   }
 
 }

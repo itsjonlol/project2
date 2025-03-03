@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { WebSocketService } from '../../../services/websocket.service';
 import { StompSubscription } from '@stomp/stompjs';
@@ -34,6 +34,9 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
   currentPlayerName:string="idk"
 
   displayResults:boolean = false;
+  
+  @Input()
+  currentGameState!: string | undefined
 
   ngOnInit(): void {
     const gameCodeParam = this.activatedRoute.snapshot.paramMap.get('gameCode');
@@ -57,35 +60,37 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
          })
 
 
-         this.submissionSubscription=this.wsService.client.subscribe(`/topic/submission/${this.gameCode}`,(message) => {
-          console.log(message.body)
+        //  this.submissionSubscription=this.wsService.client.subscribe(`/topic/submission/${this.gameCode}`,(message) => {
+        //   console.log(message.body)
 
-          const data = JSON.parse(message.body);
-          const players = data.players;
-          const playerSubmissions = data.playerSubmissions;
-          this.submission = {
-            gameCode:this.gameCode,
-            players:players,
-            playerSubmissions:playerSubmissions
-          }
+        //   const data = JSON.parse(message.body);
+        //   const players = data.players;
+        //   const playerSubmissions = data.playerSubmissions;
+        //   this.submission = {
+        //     gameCode:this.gameCode,
+        //     players:players,
+        //     playerSubmissions:playerSubmissions
+        //   }
 
-          
+        
+        //  })
 
-         })
          this.gameStateSubscription= this.wsService.client.subscribe(`/topic/gamestate/${this.gameCode}`,(message) => {
           console.log(message.body)
 
           const data = JSON.parse(message.body);
 
-          if (data.gameState === GameState.RESULTS) {
-            // this.router.navigate(['player','results',this.gameCode])
-            setTimeout(()=>this.displayResults=true,3000);
-          }
+          // if (data.gameState === GameState.RESULTS ) {
+          //   // this.router.navigate(['player','results',this.gameCode])
+           
+          //   setTimeout(()=>this.displayResults=true,3000);
+          // }
 
-          if (data.gameState === GameState.FINISHED) {
-            this.wsService.disconnect();
-            setTimeout(()=>this.router.navigate(["dashboard"]),2000);
-          }
+          // if (data.gameState === GameState.FINISHED) {
+            
+          //   this.wsService.disconnect();
+          //   setTimeout(()=>this.router.navigate(["dashboard"]),2000);
+          // }
 
          })
       }

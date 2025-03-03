@@ -1,13 +1,13 @@
-@if(!displayResults){
+<!-- @if(!displayResults){ -->
     <label>Vote between 1 to 10!</label>
     <form (submit)="processVote(voteString.value)">
     <input type="number" min="1" max="10" #voteString>
     
     <button type="button" (click)="processVote(voteString.value)"> Submit vote!</button>
     </form>
-} @else {
+<!-- } @else {
     <app-player-results [submission]="submission"></app-player-results>
-}
+} -->
 
 
 <!-- {{submission |json }} -->

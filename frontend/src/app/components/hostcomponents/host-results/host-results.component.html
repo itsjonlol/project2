@@ -6,7 +6,7 @@
 {{drawings | json}}
 
 
-@for (s of submission.playerSubmissions; let idx = $index; track idx) {
+@for (s of submissionresults.playerSubmissions; let idx = $index; track idx) {
     @if (idx===0) {
         
         <p>{{s.playerName}} WINNER!!!!</p>
