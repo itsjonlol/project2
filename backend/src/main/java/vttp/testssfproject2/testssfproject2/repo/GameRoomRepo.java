@@ -2,7 +2,7 @@ package vttp.testssfproject2.testssfproject2.repo;
 
 
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.bson.Document;
@@ -120,10 +120,11 @@ public class GameRoomRepo {
 
             mongoTemplate.updateFirst(query, update, C_GAMEROOM);
         } else if (role.toLowerCase().equals("host")) {
-            Update update = new Update()
-                .set("players", Collections.emptyList())  
-                .set("submissions", Collections.emptyList()); 
-            mongoTemplate.updateFirst(query, update, C_GAMEROOM);
+            this.resetGameRoom(gameCode);
+            // Update update = new Update()
+            //     .set("players", Collections.emptyList())  
+            //     .set("submissions", Collections.emptyList()); 
+            // mongoTemplate.updateFirst(query, update, C_GAMEROOM);
         }
     }
 
@@ -194,6 +195,20 @@ public class GameRoomRepo {
         Document document =  mongoTemplate.findOne(query,Document.class,C_GAMEROOM);
         GameSess gameSess = getGameSessFromDoc(document);
         return gameSess;
+    }
+
+    public void resetGameRoom(Integer gameCode) {
+        Criteria criteria = Criteria.where("_id").is(gameCode);
+        Query query = new Query(criteria);
+
+        Update updateOps = new Update()
+            .set("gameState", GameState.AVAILABLE)
+            .set("players",new ArrayList<>())
+            .set("submissions",new ArrayList<>())
+            .set("isFull",false)
+            .set("isActive",false);
+        
+        mongoTemplate.updateFirst(query, updateOps, C_GAMEROOM);
     }
     
 }

@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -101,9 +102,20 @@ public class GameRoomController {
         response.put("gameCode",opt.get().getId());
         return ResponseEntity.status(200).header("Content-Type", "application/json").body(response);
 
-        
-
+    
     }
+
+    @GetMapping("/gamestate/{gameCode}") 
+    public ResponseEntity<?> getGameState(@PathVariable("gameCode") Integer gameCode) {
+        GameState gameState = gameRoomService.getGameState(gameCode);
+        
+        Map<String,Object> response = new HashMap<>();
+        response.put("gameCode",gameCode);
+        response.put("gameState",gameState);
+        return ResponseEntity.status(200).header("Content-Type", "application/json").body(response);
+    }
+
+    
     
 
     

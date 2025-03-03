@@ -70,6 +70,10 @@ public class GameRoomService {
     public void removePlayers(Integer gameCode,String playerName, String role) {
         gameRoomRepo.removePlayers(gameCode, playerName, role);
     }
+
+    public void resetGameRoom(Integer gameCode) {
+        gameRoomRepo.resetGameRoom(gameCode);
+    }
 }
 
 

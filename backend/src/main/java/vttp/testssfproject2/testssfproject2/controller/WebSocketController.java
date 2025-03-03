@@ -273,9 +273,20 @@ public class WebSocketController {
         JsonObject jsonObject = getJsonObjectFromPayloadString(message);
         String playerName = jsonObject.getString("name");
         String role = jsonObject.getString("role");
-        gameRoomService.removePlayers(gameCode, playerName, role);
-        Submission submission = gameRoomService.getRoomSubmission(gameCode);
-        messagingTemplate.convertAndSend("/topic/players/" + gameCode,submission);
+        if (role.equals("player")) {
+            gameRoomService.removePlayers(gameCode, playerName, role);
+            Submission submission = gameRoomService.getRoomSubmission(gameCode);
+            messagingTemplate.convertAndSend("/topic/players/" + gameCode,submission);
+        }
+        
+        if (role.equals("host")) {
+            Map<String,Object> response = new HashMap<>();
+            response.put("gameCode",gameCode);
+            response.put("disconnect",true);
+    
+            messagingTemplate.convertAndSend("/topic/disconnect/" + gameCode,response);
+        }   
+       
 
      }
 
@@ -510,6 +521,12 @@ public class WebSocketController {
             GameSess gameSess = new GameSess(gameCode,GameState.FINISHED);
             gameRoomService.changeGameState(gameCode, GameState.FINISHED);
             messagingTemplate.convertAndSend("/topic/gamestate/" + gameCode,gameSess);
+            
+            
+            //add submission results into mysql table before setting mongodb doc
+
+            //reset game room for that code
+            gameRoomService.resetGameRoom(gameCode);
 
         } 
 
