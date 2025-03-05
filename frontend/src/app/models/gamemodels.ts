@@ -17,6 +17,7 @@ export enum GameState {
     AVAILABLE = "AVAILABLE",
     QUEUING = "QUEUING",
     STARTED = "STARTED",
+    TRANSITION= "TRANSITION",
     VOTING = "VOTING",
     DESCRIBE= "DESCRIBE",
     NEXT = "NEXT",
@@ -71,4 +72,10 @@ export interface Submission {
     gameCode:number;
     players: Array<Player>;
     playerSubmissions:Array<PlayerSubmission>;
+}
+
+export interface Transition {
+    gameCode:number;
+    fromState:string;
+    ToState:string;
 }

@@ -4,15 +4,24 @@ import { StompSubscription } from '@stomp/stompjs';
 import { WebSocketService } from '../../../services/websocket.service';
 import { Submission } from '../../../models/gamemodels';
 import { JsonPipe } from '@angular/common';
+import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-player-results',
-  imports: [JsonPipe],
+  imports: [JsonPipe,LottieComponent],
   templateUrl: './player-results.component.html',
   styleUrl: './player-results.component.css'
 })
 export class PlayerResultsComponent implements OnInit,OnDestroy{
   
+
+  options1: AnimationOptions = {
+    path: '/lottiefiles/cryanimation.json',
+  };
+
+  options2: AnimationOptions = {
+    path:'/lottiefiles/happyanimation.json'
+  }
 
   router = inject(Router);
   

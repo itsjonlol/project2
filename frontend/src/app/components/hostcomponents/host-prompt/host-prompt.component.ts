@@ -8,16 +8,19 @@ import { HostPlayerVotesComponent } from '../host-player-votes/host-player-votes
 import { interval, map, Observable, Subscription, timer } from 'rxjs';
 import { JsonPipe } from '@angular/common';
 import { HostResultsComponent } from '../host-results/host-results.component';
+import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-host-prompt',
-  imports: [HostShowDrawingsComponent,HostPlayerVotesComponent,HostResultsComponent,JsonPipe],
+  imports: [HostShowDrawingsComponent,HostPlayerVotesComponent,HostResultsComponent,JsonPipe,LottieComponent],
   templateUrl: './host-prompt.component.html',
   styleUrl: './host-prompt.component.css'
 })
 export class HostPromptComponent implements OnInit,OnDestroy{
 
-  
+  options1: AnimationOptions = {
+    path: '/lottiefiles/animation3.json',
+  };
 
 
   wsService = inject(WebSocketService);

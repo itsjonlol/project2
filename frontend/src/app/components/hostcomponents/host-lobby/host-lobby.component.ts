@@ -5,31 +5,35 @@ import { Observable, Subscription } from 'rxjs';
 import { ImageData } from '../../../models/image-data'; // Import class
 import { Router } from '@angular/router';
 import { GameService } from '../../../services/game.service';
-import { GameNameDetails, GameRoomResponse, GameSession, GameState, GameStateManager, Player, Submission } from '../../../models/gamemodels';
+import { GameNameDetails, GameRoomResponse, GameSession, GameState, GameStateManager, Player, Submission, Transition } from '../../../models/gamemodels';
 import { Stomp, StompSubscription } from '@stomp/stompjs';
 import { HostPromptComponent } from "../host-prompt/host-prompt.component";
 import { GameStateService } from '../../../services/gamestate.service';
 import { HostPlayerVotesComponent } from '../host-player-votes/host-player-votes.component';
 import { HostShowDrawingsComponent } from '../host-show-drawings/host-show-drawings.component';
 import { HostResultsComponent } from '../host-results/host-results.component';
+import { AudioComponent } from "../../extcomponents/audio/audio.component";
+import { HostTransitionComponent } from '../host-transition/host-transition.component';
 
 @Component({
   selector: 'app-host-lobby',
   standalone:true,
-  imports: [CommonModule, NgFor, HostPromptComponent,HostPlayerVotesComponent,HostShowDrawingsComponent,HostResultsComponent],
+  imports: [CommonModule, NgFor, HostPromptComponent, HostPlayerVotesComponent, HostShowDrawingsComponent, HostResultsComponent, AudioComponent,HostTransitionComponent],
   templateUrl: './host-lobby.component.html',
   styleUrl: './host-lobby.component.css'
 })
 
 
 export class HostLobbyComponent implements OnInit ,OnDestroy{
+
+
   images: ImageData[] = [];
   gameCode: number = 0;
 
-  holdGameCode!:number;
+
   username: string = '';
   players: Player[] = [];
-  messagestrings: string[]=[];
+
 
   randomData:any; // to change
   
@@ -53,6 +57,11 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
   submission!:Submission;
 
   submissionSubscription!:StompSubscription;
+
+  playSound:boolean = false;
+
+  // isTransition:boolean=false;
+  transition!:Transition
 
   
 
@@ -119,7 +128,17 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
               const data = JSON.parse(message.body);
               
               if (data.gameState === GameState.STARTED) {
-                this.currentGameState = GameState.STARTED
+                this.currentGameState = GameState.TRANSITION
+                this.transition = {
+                  gameCode: this.gameCode,
+                  fromState: GameState.QUEUING,
+                  ToState:GameState.STARTED
+                }
+                
+                setTimeout(()=>{
+                  this.currentGameState = GameState.STARTED
+                },10000)
+                // this.currentGameState = GameState.STARTED
                 // this.gameStarted=true;
                 // this.router.navigate(['host','prompt',this.gameCode])
               }
@@ -128,12 +147,29 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
               }
 
               if (data.gameState === GameState.VOTING) {
-                setTimeout(()=>this.currentGameState=GameState.VOTING,6000)
+                this.currentGameState = GameState.TRANSITION
+                this.transition = {
+                  gameCode: this.gameCode,
+                  fromState: GameState.DESCRIBE,
+                  ToState:GameState.VOTING
+                }
+
+                setTimeout(()=>this.currentGameState=GameState.VOTING,10000)
                 // this.currentGameState = GameState.VOTING
               }
 
               if (data.gameState === GameState.RESULTS) {
-                setTimeout(()=>this.currentGameState=GameState.RESULTS,2000)
+
+                this.currentGameState = GameState.TRANSITION
+                this.transition = {
+                  gameCode: this.gameCode,
+                  fromState: GameState.VOTING,
+                  ToState:GameState.RESULTS
+                }
+
+                setTimeout(()=>this.currentGameState=GameState.RESULTS,10000)
+
+                // setTimeout(()=>this.currentGameState=GameState.RESULTS,2000)
                 
               }
               
@@ -163,7 +199,20 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
     
   }
   
+  audio = new Audio('/music/track1.mp3'); // Create the audio object once
+
+  playMusic(): void {
+      this.playSound = !this.playSound;
   
+      if (this.playSound) {
+          this.audio.currentTime = 0; // Reset to the beginning
+          this.audio.load();
+          this.audio.play().catch(err => console.error("Error playing audio:", err));
+      } else {
+          this.audio.pause();
+      }
+  }
+
   startGame(): void {
     console.log("game started");
     this.randomData = {

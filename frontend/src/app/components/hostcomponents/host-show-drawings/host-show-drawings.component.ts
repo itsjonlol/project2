@@ -6,11 +6,13 @@ import { StompSubscription } from '@stomp/stompjs';
 import { JsonPipe } from '@angular/common';
 import { interval, Observable, Subject, Subscription, timer } from 'rxjs';
 
+
 @Component({
   selector: 'app-host-show-drawings',
   imports: [JsonPipe],
+  providers: [],
   templateUrl: './host-show-drawings.component.html',
-  styleUrl: './host-show-drawings.component.css'
+  styleUrl: './host-show-drawings.component.css',
 })
 export class HostShowDrawingsComponent implements OnInit{
   

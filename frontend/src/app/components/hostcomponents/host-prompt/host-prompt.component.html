@@ -1,15 +1,23 @@
 <h1> Host drawing and host prompt at the same time </h1>
 
-@if (isDrawing) {
+
     <h1>Draw based on the following prompt!</h1>
     <h3> Draw a ...</h3>
     <p> Add timer </p>
     <button (click)="showDrawings()"> Show drawings</button>
+    
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <ng-lottie [options]="options1" style="width: 70%; height: 70%;"></ng-lottie>
+    </div>
+
+    @if (hasResetOnce) {
+        <h3>Time to stop drawing! Start give your image a cool name and description!</h3>
+    }
 
     {{timerCountDown}}
 
     {{submission | json}}
-}
+
 
 
 

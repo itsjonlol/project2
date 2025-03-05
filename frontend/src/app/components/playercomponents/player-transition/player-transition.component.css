@@ -1,0 +1,21 @@
+.animated-background {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee, #fbc2eb, #ff9a9e);
+    background-size: 400% 400%; /* Larger than the container for animation */
+    animation: gradientAnimation 15s ease infinite; /* Animation */
+  }
+  
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%; /* Start position */
+    }
+    50% {
+      background-position: 100% 50%; /* Middle position */
+    }
+    100% {
+      background-position: 0% 50%; /* End position */
+    }
+  }

@@ -16,6 +16,7 @@ import { PlayerResultsComponent } from './components/playercomponents/player-res
 import { HostResultsComponent } from './components/hostcomponents/host-results/host-results.component';
 import { RegisterComponent } from './components/extcomponents/register/register.component';
 import { Host } from '@angular/core';
+import { TestshowComponent } from './components/notusedcomponents/testshow/testshow.component';
 
 
 
@@ -55,6 +56,7 @@ export const routes: Routes = [
     {path:'drawings',component:DrawingsComponent},
     {path:'enter-game',component:EnterGameComponent},
     {path:'testsub',component:TestsubComponent},
+    {path:'testshow',component:TestshowComponent},
     {
       path:'player',
       children:[

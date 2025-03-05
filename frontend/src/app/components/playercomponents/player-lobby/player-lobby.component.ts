@@ -1,16 +1,17 @@
 import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { WebSocketService } from '../../../services/websocket.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GameNameDetails, GameSession, GameState, Submission } from '../../../models/gamemodels';
+import { GameNameDetails, GameSession, GameState, Submission, Transition } from '../../../models/gamemodels';
 import { Stomp, StompSubscription } from '@stomp/stompjs';
 import { PlayerDrawingComponent } from '../player-drawing/player-drawing.component';
 import { GameService } from '../../../services/game.service';
 import { PlayerVoteInputComponent } from '../player-vote-input/player-vote-input.component';
 import { PlayerResultsComponent } from '../player-results/player-results.component';
+import { PlayerTransitionComponent } from "../player-transition/player-transition.component";
 
 @Component({
   selector: 'app-player-lobby',
-  imports: [PlayerDrawingComponent,PlayerVoteInputComponent,PlayerResultsComponent],
+  imports: [PlayerDrawingComponent, PlayerVoteInputComponent, PlayerResultsComponent,PlayerTransitionComponent],
   templateUrl: './player-lobby.component.html',
   styleUrl: './player-lobby.component.css'
 })
@@ -38,6 +39,8 @@ export class PlayerLobbyComponent implements OnInit,OnDestroy {
   currentGameState:string | undefined = ''
   submissionSubscription!:StompSubscription
   submission !: Submission
+
+  transition!:Transition
 
   ngOnInit(): void {
     const gameCodeParam = this.activatedRoute.snapshot.paramMap.get('gameCode');
@@ -96,9 +99,19 @@ export class PlayerLobbyComponent implements OnInit,OnDestroy {
           const data = JSON.parse(message.body);
           
           if (data.gameState === GameState.STARTED) {
+            this.currentGameState = GameState.TRANSITION
+            this.transition = {
+              gameCode: this.gameCode,
+              fromState: GameState.QUEUING,
+              ToState:GameState.STARTED
+            }
+            
+            setTimeout(()=>{
+              this.currentGameState = GameState.STARTED
+            },10000)
             // console.log(true);
-            this.currentGameState=GameState.STARTED
-            this.gameStarted=true;
+            // this.currentGameState=GameState.STARTED
+            // this.gameStarted=true;
             // this.router.navigate(['player','draw',this.gameCode])
           }
           if (data.gameState === GameState.DESCRIBE) {
@@ -106,11 +119,27 @@ export class PlayerLobbyComponent implements OnInit,OnDestroy {
           }
 
           if (data.gameState === GameState.VOTING) {
-            this.currentGameState = GameState.VOTING
+            this.currentGameState = GameState.TRANSITION
+            this.transition = {
+              gameCode: this.gameCode,
+              fromState: GameState.DESCRIBE,
+              ToState:GameState.VOTING
+            }
+
+            setTimeout(()=>this.currentGameState=GameState.VOTING,10000)
+            // this.currentGameState = GameState.VOTING
           }
 
           if (data.gameState === GameState.RESULTS) {
-            this.currentGameState = GameState.RESULTS
+            this.currentGameState = GameState.TRANSITION
+            this.transition = {
+              gameCode: this.gameCode,
+              fromState: GameState.VOTING,
+              ToState:GameState.RESULTS
+            }
+
+            setTimeout(()=>this.currentGameState=GameState.RESULTS,10000)
+            // this.currentGameState = GameState.RESULTS
           }
           if (data.gameState === GameState.FINISHED) {
             this.currentGameState = GameState.FINISHED

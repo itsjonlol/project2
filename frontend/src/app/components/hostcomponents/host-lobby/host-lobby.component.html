@@ -64,13 +64,13 @@
     <p>Host: {{ username }}</p>
     <p>Share this code with your friends so they can join the game!</p>
   
-    <!-- Buttons -->
+
     <div class="buttons-container">
       <button id="startGame" class="btn btn-primary" (click)="startGame()">🚀 Start Game</button>
       <button class="btn btn-danger" (click)="disconnect()">Disconnect</button>
     </div>
   
-    <!-- Players and Mascots -->
+   
     <div class="players-container">
       <h2>👥 Players Joined:</h2>
       
@@ -88,6 +88,10 @@
   </div>
 }
 
+@if(currentGameState==="TRANSITION") {
+  <app-host-transition [transitionChild]="transition"></app-host-transition>
+}
+
 @if (currentGameState === "STARTED" || currentGameState ==="DESCRIBE") {
   <app-host-prompt [currentGameState]="currentGameState"></app-host-prompt>
 }
@@ -102,11 +106,4 @@
 @if (currentGameState === "RESULTS") {
   <app-host-results [submissionresults]="submission"></app-host-results>
 }
-
-
-
-
-
-
-
 

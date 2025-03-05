@@ -1,0 +1,18 @@
+.small-lottie-container {
+    width: 200px; /* ✅ Set width */
+    height: 200px; /* ✅ Set height */
+    overflow: hidden; /* ✅ Prevent unexpected overflow */
+  }
+  
+  .small-lottie-container ng-lottie {
+    display: block;
+    width: 100% !important; /* ✅ Forces resizing */
+    height: 100% !important; /* ✅ Forces resizing */
+  }
+
+  .container {
+    background-image: url('/bg1.jpeg'); /* Path relative to the public folder */
+    background-size: cover; /* Adjust as needed */
+    background-position: center; /* Adjust as needed */
+    height: 100vh; /* Adjust as needed */
+  }

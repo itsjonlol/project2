@@ -7,9 +7,20 @@
 @if(isWinner) {
     <h1>Congratulations, {{username}}!</h1>
     <h2>You won!!!</h2>
+    <div class="small-lottie-container">
+        <ng-lottie [options]="options2"></ng-lottie>
+        
+    </div>
 } @else {
     <h1>What a shame,{{username}} </h1>
     <h2>You lost... F...</h2>
+    <div class="small-lottie-container">
+        <ng-lottie [options]="options1"></ng-lottie>
+       
+    </div>
 }
 
 {{submissionresults | json}}
+
+
+

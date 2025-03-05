@@ -18,6 +18,11 @@
         <p>Waiting for host to start the game for code: {{gameCode}}</p>
     </h1>
 }
+
+@if(this.currentGameState==="TRANSITION") {
+    <app-player-transition [transitionChild]="transition"></app-player-transition>
+}
+
 @if (this.currentGameState==="STARTED" || this.currentGameState==="DESCRIBE") {
 
     <app-player-drawing [currentGameState]="currentGameState"></app-player-drawing>

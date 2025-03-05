@@ -38,6 +38,8 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
   @Input()
   currentGameState!: string | undefined
 
+  hasVoted:boolean=false;
+
   ngOnInit(): void {
     const gameCodeParam = this.activatedRoute.snapshot.paramMap.get('gameCode');
     this.username = localStorage.getItem("username") || 'player';
@@ -56,6 +58,7 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
           const data = JSON.parse(message.body);
           
           this.currentPlayerName = data.currentPlayerName;
+          this.hasVoted=false;
           
          })
 
@@ -101,7 +104,7 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
   }
 
   processVote(voteString : string) {
-    
+    this.hasVoted=true;
     this.playerVote = {
       name: this.username,
       vote: parseInt(voteString)

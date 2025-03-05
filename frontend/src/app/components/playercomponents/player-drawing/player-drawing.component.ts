@@ -41,7 +41,7 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
   private gameStateSubscription!: StompSubscription;
 
   //trial
-  isVoting:boolean = false;
+  // isVoting:boolean = false;
 
   gameService = inject(GameService)
 
@@ -129,6 +129,7 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
 
   ngOnChanges():void {
     if (this.currentGameState === GameState.DESCRIBE) {
+      this.canvas.isDrawingMode=false;
       this.isDrawingMode=false;
       this.submitCanvas()
     }
@@ -234,7 +235,7 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
     }
-    this.wsService.disconnect();
+    // this.wsService.disconnect();
     this.resetState();
   }
 

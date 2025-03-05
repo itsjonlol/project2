@@ -1,10 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { FireAuthService } from './services/fire-auth.service';
+import { AudioComponent } from './components/extcomponents/audio/audio.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,RouterModule],
+  imports: [RouterOutlet,RouterModule,AudioComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   

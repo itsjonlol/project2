@@ -1,0 +1,44 @@
+<p>testshow works!</p>
+
+<!-- @for (drawing of drawings;let idx=$index; track idx) {
+    <img [src]="drawing.imageUrl">
+} -->
+<!-- <div [@fadeInOut]="currentIndex">
+    <p>Name: {{ drawing.playerName }}</p>
+    <p>Title: {{ drawing.title }}</p>
+    <p>Description: {{ drawing.description }}</p>
+    <img [src]="drawing.imageUrl">
+  </div> -->
+
+  <!-- <div [@fadeFlipAnimation]="currentIndex" class="h-100 d-flex flex-column align-items-center justify-content-center text-center">
+    <p><strong>Name:</strong> {{ drawings[currentIndex]?.playerName }}</p>
+    <p><strong>Title:</strong> {{ drawings[currentIndex]?.title }}</p>
+    <p><strong>Description:</strong> {{ drawings[currentIndex]?.description }}</p>
+    <img [src]="drawings[currentIndex]?.imageUrl" class="img-fluid mt-3" alt="Drawing">
+  </div>
+  <button (click)="nextImage()">Next image</button> -->
+
+
+  @if (currentGameState==="TESTSHOW") {
+    <div class="curtain-container">
+        <div class="curtain" [@curtainRise]="curtainState"></div>
+        <div class="content">
+          <p>Name: {{ drawing.playerName }}</p>
+          <p>Title: {{ drawing.title }}</p>
+          <p>Description: {{ drawing.description }}</p>
+          <img [src]="drawing.imageUrl">
+        </div>
+      </div>
+      
+      <button (click)="nextImage()">Next image</button>
+
+  }
+  <button (click)="displayTestSub()">Display testsub</button>
+
+@if (currentGameState==="TRANSIT") {
+    <app-transit [@fade]></app-transit>
+}
+ 
+@if (currentGameState==="TESTSUB") {
+    <app-testsub [@fade]></app-testsub>
+}
