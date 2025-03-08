@@ -5,6 +5,7 @@ import { GameState, GameStateManager, PlayerSubmission, Submission } from '../..
 import { StompSubscription } from '@stomp/stompjs';
 import { JsonPipe } from '@angular/common';
 import { interval, Observable, Subject, Subscription, timer } from 'rxjs';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 
 @Component({
@@ -13,6 +14,24 @@ import { interval, Observable, Subject, Subscription, timer } from 'rxjs';
   providers: [],
   templateUrl: './host-show-drawings.component.html',
   styleUrl: './host-show-drawings.component.css',
+  animations:[
+    trigger('curtainRise', [
+      state('open', style({
+        transform: 'translateY(-100%)', // Curtain moves up
+        opacity: 0
+      })),
+      state('closed', style({
+        transform: 'translateY(0%)', // Curtain covers the content
+        opacity: 1
+      })),
+      transition('open => closed', [
+        animate('2s ease-in-out') // Curtain closes (moves down)
+      ]),
+      transition('closed => open', [
+        animate('2s ease-in-out') // Curtain opens (moves up)
+      ])
+    ])
+  ]
 })
 export class HostShowDrawingsComponent implements OnInit{
   
@@ -47,6 +66,8 @@ export class HostShowDrawingsComponent implements OnInit{
 
   finishedAllDrawings:boolean = false;
 
+  curtainState: 'open' | 'closed' = 'closed';
+
   
   ngOnInit(): void {
 
@@ -67,6 +88,7 @@ export class HostShowDrawingsComponent implements OnInit{
     //COMMENT OUT
     setTimeout(()=> {
       this.sendCurrentDrawing();
+      
       this.startTimer();
     },3000)
     
@@ -77,6 +99,10 @@ export class HostShowDrawingsComponent implements OnInit{
     this.timerSubscription=this.timerSource$.subscribe({
       next: (remaining) => {
         this.timerCountDown = 10 - remaining;
+        if (this.timerCountDown === 4) {
+          this.curtainToggle(); // close when 4 seconds left
+        }
+
         if (this.timerCountDown === 0) {
           if  (!this.finishedAllDrawings) {
             this.nextDrawing();
@@ -104,6 +130,7 @@ export class HostShowDrawingsComponent implements OnInit{
   }
 
   protected nextDrawing() {
+     // make curtain fall
     this.currentIndex++;
     
     this.drawing = this.submissionshow.playerSubmissions[this.currentIndex];
@@ -113,8 +140,7 @@ export class HostShowDrawingsComponent implements OnInit{
       gameState:GameState.NEXT
     } 
     
-   
-
+  
     this.wsService.publish(`/app/gamestate/${this.gameCode}`,data);
     
 
@@ -125,6 +151,7 @@ export class HostShowDrawingsComponent implements OnInit{
   }
 
   private sendCurrentDrawing() {
+    this.curtainToggle(); // make curtain rise
     const currentDrawing = {
       gameCode: this.gameCode,
       currentPlayerName: this.drawing.playerName
@@ -140,7 +167,13 @@ export class HostShowDrawingsComponent implements OnInit{
     this.wsService.publish(`/app/gamestate/${this.gameCode}`,data);
   }
 
-  
+  curtainToggle():void {
+    if (this.curtainState === 'open') {
+      this.curtainState = 'closed'
+    } else {
+      this.curtainState = 'open'
+    }
+  }
 
 
 }

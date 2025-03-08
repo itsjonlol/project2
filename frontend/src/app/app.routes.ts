@@ -17,6 +17,7 @@ import { HostResultsComponent } from './components/hostcomponents/host-results/h
 import { RegisterComponent } from './components/extcomponents/register/register.component';
 import { Host } from '@angular/core';
 import { TestshowComponent } from './components/notusedcomponents/testshow/testshow.component';
+import { TesthostlobbyComponent } from './components/notusedcomponents/testhostlobby/testhostlobby.component';
 
 
 
@@ -57,6 +58,7 @@ export const routes: Routes = [
     {path:'enter-game',component:EnterGameComponent},
     {path:'testsub',component:TestsubComponent},
     {path:'testshow',component:TestshowComponent},
+    {path:'testhostlobby',component:TesthostlobbyComponent},
     {
       path:'player',
       children:[

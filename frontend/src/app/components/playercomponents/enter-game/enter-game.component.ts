@@ -29,6 +29,8 @@ export class EnterGameComponent implements OnInit{
   router = inject(Router);
   gameService = inject(GameService);
 
+  test!:any
+
   ngOnInit(): void {
 
     this.username = localStorage.getItem("username") || 'player';
@@ -37,7 +39,8 @@ export class EnterGameComponent implements OnInit{
   
 
   onSubmit(gameCode:number) {
-    
+    this.test=gameCode
+
     this.gameEntry.gameCode = this.gameCode;
     this.gameEntry.name = this.username;
     
@@ -55,4 +58,9 @@ export class EnterGameComponent implements OnInit{
         }
     })
   }
+  
+  // onSubmit2(event:any):void {
+  //   this.test=event
+  // }
+  
 }

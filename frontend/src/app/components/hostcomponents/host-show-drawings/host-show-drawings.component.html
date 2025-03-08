@@ -5,12 +5,26 @@
 
 <!--<pre> {{drawing | json}}</pre> -->
 <!-- <p>{{finishedAllDrawings}}</p> -->
-<div>
+
+
+<!-- <div>
     <p>Name: {{drawing.playerName}}</p>
     <p>Title: {{drawing.title}}</p>
     <p>Description: {{drawing.description}} </p>
     <img [src]="drawing.imageUrl">
-</div>
+</div> -->
+
+<div class="curtain-container">
+    <div class="curtain" [@curtainRise]="curtainState"></div>
+    <div class="content">
+      <p>Name: {{ drawing.playerName }}</p>
+      <p>Title: {{ drawing.title }}</p>
+      <p>Description: {{ drawing.description }}</p>
+      <img [src]="drawing.imageUrl">
+    </div>
+  </div>
+
+<!-- <button (click)="curtainToggle()">Toggle Curtain</button> -->
 
 {{timerCountDown}} seconds left!
 

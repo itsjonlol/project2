@@ -58,7 +58,7 @@
 } -->
 
 @if (currentGameState === "QUEUING") {
-  <div class="lobby-container">
+  <!-- <div class="lobby-container">
     <h1>Host Game Lobby</h1>
     <p><strong>Game Code:</strong> <span class="game-code">{{gameRoomResponse?.gameCode}}</span></p>
     <p>Host: {{ username }}</p>
@@ -85,7 +85,64 @@
   
       <p *ngIf="players.length === 0">Waiting for players to join...</p>
     </div>
+  </div> -->
+
+  <div class="background-container d-flex align-items-center justify-content-center">
+    <div class="content d-flex flex-column justify-content-between align-items-center">
+        
+      <div class="game-code-container">
+      
+        <button class="button_game">
+         Game Code: {{gameCode}}
+        </button>
+       
+      </div>
+        <h1>Host: {{username}}</h1>
+  
+
+      <div class="container">
+        <div class="row justify-content-center">
+          
+        
+           @for (player of players; let idx=$index ; track idx) {
+            <div class="col-md-3 col-6">
+                <div class="mascot-card">
+                  <div class="mascot-image-container">
+                    <img [src]="player.mascot" alt="mascot" class="mascot-image">
+                  </div>
+                  <div class="mascot-name-tag">{{player.name}}</div>
+                </div>
+              </div>
+           } @empty {
+            <p>I need friends...</p>
+           }
+          
+          
+          
+        </div>
+      </div>
+      
+  
+      <div class="button-container d-flex gap-5">
+        
+       
+  
+        <button class="btn btn-class-name btn-start" (click)="startGame()">
+          <span class="back"></span>
+          <span class="front">Start</span>
+        </button>
+        <button class="btn btn-class-name btn-exit" (click)="disconnect()">
+          <span class="back"></span>
+          <span class="front">Exit</span>
+        </button>
+      </div>
+      
+  
+    </div>  
   </div>
+
+
+
 }
 
 @if(currentGameState==="TRANSITION") {

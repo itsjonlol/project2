@@ -6,9 +6,10 @@
     <form (ngSubmit) = "onSubmit(gameCode)">
     
         <div class="form-group">
-            <label> Enter game room code displayed on screen </label>
+            <label> Enter game room code displayed on screen please </label>
+            
             <input type="number" class ="form-control" id = "gameCode"
-                [(ngModel)] = "gameCode" name = "gameCode">
+                [(ngModel)] = "gameCode" name = "gameCode" #code>
         </div>
 
         
@@ -16,11 +17,15 @@
         @if (errorMessage) {
             <p> {{errorMessage}} </p>
         }
+        <br>
         <button class = "btn btn-success" type ="submit">Submit</button>
     
     </form>
-    </div> 
+    
+    
 
     {{gameCode}}
+
+    {{test}}
 
     <router-outlet />

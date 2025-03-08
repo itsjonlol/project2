@@ -28,6 +28,8 @@ body {
     min-height: 100vh;
     margin: 0;
     line-height: 1.6;
+    
+    font-family: 'Bangers', cursive;
 }
 
 /* Optional: Add some additional brightness and playfulness */

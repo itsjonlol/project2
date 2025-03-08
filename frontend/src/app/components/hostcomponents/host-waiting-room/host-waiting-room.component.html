@@ -1,0 +1,64 @@
+
+    <h1>Host Game Lobby</h1>
+    <!-- <p><strong>Game Code:</strong> <span class="game-code">{{gameRoomResponse?.gameCode}}</span></p> -->
+    <p>Host: {{ username }}</p>
+    <p>{{gameCode}}</p>
+    <p>Share this code with your friends so they can join the game!</p>
+  
+
+    <!-- <div class="buttons-container">
+      <button id="startGame" class="btn btn-primary" (click)="startGame()">🚀 Start Game</button>
+      <button class="btn btn-danger" (click)="disconnect()">Disconnect</button>
+    </div>
+   -->
+<!--    
+    <div class="players-container">
+      <h2>👥 Players Joined:</h2>
+      
+      <div class="row justify-content-center">
+        <div class="col-md-3 col-sm-6 player-card" *ngFor="let player of players">
+          <div class="player-box">
+            <div class="player-name">{{ player.name }}</div>
+            <img class="mascot-image" [src]="player.mascot" alt="Mascot">
+          </div>
+        </div>
+      </div> -->
+
+
+  <div class="background-container d-flex align-items-center justify-content-center">
+    <div class="content d-flex flex-column justify-content-between align-items-center">
+        
+        <p>Host: {{ username }}</p>
+        <p>{{gameCode}}</p>
+        <p>Share this code with your friends so they can join the game!</p>
+  
+      <!-- Bootstrap Grid for Mascots -->
+      <div class="container">
+        <div class="row justify-content-center">
+          
+          <!-- Mascots (Each takes 3 columns on medium screens, 6 on small screens) -->
+           @for (player of players; let idx=$index ; track idx) {
+            <div class="col-md-3 col-6">
+                <div class="mascot-card">
+                  <div class="mascot-image-container">
+                    <img [src]="player.mascot" alt="mascot" class="mascot-image">
+                  </div>
+                  <div class="mascot-name-tag">{{player.name}}</div>
+                </div>
+              </div>
+           }
+          
+          
+          
+        </div>
+      </div>
+  
+      <!-- Buttons -->
+      <div class="button-container d-flex gap-3">
+        <!-- <ng-content></ng-content> -->
+        <button >Start</button>
+        <button >Exit</button>
+      </div>
+  
+    </div>  
+  </div>

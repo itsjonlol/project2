@@ -14,11 +14,12 @@ import { HostShowDrawingsComponent } from '../host-show-drawings/host-show-drawi
 import { HostResultsComponent } from '../host-results/host-results.component';
 import { AudioComponent } from "../../extcomponents/audio/audio.component";
 import { HostTransitionComponent } from '../host-transition/host-transition.component';
+import { HostWaitingRoomComponent } from "../host-waiting-room/host-waiting-room.component";
 
 @Component({
   selector: 'app-host-lobby',
   standalone:true,
-  imports: [CommonModule, NgFor, HostPromptComponent, HostPlayerVotesComponent, HostShowDrawingsComponent, HostResultsComponent, AudioComponent,HostTransitionComponent],
+  imports: [CommonModule, NgFor, HostPromptComponent, HostPlayerVotesComponent, HostShowDrawingsComponent, HostResultsComponent, AudioComponent, HostTransitionComponent, HostWaitingRoomComponent],
   templateUrl: './host-lobby.component.html',
   styleUrl: './host-lobby.component.css'
 })
