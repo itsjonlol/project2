@@ -2,6 +2,7 @@
 
 
 <pre>{{submissionshow | json}}</pre>
+<h1>{{submissionshow.gamePrompt}}</h1>
 
 <!--<pre> {{drawing | json}}</pre> -->
 <!-- <p>{{finishedAllDrawings}}</p> -->
@@ -17,10 +18,12 @@
 <div class="curtain-container">
     <div class="curtain" [@curtainRise]="curtainState"></div>
     <div class="content">
-      <p>Name: {{ drawing.playerName }}</p>
-      <p>Title: {{ drawing.title }}</p>
-      <p>Description: {{ drawing.description }}</p>
-      <img [src]="drawing.imageUrl">
+      <p>Name: {{ drawing?.playerName }}</p>
+      <p>Title: {{ drawing?.title }}</p>
+      <p>Description: {{ drawing?.description }}</p>
+      <p>AiComments: {{drawing?.aiComments}}</p>
+      <img [src]="drawing?.imageUrl">
+
     </div>
   </div>
 

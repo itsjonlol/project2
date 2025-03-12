@@ -5,6 +5,7 @@ import { StompSubscription } from '@stomp/stompjs';
 import { GameState, Player, Submission } from '../../../models/gamemodels';
 import { JsonPipe } from '@angular/common';
 import { PlayerResultsComponent } from '../player-results/player-results.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-player-vote-input',
@@ -34,6 +35,8 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
   currentPlayerName:string="idk"
 
   displayResults:boolean = false;
+
+  connectionSub!: Subscription
   
   @Input()
   currentGameState!: string | undefined
@@ -50,7 +53,7 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
       console.error('Game code not found in route parameters.');
     }
     this.wsService.connect();
-    this.wsService.isConnected$.subscribe((isConnected)=>{
+    this.connectionSub = this.wsService.isConnected$.subscribe((isConnected)=>{
       if (isConnected) {
         this.gameDrawingSubscription=this.wsService.client.subscribe(`/topic/currentdrawing/${this.gameCode}`, (message) => {
           console.log(message.body)
@@ -123,13 +126,25 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
   ngOnDestroy(): void {
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
-    }
+      console.log("✅ Unsubscribed from gameStateSubscription");
+  }
 
-    if (this.submissionSubscription) {
+  // ✅ Unsubscribe from submissionSubscription
+  if (this.submissionSubscription) {
       this.submissionSubscription.unsubscribe();
-    }
-    if (this.gameDrawingSubscription) {
+      console.log("✅ Unsubscribed from submissionSubscription");
+  }
+
+  // ✅ Unsubscribe from gameDrawingSubscription
+  if (this.gameDrawingSubscription) {
       this.gameDrawingSubscription.unsubscribe();
-    }
+      console.log("✅ Unsubscribed from gameDrawingSubscription");
+  }
+
+  // ✅ Unsubscribe from WebSocket connection observable
+  if (this.connectionSub) {
+      this.connectionSub.unsubscribe();
+      console.log("✅ Unsubscribed from WebSocket isConnected$");
+  }
   }
 }

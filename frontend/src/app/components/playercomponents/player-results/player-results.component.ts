@@ -5,6 +5,7 @@ import { WebSocketService } from '../../../services/websocket.service';
 import { Submission } from '../../../models/gamemodels';
 import { JsonPipe } from '@angular/common';
 import { LottieComponent, AnimationOptions } from 'ngx-lottie';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-player-results',
@@ -32,6 +33,7 @@ export class PlayerResultsComponent implements OnInit,OnDestroy{
   username!:string;
   gameCode!:number;
   private gameStateSubscription!: StompSubscription;
+  connectionSub!:Subscription
 
   @Input()
   currentGameState!: string | undefined
@@ -61,14 +63,26 @@ export class PlayerResultsComponent implements OnInit,OnDestroy{
     }
   }
 
-  ngOnChanges():void {
-    if (this.currentGameState==="FINISHED") {
-        this.wsService.disconnect();
-        setTimeout(()=>this.router.navigate(["dashboard"]),2000);
-    }
-  }
+  // ngOnChanges():void {
+  //   if (this.currentGameState==="FINISHED") {
+  //       this.wsService.disconnect();
+        
+  //       setTimeout(()=>this.router.navigate(["dashboard"]),2000);
+  //   }
+  // }
 
   ngOnDestroy(): void {
+
+    if (this.gameStateSubscription) {
+      this.gameStateSubscription.unsubscribe();
+      console.log("✅ Unsubscribed from gameStateSubscription");
+  }
+
+  // ✅ Unsubscribe from WebSocket connection observable
+  if (this.connectionSub) {
+      this.connectionSub.unsubscribe();
+      console.log("✅ Unsubscribed from WebSocket isConnected$");
+  }
    this.wsService.disconnect();
   }
 }

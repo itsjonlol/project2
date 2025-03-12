@@ -1,5 +1,5 @@
 .animated-background {
-  position: fixed; /* Full screen */
+  /* position: fixed; Full screen */
   top: 0;
   left: 0;
   width: 100%;
@@ -10,20 +10,20 @@
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center horizontally */
-  justify-content: space-between; /* Space between text and mascot */
+  align-items: center;
+  justify-content: space-between; 
   padding: 40px 20px;
   text-align: center;
 }
 
-/* Position the text at the top */
+/* 
 .text-container {
   position: absolute;
   top: 5%;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-}
+} */
 
 /* Text styling */
 .text-container p,
@@ -44,4 +44,8 @@
   transform: translate(-50%, -50%);
   height:400px;
   width:400px;
+}
+
+.transition-message {
+  z-index:10;
 }

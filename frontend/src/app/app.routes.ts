@@ -18,6 +18,7 @@ import { RegisterComponent } from './components/extcomponents/register/register.
 import { Host } from '@angular/core';
 import { TestshowComponent } from './components/notusedcomponents/testshow/testshow.component';
 import { TesthostlobbyComponent } from './components/notusedcomponents/testhostlobby/testhostlobby.component';
+import { GalleryComponent } from './components/extcomponents/gallery/gallery.component';
 
 
 
@@ -28,37 +29,40 @@ export const routes: Routes = [
     {path:'register',component:RegisterComponent},
     { path: 'dashboard', component: DashboardComponent },
     {path:'lol-display',component: LolDisplayComponent},
-    {
-      path: 'host', // Parent route
-      children: [
-        {
-          path: 'lobby', // Child route
-          component: HostLobbyComponent
-        },
-        {
-          path:'lobby/:gameCode',
-          component:HostLobbyComponent
-        },
-        {
-          path: 'prompt/:gameCode',
-          component:HostPromptComponent
-        },
-        {
-          path: 'showdrawings/:gameCode',
-          component:HostShowDrawingsComponent
-        },
-        {
-          path:'results/:gameCode',
-          component:HostResultsComponent
-        }
-      ]
-    },
+    { path: 'host/lobby/:gameCode', component: HostLobbyComponent },
+    // {
+    //   path: 'host', // Parent route
+    //   children: [
+    //     // {
+    //     //   path: 'lobby', // Child route
+    //     //   component: HostLobbyComponent
+    //     // },
+    //     {
+    //       path:'lobby/:gameCode',
+    //       component:HostLobbyComponent
+    //     },
+    //     {
+    //       path: 'prompt/:gameCode',
+    //       component:HostPromptComponent
+    //     },
+    //     {
+    //       path: 'showdrawings/:gameCode',
+    //       component:HostShowDrawingsComponent
+    //     },
+    //     {
+    //       path:'results/:gameCode',
+    //       component:HostResultsComponent
+    //     }
+    //   ]
+    // },
     {path:'join-game',component:JoinGameComponent},
     {path:'drawings',component:DrawingsComponent},
     {path:'enter-game',component:EnterGameComponent},
     {path:'testsub',component:TestsubComponent},
     {path:'testshow',component:TestshowComponent},
     {path:'testhostlobby',component:TesthostlobbyComponent},
+    {path:'gallery',component:GalleryComponent},
+   
     {
       path:'player',
       children:[

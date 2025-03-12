@@ -1,17 +1,14 @@
-export interface User {
-    name:string;
-    email:string;
-}
+// export interface User {
+//     name:string;
+//     email:string;
+// }
 
 export interface GameEntry {
     gameCode: number;
     name: string;
 }
 
-export interface GameRoomResponse {
-    success: boolean;
-    gameCode:number;
-}
+
 
 export enum GameState {
     AVAILABLE = "AVAILABLE",
@@ -40,6 +37,7 @@ export interface GameNameDetails {
 
 export interface UploadResponse {
     url:string;
+    aiComments:string;
 }
 
 export interface GameStateManager {
@@ -57,10 +55,11 @@ export interface Player {
 
 export interface PlayerSubmission {
 
-
+    userId?:string;
     playerName:string;
     title:string;
     description:string;
+    aiComments?:string;
     imageUrl:string;
     total:number;
     isWinner:boolean;
@@ -70,6 +69,7 @@ export interface PlayerSubmission {
 export interface Submission {
    
     gameCode:number;
+    gamePrompt?:string;
     players: Array<Player>;
     playerSubmissions:Array<PlayerSubmission>;
 }

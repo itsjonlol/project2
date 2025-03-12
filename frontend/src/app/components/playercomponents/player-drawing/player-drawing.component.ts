@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { StompSubscription } from '@stomp/stompjs';
 import { PlayerVoteInputComponent } from '../player-vote-input/player-vote-input.component';
 import { GameService } from '../../../services/game.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-player-drawing',
@@ -29,12 +30,14 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
   imageService = inject(ImageService);
 
   username!:string;
+  userId!:string;
   gameCode!:number;
 
   title:string='';
   description:string='';
   isUploaded:boolean = false;
   uploadedImageUrl:string='';
+  aiComments:string = '';
   
   isDrawingMode:boolean = true;
 
@@ -44,6 +47,7 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
   // isVoting:boolean = false;
 
   gameService = inject(GameService)
+  connectionSub!: Subscription
 
   @Input()
   currentGameState!:string | undefined
@@ -61,6 +65,8 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
   ngOnInit(): void {
     const gameCodeParam = this.activatedRoute.snapshot.paramMap.get('gameCode');
     this.username = localStorage.getItem("username") || 'player';
+    this.userId = sessionStorage.getItem("userid") || 'blank'
+  
     if (gameCodeParam) {
       // Convert the parameter to a number
       this.gameCode = +gameCodeParam;
@@ -77,7 +83,7 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
     /// from here
 
 
-    this.wsService.isConnected$.subscribe((isConnected)=>{
+    this.connectionSub = this.wsService.isConnected$.subscribe((isConnected)=>{
       if (isConnected) {
         if (this.gameStateSubscription) {
           this.gameStateSubscription.unsubscribe();
@@ -206,6 +212,7 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
         if (response.url) {
           this.uploadedImageUrl = response.url; 
           this.isUploaded = true;
+          this.aiComments = response.aiComments;
         }
       },
       error: (error:HttpErrorResponse) => {
@@ -219,10 +226,12 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
 
     const data = {
       gameCode: this.gameCode,
+      userId:this.userId,
       name: this.username,
       title: this.title,
       description: this.description,
       image: this.uploadedImageUrl,
+      aiComments: this.aiComments
     }
 
     this.wsService.publish(`/app/playersubmission/${this.gameCode}`,data);
@@ -234,7 +243,14 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
 
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
-    }
+      console.log("✅ Unsubscribed from gameStateSubscription");
+  }
+
+  // ✅ Unsubscribe from WebSocket connection observable
+  if (this.connectionSub) {
+      this.connectionSub.unsubscribe();
+      console.log("✅ Unsubscribed from WebSocket isConnected$");
+  }
     // this.wsService.disconnect();
     this.resetState();
   }

@@ -21,9 +21,11 @@ export class AppComponent implements OnInit {
       if (user) {
         
         this.fireAuthService.currentUserSig.set({
+          userId: user.uid,
           email:user.email!,
           username: user.displayName!
         })
+        sessionStorage.setItem('userid',user.uid || 'blank')
         localStorage.setItem('username',user.displayName || '');
       } else {
         this.fireAuthService.currentUserSig.set(null)

@@ -54,6 +54,10 @@ export class HostResultsComponent implements OnInit,OnDestroy {
   
 
   ngOnDestroy(): void {
+    if (this.gameStateSubscription) {
+      this.gameStateSubscription.unsubscribe();
+      console.log("✅ Unsubscribed from gameStateSubscription");
+  }
     this.wsService.disconnect();
    }
 }

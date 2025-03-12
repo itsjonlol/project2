@@ -1,4 +1,4 @@
-import { Component, inject, Input, input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { WebSocketService } from '../../../services/websocket.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameState, GameStateManager, PlayerSubmission, Submission } from '../../../models/gamemodels';
@@ -33,7 +33,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     ])
   ]
 })
-export class HostShowDrawingsComponent implements OnInit{
+export class HostShowDrawingsComponent implements OnInit ,OnDestroy{
   
   @Input({required:true})
   submissionshow!:Submission 
@@ -175,5 +175,16 @@ export class HostShowDrawingsComponent implements OnInit{
     }
   }
 
+  ngOnDestroy(): void {
+    if (this.gameStateSubscription) {
+      this.gameStateSubscription.unsubscribe();
+      console.log("✅ Unsubscribed from gameStateSubscription");
+  }
 
+  // ✅ Unsubscribe from timerSubscription
+  if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+      console.log("✅ Unsubscribed from timerSubscription");
+  }
+  }
 }

@@ -2,6 +2,12 @@
 <p>Parent {{currentGameState}}</p>
 {{gameStarted}}
 
+{{transition | json }}
+
+<!-- @if ( storeGameState$ | async; as state ) {
+    <h1>Observable game state: {{ state}}</h1>
+} -->
+
 <!-- @if(!gameStarted) {
     <h1>
         <p>Waiting for host to start the game for code: {{gameCode}}</p>

@@ -1,20 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GameState, Transition } from '../../../models/gamemodels';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-host-transition',
-  imports: [],
+  imports: [JsonPipe],
   templateUrl: './host-transition.component.html',
   styleUrl: './host-transition.component.css'
 })
 export class HostTransitionComponent implements OnInit{
 
   @Input({required:true})
-  transitionChild:Transition ={
-    gameCode: 0,
-    fromState: '',
-    ToState: ''
-  }
+  transitionChild!:Transition 
   message:string='Default message'
 
   ngOnInit(): void {

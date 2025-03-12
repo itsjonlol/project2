@@ -1,11 +1,11 @@
 import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { WebSocketService } from '../../../services/websocket.service';
-import { CommonModule, NgFor } from '@angular/common';
+import { AsyncPipe, CommonModule, NgFor } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
 import { ImageData } from '../../../models/image-data'; // Import class
-import { Router } from '@angular/router';
-import { GameService } from '../../../services/game.service';
-import { GameNameDetails, GameRoomResponse, GameSession, GameState, GameStateManager, Player, Submission, Transition } from '../../../models/gamemodels';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GameRoomResponse, GameService } from '../../../services/game.service';
+import { GameNameDetails,GameSession, GameState, GameStateManager, Player, Submission, Transition } from '../../../models/gamemodels';
 import { Stomp, StompSubscription } from '@stomp/stompjs';
 import { HostPromptComponent } from "../host-prompt/host-prompt.component";
 import { GameStateService } from '../../../services/gamestate.service';
@@ -15,11 +15,12 @@ import { HostResultsComponent } from '../host-results/host-results.component';
 import { AudioComponent } from "../../extcomponents/audio/audio.component";
 import { HostTransitionComponent } from '../host-transition/host-transition.component';
 import { HostWaitingRoomComponent } from "../host-waiting-room/host-waiting-room.component";
+import { GameStore } from '../../../store/GameStore.store';
 
 @Component({
   selector: 'app-host-lobby',
   standalone:true,
-  imports: [CommonModule, NgFor, HostPromptComponent, HostPlayerVotesComponent, HostShowDrawingsComponent, HostResultsComponent, AudioComponent, HostTransitionComponent, HostWaitingRoomComponent],
+  imports: [CommonModule, NgFor, HostPromptComponent, HostPlayerVotesComponent, HostShowDrawingsComponent, HostResultsComponent, AudioComponent, HostTransitionComponent, HostWaitingRoomComponent,AsyncPipe],
   templateUrl: './host-lobby.component.html',
   styleUrl: './host-lobby.component.css'
 })
@@ -30,10 +31,13 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
 
   images: ImageData[] = [];
   gameCode: number = 0;
+  gamePrompt!:string
 
 
   username: string = '';
   players: Player[] = [];
+
+  activatedRoute = inject(ActivatedRoute);
 
 
   randomData:any; // to change
@@ -51,7 +55,9 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
 
   // gameStateManagerService = inject(GameStateService)
 
-  currentGameState:string|undefined ='' 
+  currentGameState:string|null ='' 
+  gameStore = inject(GameStore);
+  storeGameState$!: Observable<string | null>
   
   gameRoomState$!: Observable<GameStateManager>;
 
@@ -61,8 +67,16 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
 
   playSound:boolean = false;
 
+  gameStoreSubscription!: Subscription
+
   // isTransition:boolean=false;
-  transition!:Transition
+  transition: Transition =  {
+    gameCode: this.gameCode,
+    fromState: GameState.QUEUING,
+    ToState:GameState.STARTED
+  }
+
+  
 
   
 
@@ -79,22 +93,41 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
     this.wsService.connect();
     
 
-    this.gameService.getGameRoom().subscribe({
-      next: (response:GameRoomResponse) => {
-        this.gameRoomResponse = response;
-        this.gameCode = this.gameRoomResponse.gameCode;
+    this.activatedRoute.params.subscribe({
+      next: (params) => {
+        // this.gameRoomResponse = response;
+        // this.gameCode = this.gameRoomResponse.gameCode;
+        this.gameCode = parseInt(params['gameCode']);
+        
+       
         // this.holdGameCode = this.gameCode;
 
         // trial
         
-        this.router.navigate([`/host/lobby/${this.gameCode}`]);
-        this.gameService.getGameRoomState(this.gameCode).subscribe(d=>this.currentGameState=d.gameState)
+        // this.router.navigate([`/host/lobby/${this.gameCode}`]);
+        // this.gameService.getGameRoomState(this.gameCode).subscribe(d=>this.currentGameState=d.gameState)
       
         
         
         this.wsService.isConnected$.subscribe((isConnected) => {
           if (isConnected) {
+            
             this.wsService.publish(`/app/initialisegame/${this.gameCode}`, { gameCode: this.gameCode });
+            
+            // this.gameStore.getGameStateForRoom(this.gameCode);
+            // this.storeGameState$= this.gameStore.selectGameState(this.gameCode);
+            // this.storeGameState$.subscribe((gameCode) => console.log( "subscribed observable is.. " + gameCode))
+            
+
+            this.gameService.getGameRoomState(this.gameCode).subscribe(d=>this.currentGameState=d.gameState)
+            // this.storeGameState$ = this.gameStore.selectGameState(this.gameCode);
+            // this.gameStoreSubscription =  this.gameStore.selectGameState(this.gameCode).subscribe(d => this.currentGameState = d);
+            
+            //game store
+            
+            
+            
+            
             
             
             // this.gameStateManagerService.setGameState(this.gameCode,GameState.QUEUING)
@@ -110,9 +143,12 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
     
               const data = JSON.parse(message.body);
               const players = data.players;
+              const gamePrompt = data.gamePrompt;
+              this.players = data.players;
               const playerSubmissions = data.playerSubmissions;
               this.submission = {
                 gameCode:this.gameCode,
+                gamePrompt:gamePrompt,
                 players:players,
                 playerSubmissions:playerSubmissions
               }
@@ -129,15 +165,24 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
               const data = JSON.parse(message.body);
               
               if (data.gameState === GameState.STARTED) {
+              
                 this.currentGameState = GameState.TRANSITION
+
+
+                // this.gameStore.updateGameState({gameCode:this.gameCode,gameState: GameState.TRANSITION})
+               
                 this.transition = {
                   gameCode: this.gameCode,
                   fromState: GameState.QUEUING,
                   ToState:GameState.STARTED
                 }
-                
+                // this.gameStore.updateGameState(GameState.TRANSITION);
+
+               
                 setTimeout(()=>{
                   this.currentGameState = GameState.STARTED
+                  // this.gameStore.updateGameState({gameCode:this.gameCode,gameState: GameState.STARTED})
+                  // this.gameStore.updateGameState(GameState.STARTED);
                 },10000)
                 // this.currentGameState = GameState.STARTED
                 // this.gameStarted=true;
@@ -145,30 +190,49 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
               }
               if (data.gameState === GameState.DESCRIBE){
                 this.currentGameState = GameState.DESCRIBE
+                // this.gameStore.updateGameState({gameCode:this.gameCode,gameState: GameState.DESCRIBE})
+                // this.gameStore.updateGameState(GameState.DESCRIBE);
               }
 
               if (data.gameState === GameState.VOTING) {
                 this.currentGameState = GameState.TRANSITION
+
                 this.transition = {
                   gameCode: this.gameCode,
                   fromState: GameState.DESCRIBE,
                   ToState:GameState.VOTING
                 }
 
-                setTimeout(()=>this.currentGameState=GameState.VOTING,10000)
+                // this.gameStore.updateGameState(GameState.TRANSITION);
+                // this.gameStore.updateGameState({gameCode:this.gameCode,gameState: GameState.TRANSITION})
+                
+
+                setTimeout(()=>{
+                  this.currentGameState=GameState.VOTING
+                  // this.gameStore.updateGameState({gameCode:this.gameCode,gameState: GameState.VOTING})
+                  // this.gameStore.updateGameState(GameState.VOTING);
+                },10000)
                 // this.currentGameState = GameState.VOTING
               }
 
               if (data.gameState === GameState.RESULTS) {
 
                 this.currentGameState = GameState.TRANSITION
+                // this.gameStore.updateGameState({gameCode:this.gameCode,gameState: GameState.TRANSITION})
+
                 this.transition = {
                   gameCode: this.gameCode,
                   fromState: GameState.VOTING,
                   ToState:GameState.RESULTS
                 }
+                // this.gameStore.updateGameState(GameState.TRANSITION);
+                
 
-                setTimeout(()=>this.currentGameState=GameState.RESULTS,10000)
+                setTimeout(()=>{
+                  this.currentGameState=GameState.RESULTS
+                  // this.gameStore.updateGameState({gameCode:this.gameCode,gameState: GameState.RESULTS})
+                  // this.gameStore.updateGameState(GameState.RESULTS);
+                  },10000)
 
                 // setTimeout(()=>this.currentGameState=GameState.RESULTS,2000)
                 
@@ -176,11 +240,15 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
               
 
               if (data.gameState === GameState.FINISHED) {
-                
-              
+
+                this.currentGameState = GameState.FINISHED
+                // this.gameStore.updateGameState({gameCode:this.gameCode,gameState: GameState.FINISHED})
+                // this.gameStore.updateGameState(GameState.FINISHED);
                 setTimeout(() => {
                   
                   this.router.navigate(['/dashboard']);
+                  // this.gameStore.updateGameState(GameState.AVAILABLE);
+                  
                 }, 2000);
               }
 
@@ -246,14 +314,35 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
     };
     this.wsService.publish(`/app/disconnect/${this.gameCode}`,this.gameNameDetails)
     if (this.playerSubscription) {
-      this.playerSubscription.unsubscribe(); 
-    }
-    if (this.gameStateSubscription) {
+      this.playerSubscription.unsubscribe();
+      console.log("✅ Unsubscribed from playerSubscription");
+  }
+  if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
-    }
-    if (this.submissionSubscription) {
+      console.log("✅ Unsubscribed from gameStateSubscription");
+  }
+  if (this.submissionSubscription) {
       this.submissionSubscription.unsubscribe();
-    }
+      console.log("✅ Unsubscribed from submissionSubscription");
+  }
+
+  // ✅ Unsubscribe from gameStore state subscription
+  if (this.gameStoreSubscription) {
+      this.gameStoreSubscription.unsubscribe();
+      console.log("✅ Unsubscribed from gameStoreSubscription");
+  }
+
+  // ✅ Unsubscribe from WebSocket connection observable
+  if (this.connectionSub) {
+      this.connectionSub.unsubscribe();
+      console.log("✅ Unsubscribed from connectionSub");
+  }
+
+  // ✅ Unsubscribe from ActivatedRoute params
+  if (this.lobbyUpdatesSub) {
+      this.lobbyUpdatesSub.unsubscribe();
+      console.log("✅ Unsubscribed from lobbyUpdatesSub (ActivatedRoute params)");
+  }
     console.log("lobby destroyed...")
     
     this.wsService.disconnect();

@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { NgIf } from '@angular/common'; 
 import { Router } from '@angular/router'; 
+import { GameService } from '../../../services/game.service';
+import { GameRoomResponse } from '../../../services/game.service';
 
 
 
@@ -18,6 +20,8 @@ export class DashboardComponent {
   
 
   constructor(private router: Router) {}
+
+  gameService = inject(GameService)
 
   ngOnInit(): void {
     // this.userService.getUser().subscribe({
@@ -49,7 +53,16 @@ export class DashboardComponent {
   // }
   hostGame(): void {
     // Navigate to host lobby
-    this.router.navigate(['/host','lobby']);
+
+    this.gameService.getGameRoom().subscribe({
+      next: (response:GameRoomResponse) => {
+        const gameCode = response.gameCode;
+        this.router.navigate(['/host','lobby',gameCode])
+
+      }
+    })
+
+    // this.router.navigate(['/host','lobby']);
   }
 
 
@@ -58,7 +71,7 @@ export class DashboardComponent {
   }
 
   viewGallery():void {
-    this.router.navigate(['/testsub'])
+    this.router.navigate(['/gallery'])
   }
 
  

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../models/gamemodels';
+
+import { UserInterface } from '../models/userinterface';
 
 
 
@@ -11,18 +12,20 @@ import { User } from '../models/gamemodels';
 })
 export class UserService {
 
-  private loginUrl = 'http://localhost:4000/api/user';
-  private logoutUrl = 'http://localhost:4000/logout';
+  // private loginUrl = 'http://localhost:4000/api/user';
+  // private logoutUrl = 'http://localhost:4000/logout';
+
+
+  private postLoginUrl = 'http://localhost:4000/api/postuser'
 
   constructor(private httpClient: HttpClient) {}
 
-  getUser(): Observable<User> {
-    // Include withCredentials to send the session cookie along with the request
-    return this.httpClient.get<User>(this.loginUrl);
+  postUser(user:UserInterface):Observable<void> {
+    return this.httpClient.post<void>(this.postLoginUrl,user);
   }
-  logout(): Observable<Object> {
-    return this.httpClient.post(this.logoutUrl, {});
-  }
+
+
+ 
 
   
 }

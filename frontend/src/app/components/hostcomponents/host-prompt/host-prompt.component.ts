@@ -9,6 +9,7 @@ import { interval, map, Observable, Subscription, timer } from 'rxjs';
 import { JsonPipe } from '@angular/common';
 import { HostResultsComponent } from '../host-results/host-results.component';
 import { LottieComponent, AnimationOptions } from 'ngx-lottie';
+import { GameRoomPrompt, GameService } from '../../../services/game.service';
 
 @Component({
   selector: 'app-host-prompt',
@@ -26,20 +27,25 @@ export class HostPromptComponent implements OnInit,OnDestroy{
   wsService = inject(WebSocketService);
   router = inject(Router);
   state!:GameStateManager
+  gameService = inject(GameService);
+  prompt:string = "SKETCH A UFO"
+  
   
 
   @Input()
-  currentGameState!:string | undefined
+  currentGameState!:string | null
 
   gameCode!: number;
   username!:string;
 
   activatedRoute = inject(ActivatedRoute);
 
+  private gamePromptSubscription!: Subscription;
   private gameStateSubscription!: StompSubscription;
   private submissionSubscription!: StompSubscription;
   isDrawing:boolean = true;
 
+  @Input()
   submission!:Submission
 
   displayResults:boolean=false;
@@ -49,14 +55,21 @@ export class HostPromptComponent implements OnInit,OnDestroy{
   timerDuration:number=10;
   timerSource$:Observable<number> = interval(1000);
   hasResetOnce:boolean=false;
+  connectionSub!: Subscription
   
 
   ngOnInit(): void {
     const gameCodeParam = this.activatedRoute.snapshot.paramMap.get('gameCode');
+
+
+
     this.username = localStorage.getItem("username") || 'player';
     if (gameCodeParam) {
       // Convert the parameter to a number
       this.gameCode = +gameCodeParam;
+      this.gamePromptSubscription = this.gameService.getGameRoomPrompt(this.gameCode).subscribe((r:GameRoomPrompt) => {
+        console.log(r)
+        this.prompt=r.gamePrompt})
     } else {
       console.error('Game code not found in route parameters.');
     }
@@ -66,7 +79,7 @@ export class HostPromptComponent implements OnInit,OnDestroy{
       playerSubmissions:[]
     }
     // this.wsService.connect();
-    this.wsService.isConnected$.subscribe((isConnected) => {
+    this.connectionSub= this.wsService.isConnected$.subscribe((isConnected) => {
       if (isConnected) {
         console.log("Websocket connected");
         if (this.gameStateSubscription) {
@@ -99,21 +112,21 @@ export class HostPromptComponent implements OnInit,OnDestroy{
          
         })
         
-        if (this.submissionSubscription) {
-          this.submissionSubscription.unsubscribe();
-        }
+        // if (this.submissionSubscription) {
+        //   this.submissionSubscription.unsubscribe();
+        // }
 
         this.submissionSubscription=this.wsService.client.subscribe(`/topic/submission/${this.gameCode}`, (message) => {
           console.log(message.body)
 
-          const data = JSON.parse(message.body);
-          const players = data.players;
-          const playerSubmissions = data.playerSubmissions;
-          this.submission = {
-            gameCode:this.gameCode,
-            players:players,
-            playerSubmissions:playerSubmissions
-          }
+          // const data = JSON.parse(message.body);
+          // const players = data.players;
+          // const playerSubmissions = data.playerSubmissions;
+          // this.submission = {
+          //   gameCode:this.gameCode,
+          //   players:players,
+          //   playerSubmissions:playerSubmissions
+          // }
  
          })
         
@@ -180,10 +193,30 @@ export class HostPromptComponent implements OnInit,OnDestroy{
     // setTimeout(()=>this.isDrawing=false,6000);
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
-    }
-    if (this.submissionSubscription) {
+      console.log("✅ Unsubscribed from gameStateSubscription");
+  }
+
+  // ✅ Unsubscribe from submissionSubscription
+  if (this.submissionSubscription) {
       this.submissionSubscription.unsubscribe();
-    }
+      console.log("✅ Unsubscribed from submissionSubscription");
+  }
+
+  // ✅ Unsubscribe from WebSocket connection observable
+  if (this.connectionSub) {
+      this.connectionSub.unsubscribe();
+      console.log("✅ Unsubscribed from WebSocket isConnected$");
+  }
+
+  // ✅ Unsubscribe from timerSubscription
+  if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+      console.log("✅ Unsubscribed from timerSubscription");
+  }
+
+  if (this.gamePromptSubscription) {
+    this.gamePromptSubscription.unsubscribe();
+  }
 
     console.log("prompt destroyed")
     // this.wsService.disconnect();
