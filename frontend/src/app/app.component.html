@@ -15,9 +15,12 @@
       {{fireAuthService.currentUserSig()?.username}}
       {{fireAuthService.currentUserSig()?.email}}
       <a [routerLink]="['/dashboard']">Dashboard</a>
+      <button class="btn" (click)="sendEmailRequest()" > Get email updates!</button>
       <span (click)="logout()">Logout</span>
   </div>
 }
+
+
 
 
 
