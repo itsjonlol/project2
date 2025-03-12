@@ -7,6 +7,7 @@ import vttp.testssfproject2.testssfproject2.model.enumeration.GameState;
 public class GameRoom {
     
     private Integer id;
+    private String gamePrompt;
     private Boolean isFull; // 8/8 is full
     private Boolean isActive; // to see if a game is currently playing
     private GameState gameState;
@@ -56,6 +57,14 @@ public class GameRoom {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
+    }
+
+    public String getGamePrompt() {
+        return gamePrompt;
+    }
+
+    public void setGamePrompt(String gamePrompt) {
+        this.gamePrompt = gamePrompt;
     }
 
     

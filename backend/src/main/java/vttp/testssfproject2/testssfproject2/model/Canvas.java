@@ -2,11 +2,12 @@ package vttp.testssfproject2.testssfproject2.model;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class ImageModel {
+public class Canvas {
     private String name;
+   
     private MultipartFile file;
 
-    public ImageModel() {
+    public Canvas() {
 
     }
 
@@ -26,6 +27,14 @@ public class ImageModel {
         this.file = file;
     }
 
+
     
+    
+
+    
+
+
+    
+
     
 }

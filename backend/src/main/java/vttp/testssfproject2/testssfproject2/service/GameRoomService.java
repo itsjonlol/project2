@@ -25,8 +25,8 @@ public class GameRoomService {
         return gameRoomRepo.getGameRoom(gameCode);
     }
     
-    public Optional<GameRoom> getAvailableGameRoom() {
-        return gameRoomRepo.getAvailableRoom();
+    public Optional<GameRoom> getRandomAvailableGameRoom() {
+        return gameRoomRepo.getRandomAvailableRoom();
     }
     
     public void initialiseGame(Integer gameCode) {
@@ -39,6 +39,10 @@ public class GameRoomService {
 
     public void changeGameState(Integer gameCode,GameState gameState) {
         gameRoomRepo.changeGameState(gameCode, gameState);
+    }
+
+    public String getGamePrompt(Integer gameCode) {
+        return gameRoomRepo.getGamePrompt(gameCode);
     }
 
     public void addPlayers(Integer gameCode,Player player) {

@@ -11,13 +11,14 @@ import vttp.testssfproject2.testssfproject2.model.PlayerSubmission;
 import vttp.testssfproject2.testssfproject2.model.Submission;
 import vttp.testssfproject2.testssfproject2.model.enumeration.GameState;
 
-public class DocToGame {
+public class MongoRepoUtils {
     
     public static GameRoom getGameRoomFromDoc(Document document) {
 
         GameRoom gameRoom = new GameRoom();
 
         gameRoom.setId(document.getInteger("_id"));
+        gameRoom.setGamePrompt(document.getString("gamePrompt"));
         gameRoom.setIsFull(document.getBoolean("isFull"));
         gameRoom.setIsActive(document.getBoolean("isActive"));
         gameRoom.setGameState(GameState.valueOf(document.getString("gameState")));
@@ -43,6 +44,7 @@ public class DocToGame {
     public static Submission getSubmissionFromDoc(Document document) {
         Submission submission = new Submission();
         submission.setGameCode(document.getInteger("_id"));
+        submission.setGamePrompt(document.getString("gamePrompt"));
         List<Document> playerDocuments = document.getList("players", Document.class);
         List<Player> players = playerDocuments.stream().map(d -> {
             Player player = new Player();
@@ -56,9 +58,11 @@ public class DocToGame {
         List<Document> playerSubmissionDocuments = document.getList("submissions", Document.class);
         List<PlayerSubmission> playerSubmissions = playerSubmissionDocuments.stream().map(d -> {
             PlayerSubmission playerSubmission = new PlayerSubmission();
+            playerSubmission.setUserId(d.getString("userId"));
             playerSubmission.setPlayerName(d.getString("playerName"));
             playerSubmission.setTitle(d.getString("title"));
             playerSubmission.setDescription(d.getString("description"));
+            playerSubmission.setAiComments(d.getString("aiComments"));
             playerSubmission.setImageUrl(d.getString("imageUrl"));
             playerSubmission.setTotal(d.getInteger("total"));
             playerSubmission.setIsWinner(d.getBoolean("isWinner"));

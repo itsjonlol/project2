@@ -1,11 +1,13 @@
-[{"_id":1,"isFull":false,"isActive":false,"gameState": "AVAILABLE","players": [],"submissions":[]},
-{"_id":2,"isFull":false,"isActive":false,"gameState": "AVAILABLE","players": [],"submissions":[]},
-{"_id":3,"isFull":false,"isActive":false,"gameState": "AVAILABLE","players": [],"submissions":[]},
-{"_id":4,"isFull":false,"isActive":false,"gameState": "AVAILABLE","players": [],"submissions":[]},
-{"_id":5,"isFull":false,"isActive":false,"gameState": "AVAILABLE","players": [],"submissions":[]},
-{"_id":6,"isFull":false,"isActive":false,"gameState": "AVAILABLE","players": [],"submissions":[]},
-{"_id":7,"isFull":false,"isActive":false,"gameState": "AVAILABLE","players": [],"submissions":[]},
-{"_id":8,"isFull":false,"isActive":false,"gameState": "AVAILABLE","players": [],"submissions":[]},
-{"_id":9,"isFull":false,"isActive":false,"gameState": "AVAILABLE","players": [],"submissions":[]},
-{"_id":10,"isFull":false,"isActive":false,"gameState": "AVAILABLE","players": [],"submissions":[]}]
+[
+{"_id":1, "gamePrompt":"Draw a cat!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+{"_id":2, "gamePrompt":"Sketch a house!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+{"_id":3, "gamePrompt":"Create a spaceship!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+{"_id":4, "gamePrompt":"Design a superhero!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+{"_id":5, "gamePrompt":"Illustrate a dragon!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+{"_id":6, "gamePrompt":"Draw your dream vacation!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+{"_id":7, "gamePrompt":"Sketch a robot!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+{"_id":8, "gamePrompt":"Create a fantasy castle!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+{"_id":9, "gamePrompt":"Illustrate a funny monster!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+{"_id":10, "gamePrompt":"Design a futuristic city!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]}
+]
 

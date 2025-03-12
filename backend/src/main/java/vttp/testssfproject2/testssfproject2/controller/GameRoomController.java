@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import jakarta.json.JsonReader;
 import vttp.testssfproject2.testssfproject2.model.GameRoom;
 import vttp.testssfproject2.testssfproject2.model.enumeration.GameState;
 import vttp.testssfproject2.testssfproject2.service.GameRoomService;
+
 
 
 @RestController
@@ -87,7 +89,7 @@ public class GameRoomController {
 
     @GetMapping("/getgameroom")
     public ResponseEntity<?> getGameRoom() {
-        Optional<GameRoom> opt = gameRoomService.getAvailableGameRoom();
+        Optional<GameRoom> opt = gameRoomService.getRandomAvailableGameRoom();
 
         Map<String,Object> response = new HashMap<>();
 
@@ -114,6 +116,17 @@ public class GameRoomController {
         response.put("gameState",gameState);
         return ResponseEntity.status(200).header("Content-Type", "application/json").body(response);
     }
+
+    @GetMapping(path = "/gameprompt/{gameCode}",produces=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getGamePrompt(@PathVariable("gameCode") Integer gameCode) {
+        String gamePrompt = gameRoomService.getGamePrompt(gameCode);
+
+        Map<String,Object> response = new HashMap<>();
+        response.put("gameCode",gameCode);
+        response.put("gamePrompt",gamePrompt);
+        return ResponseEntity.status(200).body(response);
+    }
+    
 
     
     

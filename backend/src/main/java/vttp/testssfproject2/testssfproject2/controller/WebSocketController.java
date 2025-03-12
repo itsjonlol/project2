@@ -21,6 +21,7 @@ import vttp.testssfproject2.testssfproject2.model.PlayerSubmission;
 import vttp.testssfproject2.testssfproject2.model.Submission;
 import vttp.testssfproject2.testssfproject2.model.enumeration.GameState;
 import vttp.testssfproject2.testssfproject2.service.GameRoomService;
+import vttp.testssfproject2.testssfproject2.service.SubmissionService;
 
 
 
@@ -38,6 +39,9 @@ public class WebSocketController {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate; // Automatically sends messages to subscribed clients
+
+    @Autowired
+    SubmissionService submissionService;
    
     // @Autowired
     // GameSessionRepo gameSessionRepo;
@@ -232,7 +236,7 @@ public class WebSocketController {
         // gameSessionsMap.putIfAbsent(gameCode, new ArrayList<>()); // ✅ Initialize only once
         // List<String> players = gameSessionsMap.get(gameCode);
         // System.out.println(message);
-        
+        System.out.println(message);
         JsonObject jsonObject = getJsonObjectFromPayloadString(message);
  
         // JsonArray playersJsonArray = jsonObject.getJsonArray("players");
@@ -262,6 +266,7 @@ public class WebSocketController {
         // GameSess gameSess = gameRoomService.getGameSession(gameCode);
         Submission submission = gameRoomService.getRoomSubmission(gameCode);
         messagingTemplate.convertAndSend("/topic/players/" + gameCode,submission);
+        // messagingTemplate.convertAndSend("/topic/submission/" + gameCode,submission);
 
       
      }
@@ -280,6 +285,7 @@ public class WebSocketController {
         }
         
         if (role.equals("host")) {
+            gameRoomService.removePlayers(gameCode, playerName, role);
             Map<String,Object> response = new HashMap<>();
             response.put("gameCode",gameCode);
             response.put("disconnect",true);
@@ -316,6 +322,7 @@ public class WebSocketController {
 
         JsonObject jsonObject = getJsonObjectFromPayloadString(message);
         
+        String userId = jsonObject.getString("userId");
         String playerName = jsonObject.getString("name");
         // Player player = new Player(playerName);
 
@@ -328,6 +335,7 @@ public class WebSocketController {
         String title = jsonObject.getString("title");
         String description = jsonObject.getString("description");
         String imageUrl = jsonObject.getString("image");
+        String aiComments = jsonObject.getString("aiComments");
 
         // PlayerSubmission playerSubmission = new PlayerSubmission(playerName, title, description, imageUrl);
 
@@ -354,7 +362,7 @@ public class WebSocketController {
     
 
         //mongo way
-        PlayerSubmission playerSubmissionM = new PlayerSubmission(playerName, title, description, imageUrl);
+        PlayerSubmission playerSubmissionM = new PlayerSubmission(userId,playerName, title, description,aiComments, imageUrl);
         gameRoomService.insertPlayerSubmission(gameCode, playerSubmissionM);
         
         Submission submissionM = gameRoomService.getRoomSubmission(gameCode);
@@ -521,10 +529,14 @@ public class WebSocketController {
             GameSess gameSess = new GameSess(gameCode,GameState.FINISHED);
             gameRoomService.changeGameState(gameCode, GameState.FINISHED);
             messagingTemplate.convertAndSend("/topic/gamestate/" + gameCode,gameSess);
-            
-            
-            //add submission results into mysql table before setting mongodb doc
 
+            Submission submission = gameRoomService.getRoomSubmission(gameCode);
+
+
+
+            //add submission results into mysql table before setting mongodb doc
+            submissionService.insertGameSubmissions(submission);
+            
             //reset game room for that code
             gameRoomService.resetGameRoom(gameCode);
 

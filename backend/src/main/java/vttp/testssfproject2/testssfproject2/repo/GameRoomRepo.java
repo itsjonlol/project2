@@ -3,6 +3,7 @@ package vttp.testssfproject2.testssfproject2.repo;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.bson.Document;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.MatchOperation;
+import org.springframework.data.mongodb.core.aggregation.SampleOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -22,10 +25,10 @@ import vttp.testssfproject2.testssfproject2.model.Player;
 import vttp.testssfproject2.testssfproject2.model.PlayerSubmission;
 import vttp.testssfproject2.testssfproject2.model.Submission;
 import vttp.testssfproject2.testssfproject2.model.enumeration.GameState;
-import static vttp.testssfproject2.testssfproject2.utils.DocToGame.getGameRoomFromDoc;
-import static vttp.testssfproject2.testssfproject2.utils.DocToGame.getGameSessFromDoc;
-import static vttp.testssfproject2.testssfproject2.utils.DocToGame.getSubmissionFromDoc;
 import static vttp.testssfproject2.testssfproject2.utils.MongoConstants.C_GAMEROOM;
+import static vttp.testssfproject2.testssfproject2.utils.MongoRepoUtils.getGameRoomFromDoc;
+import static vttp.testssfproject2.testssfproject2.utils.MongoRepoUtils.getGameSessFromDoc;
+import static vttp.testssfproject2.testssfproject2.utils.MongoRepoUtils.getSubmissionFromDoc;
 
 @Repository
 public class GameRoomRepo {
@@ -54,22 +57,39 @@ public class GameRoomRepo {
         return Optional.of(getGameRoomFromDoc(document));
 
     }
-    public Optional<GameRoom> getAvailableRoom() {
+    // public Optional<GameRoom> getAvailableRoom() {
 
-        Criteria criteria = Criteria.where("gameState").is(GameState.AVAILABLE)
-            .and("isFull").is(false);
+    //     Criteria criteria = Criteria.where("gameState").is(GameState.AVAILABLE)
+    //         .and("isFull").is(false);
 
-        Query query = new Query(criteria);
+    //     Query query = new Query(criteria);
 
-        Document document =  mongoTemplate.findOne(query,Document.class,C_GAMEROOM);
+    //     Document document =  mongoTemplate.findOne(query,Document.class,C_GAMEROOM);
        
 
-        if (document == null) {
+    //     if (document == null) {
+    //         return Optional.empty();
+    //     }
+
+    //     return Optional.of(getGameRoomFromDoc(document));
+
+    // }
+    public Optional<GameRoom> getRandomAvailableRoom() {
+        Criteria criteria = Criteria.where("gameState").is(GameState.AVAILABLE)
+                .and("isFull").is(false);
+
+        MatchOperation matchStage = Aggregation.match(criteria);
+        SampleOperation sampleStage = Aggregation.sample(1); // ✅ Get 1 random room
+
+        Aggregation aggregation = Aggregation.newAggregation(matchStage, sampleStage);
+
+        List<Document> results = mongoTemplate.aggregate(aggregation, C_GAMEROOM, Document.class).getMappedResults();
+
+        if (results.isEmpty()) {
             return Optional.empty();
         }
 
-        return Optional.of(getGameRoomFromDoc(document));
-
+        return Optional.of(getGameRoomFromDoc(results.get(0)));
     }
 
     public void initialiseGame(Integer gameCode) {
@@ -100,6 +120,15 @@ public class GameRoomRepo {
         mongoTemplate.updateFirst(query, updateOps, C_GAMEROOM);
     }
 
+    public String getGamePrompt(Integer gameCode) {
+        Criteria criteria = Criteria.where("_id").is(gameCode);
+        Query query = new Query(criteria);
+
+        Document document =  mongoTemplate.findOne(query,Document.class,C_GAMEROOM);
+        GameRoom gameRoom = getGameRoomFromDoc(document);
+        return gameRoom.getGamePrompt();
+    }
+
     public void addPlayers(Integer gameCode,Player player) {
         Criteria criteria = Criteria.where("_id").is(gameCode);
         Query query = new Query(criteria);
@@ -115,8 +144,8 @@ public class GameRoomRepo {
         if (role.toLowerCase().equals("player")) {
             
             Update update = new Update()
-                .pull("players", Query.query(Criteria.where("name").is(playerName)))
-                .pull("submissions", Query.query(Criteria.where("playerName").is(playerName)));
+                .pull("players", Query.query(Criteria.where("name").is(playerName)));
+                // .pull("submissions", Query.query(Criteria.where("playerName").is(playerName)));
 
             mongoTemplate.updateFirst(query, update, C_GAMEROOM);
         } else if (role.toLowerCase().equals("host")) {

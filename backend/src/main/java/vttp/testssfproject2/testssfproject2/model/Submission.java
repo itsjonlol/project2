@@ -6,6 +6,7 @@ public class Submission {
     
 
     private Integer gameCode;
+    private String gamePrompt;
     private List<Player> players;
     private List<PlayerSubmission> playerSubmissions;
 
@@ -43,6 +44,14 @@ public class Submission {
 
     public void setPlayerSubmissions(List<PlayerSubmission> playerSubmissions) {
         this.playerSubmissions = playerSubmissions;
+    }
+
+    public String getGamePrompt() {
+        return gamePrompt;
+    }
+
+    public void setGamePrompt(String gamePrompt) {
+        this.gamePrompt = gamePrompt;
     }
 
     

@@ -9,9 +9,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerSubmission {
     
+    private String userId;
     private String playerName;
     private String title;
     private String description;
+    private String aiComments;
     private String imageUrl;
     private Integer total;
     private Boolean isWinner;
@@ -23,10 +25,12 @@ public class PlayerSubmission {
 
     
 
-    public PlayerSubmission(String playerName, String title, String description, String imageUrl) {
+    public PlayerSubmission(String userId,String playerName, String title, String description,String aiComments, String imageUrl) {
+        this.userId = userId;
         this.playerName = playerName;
         this.title = title;
         this.description = description;
+        this.aiComments = aiComments;
         this.imageUrl = imageUrl;
         this.total=0;
         this.isWinner = false;
@@ -97,6 +101,22 @@ public class PlayerSubmission {
     @Override
     public int hashCode() {
         return Objects.hash(playerName, title, description, imageUrl);
+    }
+
+    public String getAiComments() {
+        return aiComments;
+    }
+
+    public void setAiComments(String aiComments) {
+        this.aiComments = aiComments;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     
