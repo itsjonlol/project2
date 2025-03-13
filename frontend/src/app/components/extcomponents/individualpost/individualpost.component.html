@@ -1,0 +1,25 @@
+<p>individualpost works!</p>
+
+
+    @if (post !== undefined) {
+        <img [src]="post.imageUrl">
+    <h3>{{post.aiComments}}</h3>
+    <h3> {{post.userId}}</h3>
+    <h3> {{post.postId}} </h3>
+    <button type="button" class="btn btn-danger" [hidden]="!canDelete" (click)="deletePostById(post.postId)">Delete</button>
+    }
+    
+
+
+
+<!-- 
+<pre>{{post$ | json}} </pre>
+
+<pre>{{post$ | async | json}}</pre> -->
+
+
+
+@if (errorMessage) {
+    {{errorMessage}}
+    <app-notfound></app-notfound>
+}

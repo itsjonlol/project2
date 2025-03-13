@@ -19,6 +19,7 @@ import { Host } from '@angular/core';
 import { TestshowComponent } from './components/notusedcomponents/testshow/testshow.component';
 import { TesthostlobbyComponent } from './components/notusedcomponents/testhostlobby/testhostlobby.component';
 import { GalleryComponent } from './components/extcomponents/gallery/gallery.component';
+import { IndividualpostComponent } from './components/extcomponents/individualpost/individualpost.component';
 
 
 
@@ -62,6 +63,7 @@ export const routes: Routes = [
     {path:'testshow',component:TestshowComponent},
     {path:'testhostlobby',component:TesthostlobbyComponent},
     {path:'gallery',component:GalleryComponent},
+    {path:'gallery/:postId',component:IndividualpostComponent},
    
     {
       path:'player',
