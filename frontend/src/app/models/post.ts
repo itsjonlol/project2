@@ -10,3 +10,8 @@ export interface Post {
     isActive:boolean;
     aiImageUrl:string;
 }
+
+export interface AiImage {
+    postId?:number;
+    prompt?:string;
+}

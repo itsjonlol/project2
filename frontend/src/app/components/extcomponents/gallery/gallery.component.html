@@ -14,5 +14,28 @@
       
     </div>
   </div>
+  @if ( paginationInfo$ | async; as paginationInfo) {
+    <p>Page {{ paginationInfo.currentPage }} of {{ paginationInfo.totalPages }}</p>
+    <button (click)="onPageChange(paginationInfo.currentPage - 1)" [disabled]="paginationInfo.currentPage <= 1">Previous</button>
+  <button (click)="onPageChange(paginationInfo.currentPage + 1)" [disabled]="paginationInfo.currentPage >=paginationInfo.totalPages" >
+  Next
+</button>
+  }
+  
 
- 
+
+  <!-- <div *ngIf="paginationInfo$ | async as paginationInfo">
+    <p>Page {{ paginationInfo.currentPage }} of {{ paginationInfo.totalPages }}</p>
+  
+    <button 
+      (click)="loadPage(paginationInfo.currentPage - 1)" 
+      [disabled]="paginationInfo.currentPage === 1">
+      Previous
+    </button>
+  
+    <button 
+      (click)="loadPage(paginationInfo.currentPage + 1)" 
+      [disabled]="paginationInfo.currentPage >= paginationInfo.totalPages">
+      Next
+    </button>
+  </div> -->

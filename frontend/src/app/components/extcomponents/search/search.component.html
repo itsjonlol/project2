@@ -1,0 +1,49 @@
+<!-- <div class="container mt-3">
+   
+    <div class="input-group mb-3">
+        <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Search user posts..." 
+            (click)="onSearch($event)">
+        <button class="btn btn-primary" (click)="clearSearch()">Clear</button>
+    </div>
+
+   
+</div> -->
+
+
+<div class="container mt-3">
+    <form [formGroup]="form" (submit)="processForm()" > 
+   
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search user posts..." formControlName="query">
+
+
+            <!-- <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Search user posts..." 
+                (click)="onSearch($event)">
+            <button class="btn btn-primary" (click)="clearSearch()">Clear</button> -->
+        </div>
+
+    </form>     
+
+   
+</div>
+
+<div class="gallery" *ngIf="posts$ | async as posts">
+    <div class="gallery-item" *ngFor="let post of posts;">
+      <a [routerLink]="['/gallery',post.postId]"><img [src]="post.imageUrl" [alt]="'Image '" class="gallery-image"></a>
+      
+    </div>
+  </div>
+
+{{form.value | json}}
+
+{{form.value.query | json}}
+
+
+
+<!-- {{query}} -->

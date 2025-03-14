@@ -6,10 +6,15 @@
     <h3>{{post.aiComments}}</h3>
     <h3> {{post.userId}}</h3>
     <h3> {{post.postId}} </h3>
+    {{post.aiImageUrl}}
     <button type="button" class="btn btn-danger" [hidden]="!canDelete" (click)="deletePostById(post.postId)">Delete</button>
+
+    @if (!post.aiImageUrl ){
+       
+        <button type="button" class="btn btn-warning" (click)="generateImage()">Generate ai image</button>
+    }
     }
     
-
 
 
 <!-- 

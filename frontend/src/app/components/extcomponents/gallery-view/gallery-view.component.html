@@ -1,0 +1,15 @@
+<div>
+    <button class="btn btn-primary" (click)="toggleMode('GALLERY')"> Gallery </button>
+    <button class="btn btn-warning" (click)="toggleMode('SEARCH')"> Search </button>
+
+</div>
+
+
+@switch (viewMode) {
+    @case ('GALLERY') {
+        <app-gallery></app-gallery>
+    }
+    @case('SEARCH') {
+        <app-search></app-search>
+    }
+}
