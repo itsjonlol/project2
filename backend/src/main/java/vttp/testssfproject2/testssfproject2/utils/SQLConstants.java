@@ -21,20 +21,23 @@ public class SQLConstants {
 
     public static final String RETRIEVE_ALL_POSTS = """
             
-        WITH CTE AS (select s.sub_id,u.user_id,u.username,s.title,
-        s.description,s.aicomments,s.imageurl,g.prompt,g.aiimageurl,s.isactive from submissions s
+       WITH CTE AS (select s.sub_id,u.user_id,u.username,s.title,
+        s.description,s.aicomments,s.imageurl,g.prompt,s.aiimageurl,s.isactive from submissions s
         join games g
         on s.game_id = g.game_id 
         join users u
         on s.user_id  = u.user_id)
 
-        select * from CTE where isactive = true;
+        select * from CTE where isactive = true
+        order by sub_id desc
+
             """;
+            //limit ? offset ?;
 
     public static final String RETRIEVE_POST_BY_ID = """
             
 
-        WITH CTE AS (select s.sub_id,u.user_id,u.username,s.title,s.description,s.aicomments,s.imageurl,g.prompt,g.aiimageurl,s.isactive from submissions s
+        WITH CTE AS (select s.sub_id,u.user_id,u.username,s.title,s.description,s.aicomments,s.imageurl,g.prompt,s.aiimageurl,s.isactive from submissions s
         join games g
         on s.game_id = g.game_id 
         join users u
@@ -48,7 +51,7 @@ public class SQLConstants {
             
 
         WITH CTE AS (select s.sub_id,u.user_id,u.username,s.title,
-        s.description,s.aicomments,s.imageurl,g.prompt,g.aiimageurl,s.isactive from submissions s
+        s.description,s.aicomments,s.imageurl,g.prompt,s.aiimageurl,s.isactive from submissions s
         join games g
         on s.game_id = g.game_id 
         join users u
@@ -66,5 +69,17 @@ public class SQLConstants {
 
             """;
 
+    public static final String GET_N_POSTS = """
+        
+        select count(*) as n_posts from submissions s 
+        where isactive = true;
+            """;
+
+    public static final String INSERT_AI_IMAGEURL = """
+        update submissions 
+        set aiimageurl = ?
+        where sub_id = ?
+
+            """;
 
 }
