@@ -14,6 +14,7 @@ public class SubmissionService {
     @Autowired
     SubmissionRepo submissionRepo;
 
+    
     @Transactional
     public void insertGameSubmissions(Submission submission) {
         String gameId = UUID.randomUUID().toString().substring(0,8);

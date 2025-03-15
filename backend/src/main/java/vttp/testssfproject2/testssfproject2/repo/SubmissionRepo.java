@@ -26,7 +26,7 @@ public class SubmissionRepo {
 
     public void insertPlayerSubmissions(Submission submission,String gameId) {
         List<PlayerSubmission> lis = submission.getPlayerSubmissions();
-
+        //should add random 4 digit number for primary key instead
         List<Object[]> params = lis.stream()
         .map(li -> {
             Object[] rec = new Object[6];

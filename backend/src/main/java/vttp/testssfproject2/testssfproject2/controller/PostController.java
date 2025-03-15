@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vttp.testssfproject2.testssfproject2.model.AiImage;
 import vttp.testssfproject2.testssfproject2.model.Post;
+import vttp.testssfproject2.testssfproject2.service.CommentService;
 import vttp.testssfproject2.testssfproject2.service.OpenAiService;
 import vttp.testssfproject2.testssfproject2.service.PostService;
 
@@ -35,6 +36,9 @@ public class PostController {
 
     @Autowired
     OpenAiService openAiService;
+
+    @Autowired
+    CommentService commentService;
     
     // @GetMapping(path="/allposts",produces=MediaType.APPLICATION_JSON_VALUE)
     // public ResponseEntity<?> getAllPosts(@RequestParam("page") Integer page) {
@@ -73,10 +77,12 @@ public class PostController {
         Optional<Post> opt = postService.retrievePostById(postId);
         Map<String,Object> response = new HashMap<>();
         
+        
         if (opt.isEmpty()) {
             response.put("message",postId + " not available.");
             return ResponseEntity.status(404).body(response);
         }
+        
 
         return ResponseEntity.status(200).body(opt.get());
     }

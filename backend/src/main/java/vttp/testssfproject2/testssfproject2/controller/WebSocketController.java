@@ -20,6 +20,7 @@ import vttp.testssfproject2.testssfproject2.model.Player;
 import vttp.testssfproject2.testssfproject2.model.PlayerSubmission;
 import vttp.testssfproject2.testssfproject2.model.Submission;
 import vttp.testssfproject2.testssfproject2.model.enumeration.GameState;
+import vttp.testssfproject2.testssfproject2.service.CommentService;
 import vttp.testssfproject2.testssfproject2.service.GameRoomService;
 import vttp.testssfproject2.testssfproject2.service.SubmissionService;
 
@@ -31,6 +32,8 @@ public class WebSocketController {
 
     @Autowired
     GameRoomService gameRoomService;
+
+   
 
     // List<String> playerstest = new ArrayList<>();
     // List<String> messagestest = new ArrayList<>();
@@ -536,7 +539,10 @@ public class WebSocketController {
 
             //add submission results into mysql table before setting mongodb doc
             submissionService.insertGameSubmissions(submission);
+
+            //add comment section for each post
             
+
             //reset game room for that code
             gameRoomService.resetGameRoom(gameCode);
 

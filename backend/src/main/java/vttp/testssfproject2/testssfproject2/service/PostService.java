@@ -13,14 +13,12 @@ import vttp.testssfproject2.testssfproject2.repo.PostRepo;
 @Service
 public class PostService {
 
-    private final CorsConfig corsConfig;
+   
     
     @Autowired
     PostRepo postRepo;
 
-    PostService(CorsConfig corsConfig) {
-        this.corsConfig = corsConfig;
-    }
+    
 
     // public List<Post> retrieveAllPosts(Integer page,Integer limit) {
     //     return postRepo.retrieveAllPosts(page,limit);

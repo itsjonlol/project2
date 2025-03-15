@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.bson.Document;
 
+import vttp.testssfproject2.testssfproject2.model.Comments;
 import vttp.testssfproject2.testssfproject2.model.GameRoom;
 import vttp.testssfproject2.testssfproject2.model.GameSess;
 import vttp.testssfproject2.testssfproject2.model.Player;
 import vttp.testssfproject2.testssfproject2.model.PlayerSubmission;
+import vttp.testssfproject2.testssfproject2.model.PostSocial;
 import vttp.testssfproject2.testssfproject2.model.Submission;
 import vttp.testssfproject2.testssfproject2.model.enumeration.GameState;
 
@@ -93,7 +95,30 @@ public class MongoRepoUtils {
         return gameSess;
     }
 
+    public static PostSocial DocToPostSocial(Document document) {
+
+
+        PostSocial postSocial = new PostSocial();
+
+        postSocial.setPostId(document.getInteger("_id"));
+        postSocial.setLikes(document.getInteger("likes"));
+
+        List<Document> commentsDocs = document.getList("comments", Document.class);
+
+        List<Comments> comments = commentsDocs.stream().map(d -> {
+            Comments comment = new Comments();
+            comment.setUsername(d.getString("username"));
+            comment.setComment(d.getString("comment"));
+
+            return comment;
+        }).toList();
+        postSocial.setComments(comments);
+
+        return postSocial;
+
+    }
    
+    
 
     
 }
