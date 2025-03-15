@@ -10,10 +10,11 @@ import { Store } from '@ngxs/store';
 import { PostState } from '../../../store/post.actions';
 import { Observable } from 'rxjs'
 import { ChangePage, DeletePost, GetPostById, RequestAiImage } from '../../../store/post.state';
+import { IndividualpostsocialComponent } from "../individualpostsocial/individualpostsocial.component";
 
 @Component({
   selector: 'app-individualpost',
-  imports: [JsonPipe,NotfoundComponent,AsyncPipe],
+  imports: [JsonPipe, NotfoundComponent, AsyncPipe, IndividualpostsocialComponent],
   templateUrl: './individualpost.component.html',
   styleUrl: './individualpost.component.css'
 })
@@ -40,6 +41,8 @@ export class IndividualpostComponent implements OnInit,OnDestroy{
 
     postStore = inject(Store);
     canDelete:boolean=false;
+
+
 
     ngOnInit(): void {
       // this.activatedRoute.params.subscribe((params) => {

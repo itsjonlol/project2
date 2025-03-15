@@ -9,6 +9,8 @@
     {{post.aiImageUrl}}
     <button type="button" class="btn btn-danger" [hidden]="!canDelete" (click)="deletePostById(post.postId)">Delete</button>
 
+    <app-individualpostsocial [postId]="post.postId"></app-individualpostsocial>
+
     @if (!post.aiImageUrl ){
        
         <button type="button" class="btn btn-warning" (click)="generateImage()">Generate ai image</button>
