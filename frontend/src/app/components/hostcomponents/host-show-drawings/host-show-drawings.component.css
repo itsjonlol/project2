@@ -22,6 +22,7 @@
 /* Updated Layout for Content */
 .content {
   position: relative;
+  top:5%;
   /* z-index: 2; */
   display: flex;
   align-items: center;
@@ -29,12 +30,17 @@
   width: 100%;
   max-width: 1000px;
   margin: auto;
-  padding: 5%;
-  background: rgba(255, 255, 255, 0.9); /* Slight white transparency for readability */
-  border-radius: 10px;
+  padding: 10%;
+  opacity:1;
+  /* background: #FFF9C4; */
+  border-radius: 200px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
-  border: 10px solid;
+  
+
+ 
+
+
 }
 
 /* Left Side: Player Info */
@@ -42,6 +48,7 @@
   flex: 1;
   text-align: left;
   padding-right: 20px; /* Space between text & image */
+  color:black;
 }
 
 .player-name {
@@ -52,13 +59,13 @@
 .drawing-title {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #ff4b2b;
+  color: black;
 }
 
 .drawing-description,
 .drawing-ai-comments {
   font-size: 1rem;
-  color: #555;
+  color: black;
 }
 
 /* Right Side: Image */
@@ -105,5 +112,12 @@
 }
 
 .info {
+  color:white;
+}
+
+.timer {
+  position:absolute;
+  top:10%;
+  left:5%;
   color:white;
 }

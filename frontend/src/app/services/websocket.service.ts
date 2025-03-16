@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Observer, Subject } from 'rxjs';
 import { Client, Message } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { environment } from '../../environments/environment.development';
 // import SockJS from 'sockjs-client'; 
 
 
@@ -24,7 +25,8 @@ export class WebSocketService {
     // Only create new client if none exists or previous one was deactivated
     if (!this.client || !this.client.active) {
       this.client = new Client({
-        webSocketFactory: () => new SockJS('http://localhost:4000/game'),
+        // webSocketFactory: () => new SockJS('http://localhost:4000/game'),
+        webSocketFactory: () => new SockJS(`${environment.url}/game`),
         reconnectDelay: 5000,
         debug: (msg) => console.log('[WebSocket]', msg),
       });

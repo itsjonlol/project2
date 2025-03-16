@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AiImage, Post } from '../models/post';
+import { environment } from '../../environments/environment.development';
 
 export interface DeleteResponse {
     message:string;
@@ -27,22 +28,22 @@ export class PostService {
   constructor() { }
   httpClient = inject(HttpClient);
 
-  private backendUrl = 'http://localhost:4000/api'
+  // private backendUrl = 'http://localhost:4000/api'
 
   // getPaginatedPosts(page:number):Observable<PaginatedPostResponse> {
   //   return this.httpClient.get<PaginatedPostResponse>(`${this.backendUrl}/allposts?page=${page}`)
   // }
 
   getAllPosts():Observable<Post[]> {
-    return this.httpClient.get<Post[]>(`${this.backendUrl}/allposts`)
+    return this.httpClient.get<Post[]>(`${environment.backendUrl}/allposts`)
   }
 
   getIndividualPost(postId:string):Observable<Post> {
-    return this.httpClient.get<Post>(`${this.backendUrl}/getpost/${postId}`)
+    return this.httpClient.get<Post>(`${environment.backendUrl}/getpost/${postId}`)
   }
   
   deletePostId(postId:string):Observable<DeleteResponse> {
-    return this.httpClient.delete<DeleteResponse>(`${this.backendUrl}/deletepost/${postId}`)
+    return this.httpClient.delete<DeleteResponse>(`${environment.backendUrl}/deletepost/${postId}`)
   }
 
   /*
@@ -55,12 +56,12 @@ export class PostService {
   */
 
   getPostsByUser(username:string):Observable<Post[]> {
-    console.log(`${this.backendUrl}/getposts?username=${username}`)
-    return this.httpClient.get<Post[]>(`${this.backendUrl}/getposts?username=${username}`);
+    console.log(`${environment.backendUrl}/getposts?username=${username}`)
+    return this.httpClient.get<Post[]>(`${environment.backendUrl}/getposts?username=${username}`);
   }
 
   requestAiImage(aiImageRequest:AiImage):Observable<AiImageRequestResponse> {
-    return this.httpClient.post<AiImageRequestResponse>(`${this.backendUrl}/generateimage`,aiImageRequest);
+    return this.httpClient.post<AiImageRequestResponse>(`${environment.backendUrl}/generateimage`,aiImageRequest);
   }
 
   

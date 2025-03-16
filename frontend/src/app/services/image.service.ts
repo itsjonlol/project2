@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import * as fabric from 'fabric';
 import { Observable } from 'rxjs';
 import { UploadResponse } from '../models/gamemodels';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,7 @@ export class ImageService {
     const formData = new FormData();
     formData.append('name', 'canvasImage');
     formData.append('file', file);
-    return this.httpClient.post<UploadResponse>(`${this.backendUrl}/upload`, formData);
+    return this.httpClient.post<UploadResponse>(`${environment.backendUrl}/upload`, formData);
 
   }
 }

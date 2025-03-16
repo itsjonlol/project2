@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { UserInterface } from '../models/userinterface';
+import { environment } from '../../environments/environment.development';
 
 
 
@@ -16,12 +17,12 @@ export class UserService {
   // private logoutUrl = 'http://localhost:4000/logout';
 
 
-  private postLoginUrl = 'http://localhost:4000/api/postuser'
+  // private postLoginUrl = 'http://localhost:4000/api/postuser'
 
   constructor(private httpClient: HttpClient) {}
 
   postUser(user:UserInterface):Observable<void> {
-    return this.httpClient.post<void>(this.postLoginUrl,user);
+    return this.httpClient.post<void>(`${environment.backendUrl}/postuser`,user);
   }
 
 
