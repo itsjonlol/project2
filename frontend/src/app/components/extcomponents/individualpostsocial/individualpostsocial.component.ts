@@ -1,13 +1,14 @@
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CommentService } from '../../../services/comment.service';
-import { PostSocial } from '../../../models/post';
+import { DeleteComment, PostSocial } from '../../../models/post';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
-import { JsonPipe } from '@angular/common';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { AsyncPipe, JsonPipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-individualpostsocial',
-  imports: [JsonPipe],
+  imports: [JsonPipe,AsyncPipe],
   templateUrl: './individualpostsocial.component.html',
   styleUrl: './individualpostsocial.component.css'
 })
@@ -17,27 +18,43 @@ export class IndividualpostsocialComponent implements OnInit,OnDestroy{
     commentService = inject(CommentService)
 
     @Input({required:true})
-    postId!: number
+    postSocial$!:Observable<PostSocial>
+    // postId!: string
 
-    postSocial!:PostSocial
-    errorMessage:string | null = null;
+    @Output()
+    emitDeleteComment = new Subject<DeleteComment>()
 
-    postSocialSub!: Subscription
+
+
+    currentUsername:string = localStorage.getItem('username') || 'anony'
+
+   
 
     ngOnInit(): void {
-      this.postSocialSub = this.commentService.getPostSocial(this.postId).subscribe({
-        next: (response:PostSocial) => {
-          this.postSocial = response;
-          this.errorMessage = null;
+      // this.postSocialSub = this.commentService.getPostSocial(this.postId).subscribe({
+      //   next: (response:PostSocial) => {
+      //     this.postSocial = response;
+      //     this.errorMessage = null;
 
-        },
-        error: (error:HttpErrorResponse) => {
-          this.errorMessage = error.error.message
-        }
-      })
+      //   },
+      //   error: (error:HttpErrorResponse) => {
+      //     this.errorMessage = error.error.message
+      //   }
+      // })
     }
 
     ngOnDestroy():void {
-      this.postSocialSub.unsubscribe();
+      // this.postSocialSub.unsubscribe();
     }
+
+    deleteComment(postId:string,commentId:string) {
+      const deleteComment:DeleteComment = {
+        postId: postId,
+        commentId: commentId
+      }
+      this.emitDeleteComment.next(deleteComment)
+     
+    }
+    
+   
 }

@@ -37,11 +37,11 @@ export class PostService {
     return this.httpClient.get<Post[]>(`${this.backendUrl}/allposts`)
   }
 
-  getIndividualPost(postId:number):Observable<Post> {
+  getIndividualPost(postId:string):Observable<Post> {
     return this.httpClient.get<Post>(`${this.backendUrl}/getpost/${postId}`)
   }
   
-  deletePostId(postId:number):Observable<DeleteResponse> {
+  deletePostId(postId:string):Observable<DeleteResponse> {
     return this.httpClient.delete<DeleteResponse>(`${this.backendUrl}/deletepost/${postId}`)
   }
 

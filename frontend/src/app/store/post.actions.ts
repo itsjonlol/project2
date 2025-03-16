@@ -55,7 +55,7 @@ export class PostState{
         return state.posts.slice(start, end); // Paginate in Angular
     }
 
-    static getPostById(id: number){
+    static getPostById(id: string){
         return createSelector([PostState], (state: PostStateModel):Post | undefined => {
           return state.posts.find((post) => post.postId === id);
         });

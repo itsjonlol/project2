@@ -1,6 +1,40 @@
 
-@if (errorMessage) {
+<!-- @if (errorMessage) {
     {{errorMessage}}
+} -->
+
+<!-- <pre> {{postSocial$ | async | json}}</pre> -->
+
+<!-- @if (postSocial$ | async; as postSocial) {
+    {{postSocial.postId}}
+
+    @for ( comment of postSocial.comments;let idx = $index; track idx) {
+        <p> {{ comment.username }}</p>
+        <p>{{comment.comment}} </p>
+    } 
+} -->
+
+@if (postSocial$ | async; as postSocial) {
+    <div class="post-container">
+        <h3>Post ID: {{ postSocial.postId }}</h3>
+        <h1>{{postSocial.likes}}</h1>
+
+        <h4>Comments</h4>
+        <ul class="comment-list">
+            @for (comment of postSocial.comments; let idx = $index; track idx) {
+                <li class="comment-item">
+                    <p class="comment-id">{{comment.commentId}} </p>
+                    <p class="comment-username"><strong>{{ comment.username }}</strong></p>
+                    <p class="comment-text">{{ comment.comment }}</p>
+                    @if (comment.username === currentUsername) {
+                        <button (click)="deleteComment(postSocial.postId,comment.commentId)">Delete</button>
+                    }
+                   
+                </li>
+            }
+        </ul>
+    </div>
+
+    {{currentUsername}}
 }
 
-<pre> {{postSocial | json}}</pre>

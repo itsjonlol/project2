@@ -17,12 +17,12 @@ export class GetPosts {
 
 export class GetPostById {
     static readonly type = '[Post] Get Post By id'
-    constructor(public id: number) {}
+    constructor(public id: string) {}
 }
 
 export class DeletePost {
     static readonly type = '[Post] Delete';
-    constructor(public id: number) {}
+    constructor(public id: string) {}
 }
 
 export class RequestAiImage {

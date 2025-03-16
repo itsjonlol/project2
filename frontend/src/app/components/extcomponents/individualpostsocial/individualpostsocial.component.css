@@ -1,0 +1,38 @@
+.post-container {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h3, h4 {
+    margin-bottom: 10px;
+}
+
+.comment-list {
+    list-style: none;
+    padding: 0;
+}
+
+.comment-item {
+    padding: 10px;
+    margin-bottom: 8px;
+    background: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.comment-username {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.comment-text {
+    margin: 5px 0 0;
+    font-size: 13px;
+    color: #555;
+}

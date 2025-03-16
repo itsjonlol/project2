@@ -1,0 +1,8 @@
+<p>addcomment works!</p>
+{{form.value | json}}
+<form [formGroup]="form" (submit)="processForm()">
+    
+    <input type="text" formControlName="comment">
+
+    <button class="btn" type="submit">Submit comment</button>
+</form>

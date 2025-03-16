@@ -1,5 +1,5 @@
 export interface Post {
-    postId:number;
+    postId:string;
     userId: string;
     username: string;
     title:string;
@@ -12,29 +12,35 @@ export interface Post {
 }
 
 export interface AiImage {
-    postId?:number;
+    postId?:string;
     prompt?:string;
 }
 
 export interface PostSocial {
-    postId:number;
+    postId:string;
     likes:number;
-    comments: Array<Comment>
+    comments: Array<Comments>
 
 }
 
 export interface Comments {
+    commentId:string;
     username:string;
     comment:string;
 }
 
 export interface PostComment {
-    postId:number,
+    postId:string,
     username:string;
     comment:string;
 }
 
 export interface PostLike {
-    postId:number;
+    postId:string;
     like:number
+}
+
+export interface DeleteComment {
+    postId:string;
+    commentId:string;
 }

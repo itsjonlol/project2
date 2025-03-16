@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { PostService } from '../../../services/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, switchMap } from 'rxjs';
-import { AiImage, Post } from '../../../models/post';
+import { AiImage, DeleteComment, Post, PostComment, PostLike, PostSocial } from '../../../models/post';
 import { AsyncPipe, JsonPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotfoundComponent } from '../notfound/notfound.component';
@@ -11,21 +11,24 @@ import { PostState } from '../../../store/post.actions';
 import { Observable } from 'rxjs'
 import { ChangePage, DeletePost, GetPostById, RequestAiImage } from '../../../store/post.state';
 import { IndividualpostsocialComponent } from "../individualpostsocial/individualpostsocial.component";
+import { CommentService } from '../../../services/comment.service';
+import { AddcommentComponent } from "../addcomment/addcomment.component";
 
 @Component({
   selector: 'app-individualpost',
-  imports: [JsonPipe, NotfoundComponent, AsyncPipe, IndividualpostsocialComponent],
+  imports: [JsonPipe, NotfoundComponent, AsyncPipe, IndividualpostsocialComponent, AddcommentComponent],
   templateUrl: './individualpost.component.html',
   styleUrl: './individualpost.component.css'
 })
 export class IndividualpostComponent implements OnInit,OnDestroy{
+    commentService = inject(CommentService)
     postService = inject(PostService)
-    postId!:number;
+    postId!:string;
     activatedRoute = inject(ActivatedRoute)
     router = inject(Router)
     activatedRouteSubscription!:Subscription
     post:Post | undefined= {
-      postId: 0,
+      postId: '',
       userId: '',
       username: '',
       title: '',
@@ -41,6 +44,8 @@ export class IndividualpostComponent implements OnInit,OnDestroy{
 
     postStore = inject(Store);
     canDelete:boolean=false;
+
+    postSocial$!:Observable<PostSocial>
 
 
 
@@ -62,13 +67,14 @@ export class IndividualpostComponent implements OnInit,OnDestroy{
     //     }
     //   } )
       this.activatedRoute.params.subscribe((params)=> {
-        this.postId = parseInt(params['postId']);
+        this.postId = params['postId'];
         this.postStore.dispatch(new GetPostById(this.postId))
         this.postStore.select(PostState.getPostById(this.postId)).subscribe( d=> {
             this.post = d
             this.checkIfCanDelete()
         }
         )
+        this.postSocial$ = this.commentService.getPostSocial(this.postId)
       })
   
 
@@ -83,7 +89,7 @@ export class IndividualpostComponent implements OnInit,OnDestroy{
       this.postStore.dispatch(new RequestAiImage(aiImageRequest))
     }
 
-    deletePostById(id:number) {
+    deletePostById(id:string) {
         this.postStore.dispatch(new DeletePost(id));
         this.router.navigate(['/gallery'])
         this.postStore.dispatch(new ChangePage(1));
@@ -91,11 +97,43 @@ export class IndividualpostComponent implements OnInit,OnDestroy{
 
     checkIfCanDelete() {
       const userId = sessionStorage.getItem("userid")
+      
       if (userId === this.post?.userId) {
         this.canDelete=true // allow delete only for your own posts
       }
     }
 
+    likePost() {
+      const postLike:PostLike = {
+        postId:this.postId,
+        like:1
+        
+      }
+      this.postSocial$ =this.commentService.postLike(postLike);
+    }
+
+    share = () => {
+      const message = `
+      Checkout this drawing! 🎨
+    
+      🖼️ Title: ${this.post?.title}
+      📝 Description: ${this.post?.description}
+      🤖 AI Comments: ${this.post?.aiComments}
+  
+      📷 Image: ${this.post?.imageUrl}
+      `;
+    
+      navigator.clipboard.writeText(message)
+  
+    };
+
+    processPostComment($event:PostComment):void {
+      this.postSocial$ =this.commentService.postComment($event);
+    }
+
+    processDeleteComment($event:DeleteComment):void {
+      this.postSocial$ = this.commentService.deleteComment($event);
+    }
     // this.emailService.requestEmailUpdates(emailRequest).subscribe({
     //   next: (response:EmailResponse)=> {
     //     alert(response.message)
