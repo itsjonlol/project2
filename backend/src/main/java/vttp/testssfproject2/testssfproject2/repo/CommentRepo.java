@@ -34,13 +34,14 @@ public class CommentRepo {
 
 
 
-    public void insertComment(Comments comments, Integer postId) {
+    public void insertComment(Comments comments,String postId) {
         
         Criteria criteria = Criteria.where("_id").is(postId);
         Query query = new Query(criteria);
 
         Update updateOps = new Update()
             .push("comments", new BasicDBObject()
+                .append("commentid",comments.getCommentId())
                 .append("username", comments.getUsername())
                 .append("comment", comments.getComment())
             );
@@ -50,7 +51,19 @@ public class CommentRepo {
         
     }
 
-    public void insertPostSocial(Integer postId) {
+    public void deleteComment(String postId, String commentId) {
+        // Define the query to find the post by post_id
+        Query query = new Query(Criteria.where("_id").is(postId));
+
+        // Define the update to remove the comment with the specified commentId
+        Update updateOps = new Update().pull("comments", 
+        Query.query(Criteria.where("commentid").is(commentId)));
+
+        // Execute the update
+        template.updateFirst(query, updateOps, C_COMMENTS);
+    }
+
+    public void insertPostSocial(String postId) {
 
         List<Comments> comments = new ArrayList<>();
         JsonArray jsonCommentsArray = Json.createArrayBuilder(comments).build();
@@ -68,7 +81,7 @@ public class CommentRepo {
     }
 
     //change like even if positive or negative
-    public void changeLikes(Integer like, Integer postId) {
+    public void changeLikes(Integer like, String postId) {
         Criteria criteria = Criteria.where("_id").is(postId);
 
         Update updateOps;
@@ -83,7 +96,7 @@ public class CommentRepo {
         
     }
 
-    public Optional<PostSocial> getPostSocial(Integer postId) {
+    public Optional<PostSocial> getPostSocial(String postId) {
 
         Criteria criteria = Criteria.where("_id").is(postId);
         Query query = new Query(criteria);
@@ -97,7 +110,7 @@ public class CommentRepo {
         return Optional.of(DocToPostSocial(document));
     }
 
-    public void deletePostSocial(Integer postId) {
+    public void deletePostSocial(String postId) {
         Criteria criteria = Criteria.where("_id").is(postId);
         Query query = new Query(criteria);
 

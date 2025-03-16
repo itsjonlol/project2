@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class CommentController {
     CommentService commentService;
 
     @GetMapping("/postsocial/{postId}")
-    public ResponseEntity<?> getPostSocial(@PathVariable("postId") Integer postId) {
+    public ResponseEntity<?> getPostSocial(@PathVariable("postId") String postId) {
 
         Optional<PostSocial> opt = commentService.getPostSocial(postId);
 
@@ -53,7 +54,7 @@ public class CommentController {
        
         JsonObject commentPostJson = getJsonObjectFromPayloadString(commentPostJsonStr);
 
-        Integer postId = commentPostJson.getInt("postId");
+        String postId = commentPostJson.getString("postId");
         String username = commentPostJson.getString("username");
         String comment = commentPostJson.getString("comment");
 
@@ -82,11 +83,32 @@ public class CommentController {
         return ResponseEntity.status(201).body(postSocial);
     }
 
+    @DeleteMapping("/comment")
+    public ResponseEntity<?> deleteComment(@RequestBody String deleteCommentJsonStr) {
+        System.out.println(deleteCommentJsonStr);
+        JsonObject commentPostJson = getJsonObjectFromPayloadString(deleteCommentJsonStr);
+
+        String postId = commentPostJson.getString("postId");
+        String commentId = commentPostJson.getString("commentId");
+
+        Map<String,Object> response = new HashMap<>();
+        Optional<PostSocial> opt = commentService.getPostSocial(postId);
+        if (opt.isEmpty()) {
+            response.put("message",postId + " is not available");
+            return ResponseEntity.status(404).body(response);
+        }
+        commentService.deleteComment(postId, commentId);
+        PostSocial postSocial = commentService.getPostSocial(postId).get();
+        
+        return ResponseEntity.status(200).body(postSocial);
+        
+    }
+
     @PostMapping("/like")
     public ResponseEntity<?> postLike(@RequestBody String likePostJsonStr) {
         JsonObject commentPostJson = getJsonObjectFromPayloadString(likePostJsonStr);
 
-        Integer postId = commentPostJson.getInt("postId");
+        String postId = commentPostJson.getString("postId");
         
         Integer like = commentPostJson.getInt("like");
 
@@ -115,5 +137,8 @@ public class CommentController {
         JsonObject jsonObject = reader.readObject();
         return jsonObject;
     }
+
+    
+
     
 }

@@ -1,7 +1,7 @@
 package vttp.testssfproject2.testssfproject2.model;
 
 public class Post {
-    private Integer postId;
+    private String postId;
     private String userId;
     private String username;
     private String title;
@@ -16,7 +16,7 @@ public class Post {
 
     }
 
-    public Post(Integer postId, String userId, String username, String title, String description, String aiComments,
+    public Post(String postId, String userId, String username, String title, String description, String aiComments,
             String imageUrl, String prompt) {
         this.postId = postId;
         this.userId = userId;
@@ -28,11 +28,11 @@ public class Post {
         this.prompt = prompt;
     }
 
-    public Integer getPostId() {
+    public String getPostId() {
         return postId;
     }
 
-    public void setPostId(Integer postId) {
+    public void setPostId(String postId) {
         this.postId = postId;
     }
 

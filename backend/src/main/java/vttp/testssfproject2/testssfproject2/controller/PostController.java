@@ -73,7 +73,7 @@ public class PostController {
     }
 
     @GetMapping(path="/getpost/{postid}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getPostById(@PathVariable("postid") Integer postId) {
+    public ResponseEntity<?> getPostById(@PathVariable("postid") String postId) {
         Optional<Post> opt = postService.retrievePostById(postId);
         Map<String,Object> response = new HashMap<>();
         
@@ -96,7 +96,7 @@ public class PostController {
     
 
     @DeleteMapping(path="/deletepost/{postid}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deletePostById(@PathVariable("postid") Integer postId) {
+    public ResponseEntity<?> deletePostById(@PathVariable("postid") String postId) {
         Optional<Post> opt = postService.retrievePostById(postId);
        
         Map<String,Object> response = new HashMap<>();
@@ -105,6 +105,7 @@ public class PostController {
             return ResponseEntity.status(404).body(response);
         }
         postService.deactivatePost(postId);
+        commentService.deletePostSocial(postId);
         response.put("message",true);
         
         return ResponseEntity.status(200).body(response);

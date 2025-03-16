@@ -24,7 +24,7 @@ public class SQLRepoUtils {
 
         Post post = new Post();
 
-        post.setPostId(rs.getInt("sub_id"));
+        post.setPostId(rs.getString("sub_id"));
         post.setUserId(rs.getString("user_id"));
         post.setUsername(rs.getString("username"));
         post.setTitle(rs.getString("title"));

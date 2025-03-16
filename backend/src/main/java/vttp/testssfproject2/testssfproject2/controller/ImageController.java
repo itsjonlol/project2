@@ -47,7 +47,7 @@ public class ImageController {
             // Upload file and get S3 URL
             String fileUrl = s3Service.uploadFile(file,name);
             String aiComments = "";
-            // aiComments = openAiService.analyzeImage(fileUrl);
+            aiComments = openAiService.analyzeImage(fileUrl);
             
 
             // Build JSON response

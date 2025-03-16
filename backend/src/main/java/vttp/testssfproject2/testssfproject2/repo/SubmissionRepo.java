@@ -1,6 +1,7 @@
 package vttp.testssfproject2.testssfproject2.repo;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,6 +18,9 @@ public class SubmissionRepo {
     @Autowired
     JdbcTemplate template;
 
+    @Autowired
+    CommentRepo commentRepo;
+
    
     public void insertGameTable(Submission submission,String gameId) {
         
@@ -27,15 +31,20 @@ public class SubmissionRepo {
     public void insertPlayerSubmissions(Submission submission,String gameId) {
         List<PlayerSubmission> lis = submission.getPlayerSubmissions();
         //should add random 4 digit number for primary key instead
+
         List<Object[]> params = lis.stream()
         .map(li -> {
-            Object[] rec = new Object[6];
-            rec[0] = li.getTitle();
-            rec[1] = li.getDescription();
-            rec[2] = li.getAiComments();
-            rec[3] = li.getImageUrl();
-            rec[4] = li.getUserId();
-            rec[5] = gameId;
+            Object[] rec = new Object[7];
+            String postId = UUID.randomUUID().toString().substring(0,8); 
+            rec[0] = postId; 
+            commentRepo.insertPostSocial(postId); 
+
+            rec[1] = li.getTitle();
+            rec[2] = li.getDescription();
+            rec[3] = li.getAiComments();
+            rec[4] = li.getImageUrl();
+            rec[5] = li.getUserId();
+            rec[6] = gameId;
             return rec;
         }).toList();
 

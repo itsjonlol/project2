@@ -100,13 +100,14 @@ public class MongoRepoUtils {
 
         PostSocial postSocial = new PostSocial();
 
-        postSocial.setPostId(document.getInteger("_id"));
+        postSocial.setPostId(document.getString("_id"));
         postSocial.setLikes(document.getInteger("likes"));
 
         List<Document> commentsDocs = document.getList("comments", Document.class);
 
         List<Comments> comments = commentsDocs.stream().map(d -> {
             Comments comment = new Comments();
+            comment.setCommentId(d.getString("commentid"));
             comment.setUsername(d.getString("username"));
             comment.setComment(d.getString("comment"));
 

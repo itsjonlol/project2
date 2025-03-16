@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vttp.testssfproject2.testssfproject2.config.CorsConfig;
 import vttp.testssfproject2.testssfproject2.model.Post;
 import vttp.testssfproject2.testssfproject2.repo.PostRepo;
 
@@ -32,11 +31,11 @@ public class PostService {
         return postRepo.retrieveAllPostsByUsername(username);
     }
 
-    public Optional<Post> retrievePostById(Integer postId) {
+    public Optional<Post> retrievePostById(String postId) {
         return postRepo.retrievePostById(postId);
     }
     
-    public void deactivatePost(Integer postId) {
+    public void deactivatePost(String postId) {
         postRepo.deactivatePost(postId);
     }
 
@@ -44,7 +43,7 @@ public class PostService {
         return postRepo.getNumOfPosts();
     }
 
-    public void insertAiImageurl(Integer postId, String aiImageUrl) {
+    public void insertAiImageurl(String postId, String aiImageUrl) {
         postRepo.insertAiImageurl(postId,aiImageUrl);
 
     }

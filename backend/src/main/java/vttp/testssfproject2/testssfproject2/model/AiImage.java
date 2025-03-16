@@ -1,18 +1,18 @@
 package vttp.testssfproject2.testssfproject2.model;
 
 public class AiImage {
-    private Integer postId;
+    private String postId;
     private String prompt;
 
     public AiImage() {
 
     }
 
-    public Integer getPostId() {
+    public String getPostId() {
         return postId;
     }
 
-    public void setPostId(Integer postId) {
+    public void setPostId(String postId) {
         this.postId = postId;
     }
 

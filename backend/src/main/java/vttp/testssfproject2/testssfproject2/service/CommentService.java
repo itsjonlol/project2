@@ -18,23 +18,27 @@ public class CommentService {
     CommentRepo commentRepo;
 
 
-    public void insertComment(Comments comments, Integer postId) {
+    public void insertComment(Comments comments, String postId) {
         commentRepo.insertComment(comments, postId);
     }
 
-    public void insertPostSocial(Integer postId) {
+    public void deleteComment(String postId, String commentId) {
+        commentRepo.deleteComment(postId, commentId);
+    }
+
+    public void insertPostSocial(String postId) {
         commentRepo.insertPostSocial(postId);
     }
     
-    public void changeLikes(Integer like, Integer postId) {
+    public void changeLikes(Integer like, String postId) {
         commentRepo.changeLikes(like, postId);
     }
 
-    public Optional<PostSocial> getPostSocial(Integer postId) {
+    public Optional<PostSocial> getPostSocial(String postId) {
         return commentRepo.getPostSocial(postId);
     }
 
-    public void deletePostSocial(Integer postId) {
+    public void deletePostSocial(String postId) {
         commentRepo.deletePostSocial(postId);
     }
 

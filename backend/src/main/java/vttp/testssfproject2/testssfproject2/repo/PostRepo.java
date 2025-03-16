@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-import vttp.testssfproject2.testssfproject2.config.CorsConfig;
 import vttp.testssfproject2.testssfproject2.model.Post;
 import static vttp.testssfproject2.testssfproject2.utils.SQLConstants.GET_N_POSTS;
 import static vttp.testssfproject2.testssfproject2.utils.SQLConstants.INSERT_AI_IMAGEURL;
@@ -22,15 +21,10 @@ import static vttp.testssfproject2.testssfproject2.utils.SQLRepoUtils.toPost;
 @Repository
 public class PostRepo {
 
-    private final CorsConfig corsConfig;
-    
+   
     
     @Autowired
     JdbcTemplate template;
-
-    PostRepo(CorsConfig corsConfig) {
-        this.corsConfig = corsConfig;
-    }
 
     // public List<Post> retrieveAllPosts(Integer page,Integer limit) {
     //     Integer offset = (page-1) * limit;
@@ -69,7 +63,7 @@ public class PostRepo {
     }
 
 
-    public Optional<Post> retrievePostById(Integer postId) {
+    public Optional<Post> retrievePostById(String postId) {
         
         SqlRowSet rs = template.queryForRowSet(RETRIEVE_POST_BY_ID, postId);
 
@@ -80,7 +74,7 @@ public class PostRepo {
         return Optional.of(toPost(rs));
     }
 
-    public void deactivatePost(Integer postId) {
+    public void deactivatePost(String postId) {
         template.update(SET_INACTIVE_POST,postId);
     }
 
@@ -89,7 +83,7 @@ public class PostRepo {
         return template.queryForObject(GET_N_POSTS, Integer.class);
     }
 
-    public void insertAiImageurl(Integer postId, String aiImageUrl) { 
+    public void insertAiImageurl(String postId, String aiImageUrl) { 
         template.update(INSERT_AI_IMAGEURL,aiImageUrl,postId);
     }
 

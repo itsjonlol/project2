@@ -15,8 +15,8 @@ public class SQLConstants {
 
     public static final String INSERT_SUBMISSIONS = """
             
-    insert into submissions(title,description,aicomments,imageurl,user_id,game_id) values
-    (?,?,?,?,?,?);
+    insert into submissions(sub_id,title,description,aicomments,imageurl,user_id,game_id) values
+    (?,?,?,?,?,?,?);
             """;
 
     public static final String RETRIEVE_ALL_POSTS = """

@@ -21,13 +21,14 @@ create table games (
 
 SELECT "SUBMISSIONS TABLE";
 create table submissions (
-    sub_id int auto_increment,
+    sub_id char(8),
     title varchar(128),
     description varchar(255),
     aicomments text,
     imageurl varchar(128),
     user_id char(28),
     game_id char(8),
+    aiimageurl varchar(255) default '',
     isactive boolean default true, -- test
     
     constraint pk_sub_id primary key(sub_id),

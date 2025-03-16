@@ -14,12 +14,17 @@ public class SubmissionService {
     @Autowired
     SubmissionRepo submissionRepo;
 
+    @Autowired
+    CommentService commentService;
+
+
     
     @Transactional
     public void insertGameSubmissions(Submission submission) {
         String gameId = UUID.randomUUID().toString().substring(0,8);
         submissionRepo.insertGameTable(submission, gameId);
         submissionRepo.insertPlayerSubmissions(submission, gameId);
+        
         
     }
 }

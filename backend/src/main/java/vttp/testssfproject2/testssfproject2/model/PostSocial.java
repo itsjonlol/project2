@@ -4,7 +4,7 @@ import java.util.List;
 
 public class PostSocial {
     
-    private Integer postId;
+    private String postId;
     private Integer likes;
     private List<Comments> comments;
 
@@ -12,11 +12,11 @@ public class PostSocial {
 
     }
 
-    public Integer getPostId() {
+    public String getPostId() {
         return postId;
     }
 
-    public void setPostId(Integer postId) {
+    public void setPostId(String postId) {
         this.postId = postId;
     }
 
