@@ -12,6 +12,8 @@ import { withNgxsReduxDevtoolsPlugin } from '@ngxs/devtools-plugin';
 import { withNgxsLoggerPlugin } from '@ngxs/logger-plugin';
 import { NgxsModule, provideStore } from '@ngxs/store';
 import { PostState } from './store/post.actions';
+import { provideServiceWorker } from '@angular/service-worker';
+
 
 
 export const appConfig: ApplicationConfig = {
@@ -27,5 +29,8 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()), provideStore(
 [PostState],
 withNgxsReduxDevtoolsPlugin(),
-withNgxsLoggerPlugin())]
+withNgxsLoggerPlugin()), provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+          })]
 };
