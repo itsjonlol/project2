@@ -15,4 +15,20 @@
   </div>
 </div>
 
+<div class="toolsection">
+  <div class="color-picker">
+    <button class="color-button green" (click)="setBrushColor('#008000')"></button>
+    <button class="color-button blue" (click)="setBrushColor('#0000FF')"></button>
+    <button class="color-button black" (click)="setBrushColor('#000000')"></button>
+    <button class="color-button orange" (click)="setBrushColor('#FFA500')"></button>
+    <button class="color-button yellow" (click)="setBrushColor('#FFFF00')"></button>
+    <button class="color-button red" (click)="setBrushColor('#FF0000')"></button> 
+    <input type="range">
+
+    <button>Erase</button>
+    <button>Clear Canvas</button>
+</div>
+ 
+</div>
+
 {{currentGameState}}

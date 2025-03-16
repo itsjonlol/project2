@@ -1,11 +1,32 @@
-<p>host-player-votes works!</p>
+<!-- <p>host-player-votes works!</p>
 
-{{players | json}}
+{{players | json}} -->
 
+
+
+<!-- <div class="player-votes-container">
+    @for (player of players; let idx = $index; track idx) {
+        <div class="player-card">
+            <p class="player-vote">{{ player.vote }}</p> 
+            <img [src]="player.mascot" alt="Mascot" class="player-mascot">
+            <p class="player-name">{{ player.name }}</p>
+        </div>
+    }
+</div> -->
+<div class="players-container">
 @for (player of players; let idx = $index; track idx) {
-    <p>{{player.name}}</p>
-    <p>{{player.vote}}</p>
-    <img [src]="player.mascot" height="80px" width="80px">
     
- 
+        <!-- -->
+        <!--  -->
+         <div class="inv-container">
+           
+            <span class="slide-top" *ngIf="player.vote >0">{{player.vote}}</span>
+            <img [src]="player.mascot" height="100px" width="100px">
+            <p>{{player.name}}</p> 
+         </div>
+       
+
+
+
 }
+</div>

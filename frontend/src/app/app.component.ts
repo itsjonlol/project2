@@ -21,6 +21,8 @@ export class AppComponent implements OnInit {
   router = inject(Router)
   errorMessage!:string;
 
+  gameStart:boolean = false;
+
   ngOnInit(): void {
     this.fireAuthService.user$.subscribe(user => {
       if (user) {
@@ -70,5 +72,15 @@ export class AppComponent implements OnInit {
       }
     })
 
+  }
+
+  checkIfInGame(): boolean {
+    if (this.router.url.includes('/player') || this.router.url.includes('/host')) {
+      this.gameStart = true;
+    } else {
+      this.gameStart = false;
+    }
+
+    return this.gameStart
   }
 }

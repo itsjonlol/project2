@@ -36,6 +36,7 @@ export class TestsubComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.canvas.backgroundColor='#FFFFFF'
     this.updateBrush();
   }
 
@@ -44,7 +45,7 @@ export class TestsubComponent implements OnInit, AfterViewInit {
       isDrawingMode: true,
       width: window.innerWidth - 60,
       height: window.innerHeight * 0.6,
-      backgroundColor: this.backgroundColor
+      backgroundColor: "#FFFFFF"
     });
     this.updateBrush();
   }
@@ -77,6 +78,6 @@ export class TestsubComponent implements OnInit, AfterViewInit {
 
   public clearCanvas(): void {
     this.canvas.clear();
-    // this.canvas.backgroundColor = this.backgroundColor; // Reset background
+    this.canvas.backgroundColor = this.backgroundColor; // Reset background
   }
 }

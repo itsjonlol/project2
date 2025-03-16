@@ -30,3 +30,37 @@
   button:hover {
     background: #0056b3;
   }
+
+
+  .toolsection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .color-picker {
+    display: flex;
+    flex-wrap: wrap; /* Allows buttons to wrap if screen is small */
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+    max-width: 90%; /* Ensures it doesn't stretch too wide */
+  }
+  
+  .color-button {
+    width: 40px;
+    height: 40px;
+    border: 2px solid black;
+    border-radius: 50%; /* Makes it circular */
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .green { background-color: #008000; }
+.blue { background-color: #0000FF; }
+.black { background-color: #000000; }
+.orange { background-color: #FFA500; }
+.yellow { background-color: #FFFF00; }
+.red { background-color: #FF0000; }

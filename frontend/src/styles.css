@@ -23,13 +23,13 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
     color: var(--text-light);
     min-height: 100vh;
     margin: 0;
     line-height: 1.6;
     
-    font-family: 'Bangers', cursive;
+    /* font-family: 'Bangers', cursive; */
 }
 
 /* Optional: Add some additional brightness and playfulness */

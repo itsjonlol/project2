@@ -12,7 +12,8 @@
 <button (click)="testStartGame()">Join a Game</button> -->
 
 <!-- <p>Current Game State: {{ gameStateManagerService.gameStateManager$ | async }}</p> -->
-<p>Parent Current game state: {{currentGameState}}</p>
+
+<!-- <p>Parent Current game state: {{currentGameState}}</p> -->
 
 <!-- <p>Game Code: {{ (gameRoomState$ | async)?.gameCode }}</p>
 <p>Game State: {{ (gameRoomState$ | async)?.gameState }}</p> -->
@@ -60,7 +61,7 @@
 
 <!-- <h1 class="transition-message">{{transition | json}}</h1> -->
 
-@if  (currentGameState === 'QUEUING') {
+@if  (currentGameState === 'QUEUING' || currentGameState ==="AVAILABLE") {
   <!-- <div class="lobby-container">
     <h1>Host Game Lobby</h1>
     <p><strong>Game Code:</strong> <span class="game-code">{{gameRoomResponse?.gameCode}}</span></p>
@@ -89,9 +90,29 @@
       <p *ngIf="players.length === 0">Waiting for players to join...</p>
     </div>
   </div> -->
+
+  <div class="waitingroom">
+
+
+  <app-host-waiting-room [players]="players" [gameCode]="gameCode" [username]="username" (emitEvent)="processEvent($event)"></app-host-waiting-room>
+  <app-audio class="audio"></app-audio>
+</div>
+
+  <!-- <div class="background-container">
+    <app-host-show-drawings [submissionshow]="submission"  ></app-host-show-drawings>
+    <div class="players-container">
+      <app-host-player-votes [submissionvote]="submission"></app-host-player-votes>
+
+    </div>
   
+
+  </div> -->
   
-  <div class="background-container d-flex align-items-center justify-content-center">
+
+
+  <!-- <app-host-prompt [submission]="submission" [currentGameState]="currentGameState"></app-host-prompt> -->
+  
+  <!-- <div class="background-container d-flex align-items-center justify-content-center">
     <div class="content d-flex flex-column justify-content-between align-items-center">
         
       <div class="game-code-container">
@@ -145,7 +166,7 @@
       
   
     </div>  
-  </div>
+  </div> -->
 
 
 
@@ -167,9 +188,18 @@
 
 
 @if ( currentGameState === "VOTING") {
-  <app-host-show-drawings [submissionshow]="submission"  ></app-host-show-drawings>
+  <!-- <app-host-show-drawings [submissionshow]="submission"  ></app-host-show-drawings>
 
-  <app-host-player-votes [submissionvote]="submission"></app-host-player-votes>
+  <app-host-player-votes [submissionvote]="submission"></app-host-player-votes> -->
+  <div class="background-container">
+    <app-host-show-drawings [submissionshow]="submission"  ></app-host-show-drawings>
+    <div class="players-container">
+      <app-host-player-votes [submissionvote]="submission"></app-host-player-votes>
+
+    </div>
+  
+
+  </div>
 }
 
 @if (currentGameState === "RESULTS") {

@@ -1,6 +1,7 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, Input, input, Output } from '@angular/core';
 import { Player } from '../../../models/gamemodels';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-host-waiting-room',
@@ -18,6 +19,13 @@ export class HostWaitingRoomComponent {
 
     @Input()
     gameCode:number = 0
+
+    @Output()
+    emitEvent = new Subject<string>();
+
+    toggleEvent(event:string) {
+      this.emitEvent.next(event)
+    }
     
 
 

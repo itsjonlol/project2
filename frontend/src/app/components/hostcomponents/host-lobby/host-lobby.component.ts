@@ -20,7 +20,7 @@ import { GameStore } from '../../../store/GameStore.store';
 @Component({
   selector: 'app-host-lobby',
   standalone:true,
-  imports: [CommonModule, NgFor, HostPromptComponent, HostPlayerVotesComponent, HostShowDrawingsComponent, HostResultsComponent, AudioComponent, HostTransitionComponent, HostWaitingRoomComponent,AsyncPipe],
+  imports: [CommonModule, NgFor, HostPromptComponent, HostPlayerVotesComponent, HostShowDrawingsComponent, HostResultsComponent, AudioComponent, HostTransitionComponent, HostWaitingRoomComponent,AsyncPipe,AudioComponent],
   templateUrl: './host-lobby.component.html',
   styleUrl: './host-lobby.component.css'
 })
@@ -60,8 +60,60 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
   storeGameState$!: Observable<string | null>
   
   gameRoomState$!: Observable<GameStateManager>;
+  submission!:Submission
 
-  submission!:Submission;
+//   submission:Submission = {
+//     gameCode: 2,
+//     gamePrompt: 'test string',
+//     players: [
+//         { name: "jon1", vote: 0, mascot: "/mascot/mascot1.svg" },
+//         { name: "jon2", vote: 0, mascot: "/mascot/mascot1.svg" },
+//         { name: "jon3", vote: 0, mascot: "/mascot/mascot1.svg" },
+//         { name: "jon4", vote: 0, mascot: "/mascot/mascot1.svg" }
+//     ],
+//     playerSubmissions: [
+//         {
+//             userId: "jon1",
+//             playerName: "jon1",
+//             title: "title1",
+//             description: "description1",
+//             aiComments: "aicomments1",
+//             imageUrl: "https://artistick.sgp1.digitaloceanspaces.com/ec1306ad_canvas-image.png",
+//             total: 0,
+//             isWinner: false
+//         },
+//         {
+//             userId: "jon2",
+//             playerName: "jon2",
+//             title: "title2",
+//             description: "description2",
+//             aiComments: "aicomments2",
+//             imageUrl: "https://artistick.sgp1.digitaloceanspaces.com/2c2d0bb7_canvas-image.png",
+//             total: 0,
+//             isWinner: false
+//         },
+//         {
+//             userId: "jon3",
+//             playerName: "jon3",
+//             title: "title3",
+//             description: "description3",
+//             aiComments: "aicomments3",
+//             imageUrl: "https://artistick.sgp1.digitaloceanspaces.com/dc1a312c_canvas-image.png",
+//             total: 0,
+//             isWinner: false
+//         },
+//         {
+//             userId: "jon4",
+//             playerName: "jon4",
+//             title: "title4",
+//             description: "description4",
+//             aiComments: "aicomments4",
+//             imageUrl: "https://artistick.sgp1.digitaloceanspaces.com/b4eb2a7f_canvas-image.png",
+//             total: 0,
+//             isWinner: false
+//         }
+//     ]
+// };
 
   submissionSubscription!:StompSubscription;
 
@@ -80,16 +132,24 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
 
   
 
+  
+
 
   constructor(private wsService: WebSocketService,private ngZone: NgZone,private router: Router) {}
   
   private playerSubscription!: StompSubscription;
   private gameStateSubscription!: StompSubscription;
+  private currentGameStateSub!:Subscription
   private disconnectionSubscription!: StompSubscription;
+  
+
+  activatedRouteSub!: Subscription
+  
 
   ngOnInit(): void {
     // Assume the host's username is stored in localStorage (set after Google OAuth)
     this.username = localStorage.getItem('username') || 'Host';
+    
     this.wsService.connect();
     
 
@@ -109,7 +169,7 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
       
         
         
-        this.wsService.isConnected$.subscribe((isConnected) => {
+       this.connectionSub= this.wsService.isConnected$.subscribe((isConnected) => {
           if (isConnected) {
             
             this.wsService.publish(`/app/initialisegame/${this.gameCode}`, { gameCode: this.gameCode });
@@ -118,8 +178,8 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
             // this.storeGameState$= this.gameStore.selectGameState(this.gameCode);
             // this.storeGameState$.subscribe((gameCode) => console.log( "subscribed observable is.. " + gameCode))
             
-
-            this.gameService.getGameRoomState(this.gameCode).subscribe(d=>this.currentGameState=d.gameState)
+           
+            this.currentGameStateSub = this.gameService.getGameRoomState(this.gameCode).subscribe(d=>this.currentGameState=d.gameState)
             // this.storeGameState$ = this.gameStore.selectGameState(this.gameCode);
             // this.gameStoreSubscription =  this.gameStore.selectGameState(this.gameCode).subscribe(d => this.currentGameState = d);
             
@@ -282,6 +342,15 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
       }
   }
 
+  processEvent($event:string) {
+    if ($event === 'start') {
+      this.startGame();
+    }
+    if ($event === 'exit') {
+      this.disconnect()
+    }
+  }
+
   startGame(): void {
     console.log("game started");
     this.randomData = {
@@ -343,10 +412,16 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
       this.lobbyUpdatesSub.unsubscribe();
       console.log("✅ Unsubscribed from lobbyUpdatesSub (ActivatedRoute params)");
   }
+
+  if (this.currentGameStateSub) {
+    this.currentGameStateSub.unsubscribe();
+  }
     console.log("lobby destroyed...")
     
     this.wsService.disconnect();
   }
+
+  
   
 }
 

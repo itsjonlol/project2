@@ -66,6 +66,7 @@ export class HostShowDrawingsComponent implements OnInit ,OnDestroy{
 
   finishedAllDrawings:boolean = false;
 
+  // curtainState: 'open' | 'closed' = 'open';
   curtainState: 'open' | 'closed' = 'closed';
 
   

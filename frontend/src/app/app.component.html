@@ -8,16 +8,18 @@
 </nav>
 <h1>My Angular App</h1> -->
 
-
-@if(fireAuthService.currentUserSig()) {
-  <div>
-      {{fireAuthService.currentUserSig()?.userId}}
-      {{fireAuthService.currentUserSig()?.username}}
-      {{fireAuthService.currentUserSig()?.email}}
-      <a [routerLink]="['/dashboard']">Dashboard</a>
-      <button class="btn" (click)="sendEmailRequest()" > Get email updates!</button>
-      <span (click)="logout()">Logout</span>
-  </div>
+@if (!checkIfInGame()) {
+  @if(fireAuthService.currentUserSig()) {
+    <div>
+        {{fireAuthService.currentUserSig()?.userId}}
+        {{fireAuthService.currentUserSig()?.username}}
+        {{fireAuthService.currentUserSig()?.email}}
+        <a [routerLink]="['/dashboard']">Dashboard</a>
+        <button class="btn" (click)="sendEmailRequest()" > Get email updates!</button>
+        <span (click)="logout()">Logout</span>
+    </div>
+  }
+  
 }
 
 
@@ -27,4 +29,4 @@
 
 <router-outlet></router-outlet>
 
-<app-audio></app-audio>
+<!-- <app-audio></app-audio> -->

@@ -148,7 +148,7 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
 
   ngAfterViewInit(): void {
     
-    this.initializeCanvas();
+    // this.initializeCanvas();
     // this.updateBrush();
     // this.canvas = new fabric.Canvas('myCanvas');
     // this.canvas.add(new fabric.IText('Hello Fabric!'));
@@ -252,15 +252,15 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
       console.log("✅ Unsubscribed from WebSocket isConnected$");
   }
     // this.wsService.disconnect();
-    this.resetState();
+    // this.resetState();
   }
 
-  private resetState(): void {
-    this.title = '';
-    this.description = '';
-    this.uploadedImageUrl = '';
-    this.isUploaded = false;
-    this.clearCanvas(); // Clear the canvas for the new round
-  }
+  // private resetState(): void {
+  //   this.title = '';
+  //   this.description = '';
+  //   this.uploadedImageUrl = '';
+  //   this.isUploaded = false;
+  //   this.clearCanvas(); // Clear the canvas for the new round
+  // }
 
 }

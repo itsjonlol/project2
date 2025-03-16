@@ -1,7 +1,7 @@
 <p>player-drawing works!</p>
 
-<p>drawing component: {{currentGameState}}</p>
-<p> is drawing mode {{isDrawingMode}}</p>
+<!-- <p>drawing component: {{currentGameState}}</p>
+<p> is drawing mode {{isDrawingMode}}</p> -->
 
 
 @if (!isDrawingMode) {
@@ -24,17 +24,20 @@
     
             
         
-            <button class = "btn btn-success" type ="submit">Submit Details</button>
+            <!-- <button class = "btn btn-success" type ="submit">Submit Details</button> -->
         
         </form>
         </div> 
 }
 
+<br>
+<br>
+
 <div class="canvas-container">
     <canvas id="canvas"></canvas>
   
-    <!-- Controls -->
-    <div class="toolbar">
+   
+    <!-- <div class="toolbar">
       <label for="colorPicker">Brush Color:</label>
       <input type="color" id="colorPicker" [(ngModel)]="brushColor" (change)="setBrushColor(brushColor)">
       
@@ -45,6 +48,23 @@
       <button (click)="enableEraser()">🧽 Erase</button>
       <button (click)="clearCanvas()">🗑️ Clear Canvas</button>
     </div>
+  </div> -->
+
+  <div class="toolsection">
+    <div class="color-picker">
+      <button class="color-button green" (click)="setBrushColor('#008000')"></button>
+      <button class="color-button blue" (click)="setBrushColor('#0000FF')"></button>
+      <button class="color-button black" (click)="setBrushColor('#000000')"></button>
+      <button class="color-button orange" (click)="setBrushColor('#FFA500')"></button>
+      <button class="color-button yellow" (click)="setBrushColor('#FFFF00')"></button>
+      <button class="color-button red" (click)="setBrushColor('#FF0000')"></button> 
+    
+      <input type="range" [(ngModel)]="brushWidth" id="sizePicker" min="1" max="30"  (change)="setBrushSize($event)">
+  
+      <button (click)="enableEraser()">🧽 Erase</button>
+      <button (click)="clearCanvas()">🗑️ Clear Canvas</button>
+  </div>
+   
   </div>
 
 @if (isUploaded) {
@@ -53,7 +73,7 @@
     </div>
 }
 
-<button [disabled]="isUploaded" (click)="submitCanvas()">Submit Drawing</button>
+<!-- <button [disabled]="isUploaded" (click)="submitCanvas()">Submit Drawing</button> -->
 
 
 <!-- @if (!isDrawingMode) {

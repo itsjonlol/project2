@@ -1,8 +1,8 @@
-<p>player-lobby works!</p>
+<!-- <p>player-lobby works!</p>
 <p>Parent {{currentGameState}}</p>
 {{gameStarted}}
 
-{{transition | json }}
+{{transition | json }} -->
 
 <!-- @if ( storeGameState$ | async; as state ) {
     <h1>Observable game state: {{ state}}</h1>
@@ -19,10 +19,17 @@
 } -->
 
 @if (this.currentGameState==="QUEUING") {
-    <h1>Currently queuing...</h1>
-    <h1>
-        <p>Waiting for host to start the game for code: {{gameCode}}</p>
-    </h1>
+    <div class="background-container">
+        <div class="message-container">
+        
+            <h1>Waiting for host to start the game for code: {{gameCode}}...</h1>
+
+        </div>
+        
+   
+
+    </div>
+    
 }
 
 @if(this.currentGameState==="TRANSITION") {
@@ -55,5 +62,5 @@
     <app-player-results></app-player-results>
 } -->
 
-<button type="button" class="btn btn-danger" (click)="disconnect()">Leave room</button>
+<button type="button" class="btn btn-danger leave-room" (click)="disconnect()">Leave room</button>
 

@@ -1,8 +1,10 @@
-<p>host-show-drawings works!</p>
 
 
-<pre>{{submissionshow | json}}</pre>
-<h1>{{submissionshow.gamePrompt}}</h1>
+
+<!-- <pre>{{submissionshow | json}}</pre>
+<h1>{{submissionshow.gamePrompt}}</h1> -->
+
+
 
 <!--<pre> {{drawing | json}}</pre> -->
 <!-- <p>{{finishedAllDrawings}}</p> -->
@@ -15,7 +17,7 @@
     <img [src]="drawing.imageUrl">
 </div> -->
 
-<div class="curtain-container">
+<!-- <div class="curtain-container">
     <div class="curtain" [@curtainRise]="curtainState"></div>
     <div class="content">
       <p>Name: {{ drawing?.playerName }}</p>
@@ -25,12 +27,52 @@
       <img [src]="drawing?.imageUrl">
 
     </div>
+  </div> -->
+
+  <div class="curtain-container">
+   
+    <div class="curtain" [@curtainRise]="curtainState"></div>
+    <div class="content">
+       
+        <div class="drawing-info">
+            <p class="player-name">Name: {{ drawing?.playerName }}</p>
+            <p class="drawing-title">Title: {{ drawing?.title }}</p>
+            <p class="drawing-description">Description: {{ drawing?.description }}</p>
+            <p class="drawing-ai-comments">AI Comments: {{ drawing?.aiComments }}</p>
+        </div>
+
+    
+        <div class="drawing-image-container">
+            <img [src]="drawing?.imageUrl" alt="Drawing Image" class="drawing-image">
+        </div>
+    </div>
+</div>
+
+
+
+<!-- <div class="drawing-container">
+  <div class="info">
+    <p >Name: {{ drawing?.playerName }}</p>
+    <p >Title: {{ drawing?.title }}</p>
+    <p >Description: {{ drawing?.description }}</p>
+    <p >AI Comments: {{ drawing?.aiComments }}</p>
+
   </div>
 
-<!-- <button (click)="curtainToggle()">Toggle Curtain</button> -->
+  <div class="drawing">
+    <img [src]="drawing?.imageUrl" alt="Drawing Image" height="300px" width="300px" >
+  </div>
+  
+
+
+</div> -->
 
 {{timerCountDown}} seconds left!
 
-<button (click)="nextDrawing()">Next</button>
+<!-- <button (click)="curtainToggle()">Toggle Curtain</button> -->
+
+
+
+<!-- <button (click)="nextDrawing()">Next</button> -->
 
 

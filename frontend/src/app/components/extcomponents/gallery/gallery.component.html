@@ -9,11 +9,12 @@
 } -->
 
 <div class="gallery" *ngIf="posts$ | async as posts">
-    <div class="gallery-item" *ngFor="let post of posts;">
-      <a [routerLink]="['/gallery',post.postId]"><img [src]="post.imageUrl" [alt]="'Image '" class="gallery-image"></a>
-      
-    </div>
+  <div class="gallery-item" *ngFor="let post of posts">
+    <a [routerLink]="['/gallery', post.postId]">
+      <img [src]="post.imageUrl" [alt]="'Image '" class="gallery-image">
+    </a>
   </div>
+</div>
   @if ( paginationInfo$ | async; as paginationInfo) {
     <p>Page {{ paginationInfo.currentPage }} of {{ paginationInfo.totalPages }}</p>
     <button (click)="onPageChange(paginationInfo.currentPage - 1)" [disabled]="paginationInfo.currentPage <= 1">Previous</button>
