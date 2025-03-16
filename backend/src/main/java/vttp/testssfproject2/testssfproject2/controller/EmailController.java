@@ -33,7 +33,7 @@ public class EmailController {
         context.setVariable("name", emailRequest.getName());
         context.setVariable("subject", emailRequest.getSubject());
         try {
-            emailService.sendEmail(emailRequest.getTo(), emailRequest.getSubject(), "emailTemplate", context);
+            emailService.sendEmail(emailRequest.getTo(), emailRequest.getSubject(), "EmailTemplate", context);
           
             Map<String,String> response = new HashMap<>();
             response.put("message","Email sent successfully!");

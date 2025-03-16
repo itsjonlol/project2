@@ -38,4 +38,4 @@ create table submissions (
 
 );
 
-grant all privileges on artistick.* to 'fred'@'%';
+-- grant all privileges on artistick.* to 'fred'@'%';
