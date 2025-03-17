@@ -5,6 +5,7 @@ import { NgIf } from '@angular/common';
 import { Router } from '@angular/router'; 
 import { GameService } from '../../../services/game.service';
 import { GameRoomResponse } from '../../../services/game.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 
@@ -22,6 +23,8 @@ export class DashboardComponent {
   constructor(private router: Router) {}
 
   gameService = inject(GameService)
+
+  
 
   ngOnInit(): void {
     // this.userService.getUser().subscribe({
@@ -53,12 +56,14 @@ export class DashboardComponent {
   // }
   hostGame(): void {
     // Navigate to host lobby
-
+    
     this.gameService.getGameRoom().subscribe({
       next: (response:GameRoomResponse) => {
         const gameCode = response.gameCode;
         this.router.navigate(['/host','lobby',gameCode])
 
+      },error: (error:HttpErrorResponse) => {
+        console.log(error.error.message);
       }
     })
 

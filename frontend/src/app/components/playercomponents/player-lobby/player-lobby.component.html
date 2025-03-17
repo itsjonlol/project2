@@ -18,32 +18,42 @@
     <app-player-drawing [currentGameState]="currentGameState"></app-player-drawing>
 } -->
 
+
+
+
+<div class="background-container">
 @if (this.currentGameState==="QUEUING") {
-    <div class="background-container">
+    
         <div class="message-container">
         
             <h1>Waiting for host to start the game for code: {{gameCode}}...</h1>
 
         </div>
-        
-   
+      
 
-    </div>
+        
+           
+        
     
 }
 
 @if(this.currentGameState==="TRANSITION") {
+    <div class="message-container">
     <app-player-transition [transitionChild]="transition"></app-player-transition>
+    </div>
 }
 
 @if (this.currentGameState==="STARTED" || this.currentGameState==="DESCRIBE") {
-
+    
     <app-player-drawing [currentGameState]="currentGameState"></app-player-drawing>
 
 } 
 
 @if( this.currentGameState==="VOTING") {
-    <app-player-vote-input [currentGameState]="currentGameState"></app-player-vote-input>
+    <div class="message-container">
+        <app-player-vote-input [currentGameState]="currentGameState"></app-player-vote-input>
+    </div>
+    
 }
 
 @if(this.currentGameState==="RESULTS" || this.currentGameState==="FINISHED") {
@@ -63,4 +73,6 @@
 } -->
 
 <button type="button" class="btn btn-danger leave-room" (click)="disconnect()">Leave room</button>
+
+</div>
 

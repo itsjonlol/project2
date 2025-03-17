@@ -29,6 +29,7 @@ import { GameStore } from '../../../store/GameStore.store';
 export class HostLobbyComponent implements OnInit ,OnDestroy{
 
 
+
   images: ImageData[] = [];
   gameCode: number = 0;
   gamePrompt!:string
@@ -158,7 +159,7 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
         // this.gameRoomResponse = response;
         // this.gameCode = this.gameRoomResponse.gameCode;
         this.gameCode = parseInt(params['gameCode']);
-        
+       
        
         // this.holdGameCode = this.gameCode;
 

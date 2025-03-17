@@ -1,26 +1,33 @@
-<p>player-results works!</p>
+<!-- <p>player-results works!</p>
 
 {{username}}
 
-{{gameCode}}
+{{gameCode}} -->
 
-@if(isWinner) {
-    <h1>Congratulations, {{username}}!</h1>
-    <h2>You won!!!</h2>
-    <div class="small-lottie-container">
-        <ng-lottie [options]="options2"></ng-lottie>
+<div class="container">
+
+    @if(isWinner) {
+        <div class="container-item">
+            <h1>Congratulations, {{username}}!</h1>
+        <h2>You won!!!</h2>
+        </div>
         
-    </div>
-} @else {
-    <h1>What a shame,{{username}} </h1>
-    <h2>You lost... F...</h2>
-    <div class="small-lottie-container">
-        <ng-lottie [options]="options1"></ng-lottie>
-       
-    </div>
-}
+        <div class="small-lottie-container">
+            <ng-lottie [options]="options2"></ng-lottie>
+            
+        </div>
+    } @else {
+        <h1>What a shame,{{username}} </h1>
+        <h2>You lost... F...</h2>
+        <div class="small-lottie-container">
+            <ng-lottie [options]="options1"></ng-lottie>
+           
+        </div>
+    }
+</div>
 
-{{submissionresults | json}}
+
+<!-- {{submissionresults | json}} -->
 
 
 

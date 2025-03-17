@@ -9,9 +9,9 @@
     --primary-color: #4ECDC4;     /* Vibrant teal */
     --secondary-color: #FF6B6B;   /* Soft coral red */
     --bg-dark: #F7FFF7;           /* Very light mint green background */
-    --card-bg: #FFFFFF;            /* Pure white cards */
+    --card-bg: #FAF9F6;            /* Pure white cards */
     --text-light: #2C3E50;         /* Deep blue-gray for text */
-    --text-muted: #6B7F8C;         /* Soft gray for secondary text */
+    --text-muted: #12191e;         /* Soft gray for secondary text */
     --glow-color: rgba(78, 205, 196, 0.3); /* Teal glow with transparency */
 }
 

@@ -61,7 +61,8 @@ export class HostShowDrawingsComponent implements OnInit ,OnDestroy{
   // emitResetVote = new Subject<boolean>();
 
   timerSubscription!: Subscription;
-  timerCountDown:number = 10;
+  timerDuration:number=30;
+  timerCountDown!:number;
   timerSource$:Observable<number> = interval(1000);
 
   finishedAllDrawings:boolean = false;
@@ -99,7 +100,7 @@ export class HostShowDrawingsComponent implements OnInit ,OnDestroy{
   protected startTimer() {
     this.timerSubscription=this.timerSource$.subscribe({
       next: (remaining) => {
-        this.timerCountDown = 10 - remaining;
+        this.timerCountDown = this.timerDuration - remaining;
         if (this.timerCountDown === 4) {
           this.curtainToggle(); // close when 4 seconds left
         }
@@ -125,7 +126,7 @@ export class HostShowDrawingsComponent implements OnInit ,OnDestroy{
   }
 
   protected resetTimer() {
-    this.timerCountDown=10;
+    this.timerCountDown=this.timerDuration;
     this.stopTimer();
     this.startTimer();
   }

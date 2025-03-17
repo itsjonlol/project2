@@ -114,14 +114,14 @@
   }
   
   .google-btn {
-    background-color: #ffffff; /* White */
+    background-color: #ffffff;
     color: #5F6368;
   }
-  
+/*   
   .github-btn {
     background-color: rgba(36, 41, 46, 0.9);
     color: white;
-  }
+  } */
   
   .register-link {
     color: var(--text-muted);

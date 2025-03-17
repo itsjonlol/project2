@@ -1,14 +1,22 @@
 <!-- @if(!displayResults){ -->
-    <label>Vote between 1 to 10!</label>
+    <h1>Vote between 1 and 10!</h1>
     
     
     @if (hasVoted) {
         <p>You have submitted your vote for the current drawing.</p>
     } @else {
-        <form (submit)="processVote(voteString.value)">
-            <input type="number" min="1" max="10" #voteString>
-            <button type="button" (click)="processVote(voteString.value)" [disabled]="hasVoted"> Submit vote!</button>
-        </form>
+        <div class="voting-container">
+            <div class="container">
+
+           
+            <form (submit)="processVote(voteString.value)">
+                <input type="number" min="1" max="10" #voteString class ="form-control mb-5 mt-5" >
+                <button type="button" (click)="processVote(voteString.value)" [disabled]="hasVoted" class="mb-5"> Submit vote!</button>
+            </form>
+        </div>
+            
+        </div>
+        
     }
     
    

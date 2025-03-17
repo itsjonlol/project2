@@ -52,7 +52,7 @@ export class HostPromptComponent implements OnInit,OnDestroy{
 
   timerSubscription!: Subscription;
   timerCountDown!:number;
-  timerDuration:number=10;
+  timerDuration:number=30;
   timerSource$:Observable<number> = interval(1000);
   hasResetOnce:boolean=false;
   connectionSub!: Subscription
@@ -139,9 +139,7 @@ export class HostPromptComponent implements OnInit,OnDestroy{
     
   }
 
-  ngOnChanges():void {
-    
-  }
+ 
 
   private startTimer() {
     this.timerSubscription = this.timerSource$.subscribe({
@@ -176,7 +174,7 @@ export class HostPromptComponent implements OnInit,OnDestroy{
 
   private resetTimer() {
     this.stopTimer();
-    this.timerCountDown = this.timerDuration;
+    this.timerCountDown = 25;
     this.startTimer();
 
   }

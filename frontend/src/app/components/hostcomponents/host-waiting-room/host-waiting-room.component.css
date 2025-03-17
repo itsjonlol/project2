@@ -5,7 +5,7 @@ body {
 
 body div {
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
   background: red;
 }
 
