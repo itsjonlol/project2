@@ -20,7 +20,6 @@ import vttp.testssfproject2.testssfproject2.model.Player;
 import vttp.testssfproject2.testssfproject2.model.PlayerSubmission;
 import vttp.testssfproject2.testssfproject2.model.Submission;
 import vttp.testssfproject2.testssfproject2.model.enumeration.GameState;
-import vttp.testssfproject2.testssfproject2.service.CommentService;
 import vttp.testssfproject2.testssfproject2.service.GameRoomService;
 import vttp.testssfproject2.testssfproject2.service.SubmissionService;
 
@@ -46,179 +45,7 @@ public class WebSocketController {
     @Autowired
     SubmissionService submissionService;
    
-    // @Autowired
-    // GameSessionRepo gameSessionRepo;
-
-    // private static final Map<Integer, List<String>> gameSessionsMap = new ConcurrentHashMap<>();
-
-    // private static final Map<Integer,Submission> gameSubmissionMap = new ConcurrentHashMap<>();
-
-    // When a player joins
-    // @MessageMapping("/joinLobby/{gameCode}")
-    // @SendTo("/topic/lobby/{gameCode}")
-    // public GameSession joinLobby(@DestinationVariable String gameCode, @Payload String playerName) {
-    //     // Get the current game session (from Redis or in-memory repository)
-    //     System.out.println("joinLobby method triggered for gamecode... " + playerName);
-    //     GameSession session = gameSessionRepo.getGameSession(gameCode);
-        
-    //     if (session != null) {
-    //         // Add the player to the session
-    //         if (!session.getPlayers().contains(playerName)) {
-    //             session.getPlayers().add(playerName);
-    //             gameSessionRepo.saveGameSession(session);
-    //         }
-
-    //         // Broadcast the updated player list to all clients in this game session
-    //         return session; // This will send the updated session to all clients
-    //     }
-
-    //     return null; // If game session not found, return null
-    // }
-
-
-    // @MessageMapping("/startGame/{gameCode}")
-    // public void startGame(@DestinationVariable String gameCode) {
-    //     messagingTemplate.convertAndSend("/topic/gameStart/" + gameCode, "Starting game");
-    //     // GameSession game = gameSessionRepo.getGameSession(gameCode);
-    //     // if (game != null && !game.isGameStarted()) {
-    //     //     game.setGameStarted(true);
-    //     //     game.setPrompt("What is 1 + 1?");
-    //     //     messagingTemplate.convertAndSend("/topic/game/" + gameCode, game);
-    //     // }
-    // }
-
-    // // @MessageMapping("/submitAnswer/{gameCode}")
-    // // public void submitAnswer(@DestinationVariable String gameCode, @Payload String answer) {
-    // //     GameSession game = gameSessionRepo.getGameSession(gameCode);
-    // //     if (game != null) {
-    // //         game.addPlayerAnswer(answer);
-    // //         // Check if all players have answered
-    // //         if (game.allAnswersSubmitted()) {
-    // //             messagingTemplate.convertAndSend("/topic/game/" + gameCode, game);
-    // //         }
-    // //     }
-    // // }
-
-    // @MessageMapping("/submitCanvas/{gameCode}")
-    // public void handleCanvasSubmission(
-    //         @DestinationVariable String gameCode,
-    //         @Payload Map<String, String> payload) {
-    //     String playerName = payload.get("playerName");
-    //     String imageData = payload.get("imageData");
-
-    //     System.out.println("Canvas submitted by " + playerName);
-    //     System.out.println(imageData);
-   
-    //     messagingTemplate.convertAndSend("/topic/game/" + gameCode, imageData);
-    // }
-
-    // @MessageMapping("/test")
-    // @SendTo("/topic/test")
-    // public Map<String,Object> test(@Payload String gameCode) {
-    //     Map<String, Object> response = new HashMap<>();
-    //     List<String> players = new ArrayList<>();
-
-    //     response.put("gameCode", gameCode);
-    //     response.put("players", new String[]{"p1", "p2"});
-    //     System.out.println(gameCode);
-    //     return response;
-    // }
-    // @MessageMapping("/test2")
-    // @SendTo("/topic/test2")
-    // public Map<String,Object> test2(@Payload String message) {
-    //     Map<String, Object> response = new HashMap<>();
-        
-    //     if (!this.playerstest.contains(message)) {
-    //         this.playerstest.add(message);
-    //     }
-        
-    //     response.put("gameCode", message);
-    //     response.put("players", playerstest);
-    //     System.out.println(message);
-        
-    //     return response;
-    // }
-
-    // @MessageMapping("/test3")
-    // @SendTo("/topic/test3")
-    // public GameSession test3(@Payload String message) {
-    //     // System.out.println(message);
-    //     GameSession gameSession = new GameSession();
-    //     InputStream is = new ByteArrayInputStream(message.getBytes());
-    //     JsonReader reader = Json.createReader(is);
-        
-    //     JsonObject bodyJsonObject = reader.readObject();
-
-    //     JsonArray playersJsonArray = bodyJsonObject.getJsonArray("players");
-    //     List<String> players = new ArrayList<>();
-    //     for (int i = 0;i<playersJsonArray.size();i++) {
-    //         String player = playersJsonArray.getString(i);
-    //         players.add(player);
-    //     }
-        
-    //     gameSession.setGameCode("99999");
-        
-        
-    //     return gameSession;
-    // }
-    // @MessageMapping("/test5")
-    // @SendTo("/topic/test5")
-    // public List<PlayerSubmission1> test4(@Payload String message) {
-    //     System.out.println(message);
-       
-    //     PlayerSubmission1 playerSubmission = new PlayerSubmission1();
-    //     // List<PlayerSubmission> playerSubmissions = new ArrayList<>();
-    //     InputStream is = new ByteArrayInputStream(message.getBytes());
-    //     JsonReader reader = Json.createReader(is);
-        
-    //     JsonObject bodyJsonObject = reader.readObject();
-    //     playerSubmission.setUsername(bodyJsonObject.getString("username"));
-    //     playerSubmission.setTitle(bodyJsonObject.getString("title"));
-    //     playerSubmission.setDescription(bodyJsonObject.getString("description"));
-    //     playerSubmission.setBase64Image(bodyJsonObject.getString("imageData"));
-
-
-    //     playerSubmissions1.add(playerSubmission);
-        
-       
     
-        
-    //     return playerSubmissions1;
-    // }
-    // @MessageMapping("/test6")
-    // @SendTo("/topic/test6")
-    // public Map<String,Object> testmessage(@Payload String message) {
-    //     Map<String, Object> response = new HashMap<>();
-        
-       
-    //     InputStream is = new ByteArrayInputStream(message.getBytes());
-    //     JsonReader reader = Json.createReader(is);
-        
-    //     JsonObject bodyJsonObject = reader.readObject();
-        
-    //     messagestest.add(bodyJsonObject.getString("title"));
-
-    //     response.put("messages", messagestest);
-        
-    //     System.out.println(message);
-        
-    //     return response;
-    // }
-    
-
-    // @MessageMapping("/test2/5000")
-    // @SendTo("/topic/test2")
-    // public Map<String,Object> test25000(@Payload String message) {
-    //     Map<String, Object> response = new HashMap<>();
-        
-        
-    //     response.put("status", message);
-    //     response.put("players", "online");
-    //     System.out.println(message);
-        
-    //     return response;
-    // }
-
 
     ///// starting from here
 
@@ -245,6 +72,7 @@ public class WebSocketController {
         // JsonArray playersJsonArray = jsonObject.getJsonArray("players");
 
         String playerName = jsonObject.getString("name");
+        String mascot = jsonObject.getString("mascot");
         // if (!players.contains(playerName)) {
         //     players.add(playerName);
         // }
@@ -263,7 +91,7 @@ public class WebSocketController {
        // need to store player list for that game session
 
        //mongo way
-        Player player = new Player(playerName);
+        Player player = new Player(playerName,mascot);
         gameRoomService.addPlayers(gameCode, player);
         
         // GameSess gameSess = gameRoomService.getGameSession(gameCode);
@@ -388,6 +216,7 @@ public class WebSocketController {
         String currentPlayerName = jsonObject.getString("currentPlayerName");
         String playerName = jsonObject.getString("name");
         Integer playerVote =jsonObject.getInt("vote");
+        // String mascot = jsonObject.getString("mascot");
 
         // Integer currentPlayerIndex =getIndexOfCurrentDrawing(playerSubmissions,currentPlayerName);
 

@@ -1,13 +1,12 @@
 [
-{"_id":1, "gamePrompt":"Draw a cat!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
-{"_id":2, "gamePrompt":"Sketch a house!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
-{"_id":3, "gamePrompt":"Create a spaceship!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
-{"_id":4, "gamePrompt":"Design a superhero!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
-{"_id":5, "gamePrompt":"Illustrate a dragon!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
-{"_id":6, "gamePrompt":"Draw your dream vacation!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
-{"_id":7, "gamePrompt":"Sketch a robot!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
-{"_id":8, "gamePrompt":"Create a fantasy castle!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
-{"_id":9, "gamePrompt":"Illustrate a funny monster!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
-{"_id":10, "gamePrompt":"Design a futuristic city!", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]}
+    {"_id":1, "gamePrompt":"A chicken trying to lift weights at the gym", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+    {"_id":2, "gamePrompt":"A squirrel arguing with a traffic light", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+    {"_id":3, "gamePrompt":"A T-Rex struggling to tie its shoelaces", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+    {"_id":4, "gamePrompt":"A snail trying to order fast food in a drive-thru", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+    {"_id":5, "gamePrompt":"A penguin slipping on a banana peel", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+    {"_id":6, "gamePrompt":"A dog wearing way too many hats", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+    {"_id":7, "gamePrompt":"A cat trying (and failing) to use chopsticks", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+    {"_id":8, "gamePrompt":"A cow realizing it’s actually lactose intolerant", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+    {"_id":9, "gamePrompt":"A hamster winning a boxing match", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]},
+    {"_id":10, "gamePrompt":"A kangaroo with a trampoline addiction", "isFull":false, "isActive":false, "gameState":"AVAILABLE", "players":[], "submissions":[]}
 ]
-

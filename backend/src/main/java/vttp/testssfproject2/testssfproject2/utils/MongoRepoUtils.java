@@ -30,6 +30,7 @@ public class MongoRepoUtils {
             Player player = new Player();
             player.setName(d.getString("name"));
             player.setVote(d.getInteger("vote"));
+            player.setMascot(d.getString("mascot"));
             return player;
         }).toList();
         gameRoom.setPlayers(players);
@@ -52,6 +53,7 @@ public class MongoRepoUtils {
             Player player = new Player();
             player.setName(d.getString("name"));
             player.setVote(d.getInteger("vote"));
+            player.setMascot(d.getString("mascot"));
             return player;
         }).toList();
 
@@ -86,6 +88,7 @@ public class MongoRepoUtils {
             Player player = new Player();
             player.setName(d.getString("name"));
             player.setVote(d.getInteger("vote"));
+            player.setMascot(d.getString("mascot"));
             return player;
         }).toList();
         gameSess.setPlayers(players);
