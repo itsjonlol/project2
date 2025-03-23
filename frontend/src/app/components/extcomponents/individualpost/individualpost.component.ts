@@ -14,9 +14,14 @@ import { IndividualpostsocialComponent } from "../individualpostsocial/individua
 import { CommentService } from '../../../services/comment.service';
 import { AddcommentComponent } from "../addcomment/addcomment.component";
 
+import { AccordionComponent, AccordionPanelComponent } from 'ngx-bootstrap/accordion';
+
 @Component({
   selector: 'app-individualpost',
-  imports: [JsonPipe, NotfoundComponent, AsyncPipe, IndividualpostsocialComponent, AddcommentComponent],
+  imports: [JsonPipe, NotfoundComponent, AsyncPipe, IndividualpostsocialComponent, AddcommentComponent,
+  AccordionComponent,AccordionPanelComponent
+    
+  ],
   templateUrl: './individualpost.component.html',
   styleUrl: './individualpost.component.css'
 })
@@ -124,6 +129,16 @@ export class IndividualpostComponent implements OnInit,OnDestroy{
       `;
     
       navigator.clipboard.writeText(message)
+
+      const message2 = 'Check out this image!'; // Optional message to accompany the image
+      const imageUrl = this.post?.imageUrl || ''
+    // Construct the Telegram share URL
+    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(imageUrl)}&text=${encodeURIComponent(message)}`;
+
+    // Open the Telegram share URL in a new window
+    window.open(telegramUrl, '_blank');
+
+      
   
     };
 

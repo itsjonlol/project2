@@ -54,6 +54,8 @@ export class PlayerLobbyComponent implements OnInit,OnDestroy {
 
   gameStoreSubscription!: Subscription
   connectionSub!:Subscription
+  mascotNo: number = Math.floor(Math.random() * 6) + 1;
+  mascot:string = `/mascot/mascot${this.mascotNo}.svg`
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
@@ -79,7 +81,8 @@ export class PlayerLobbyComponent implements OnInit,OnDestroy {
     this.gameNameDetails = {
       gameCode: this.gameCode,
       name: this.username,
-      role: "player"
+      role: "player",
+      mascot: this.mascot
     };
   
     this.wsService.connect();
@@ -234,6 +237,7 @@ export class PlayerLobbyComponent implements OnInit,OnDestroy {
   //   console.log("on changes...")
   //   this.gameService.getGameRoomState(this.gameCode).subscribe(d=>this.currentGameState=d.gameState)
   // }
+  
 
   disconnect():void {
     if (this.gameStateSubscription) {

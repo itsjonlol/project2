@@ -1,20 +1,68 @@
-<p>host-results works!</p>
+<!-- <div class="bg-container">
+    <div class="content">
+        @for (s of submissionresults.playerSubmissions; let idx = $index; track idx) {
+            @if (idx===0) {
+                
+                <div class="inv-container">
+                   
+                    <img [src]="getPlayerMascot(s.playerName)">
+                    <p>{{s.playerName}} ( <span>{{s.total}}</span> ) WINNER!!!!</p>
+                   
+                </div>
+               
+               
+            } @else {
+                <div class="inv-container d-flex">
+                   <div class="inner-container">
+                    
+                   </div>
+                <img [src]="getPlayerMascot(s.playerName)">
+                <p>{{s.playerName}} ( <span>{{s.total}}</span> )</p>
+                </div>
+                
+            }
+        }
 
+    </div>
+   
+    
+    <button (click)="endGame()">End game</button>
+</div> -->
+<div class="bg-container">
+    <div class="content">
+      <!-- Winner Section (Top) -->
+      @for (s of submissionresults.playerSubmissions; let idx = $index; track idx) {
+        @if (idx === 0) {
+          <div class="inv-container winner">
+            <img [src]="getPlayerMascot(s.playerName)" alt="{{ s.playerName }}'s mascot">
+            <p>{{ s.playerName }} (<span>{{ s.total }}</span>) WINNER!!!!</p>
+          </div>
+        }
+      }
+
+  
+      <!-- Other Players Section (Flex Row) -->
+      <div class="other-players">
+        @for (s of submissionresults.playerSubmissions; let idx = $index; track idx) {
+          @if (idx !== 0) {
+            <div class="inv-container d-flex">
+              <img [src]="getPlayerMascot(s.playerName)" alt="{{ s.playerName }}'s mascot">
+              <p>{{ s.playerName }} (<span>{{ s.total }}</span>)</p>
+            </div>
+          }
+        }
+      </div>
+      <button (click)="endGame()">End Game</button>
+    </div>
+  
+    <!-- End Game Button -->
+   
+  </div>
+
+<!-- 
 {{username}}
 {{gameCode}}
 
-{{drawings | json}}
+{{drawings | json}} -->
 
 
-@for (s of submissionresults.playerSubmissions; let idx = $index; track idx) {
-    @if (idx===0) {
-        
-        <p>{{s.playerName}} WINNER!!!!</p>
-        <p>{{s.total}}</p>
-    } @else {
-        <p>{{s.playerName}}</p>
-        <p>{{s.total}}</p>
-    }
-}
-
-<button (click)="endGame()">End game</button>

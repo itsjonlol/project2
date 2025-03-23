@@ -1,4 +1,4 @@
-import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { WebSocketService } from '../../../services/websocket.service';
 import { AsyncPipe, CommonModule, NgFor } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
@@ -16,11 +16,12 @@ import { AudioComponent } from "../../extcomponents/audio/audio.component";
 import { HostTransitionComponent } from '../host-transition/host-transition.component';
 import { HostWaitingRoomComponent } from "../host-waiting-room/host-waiting-room.component";
 import { GameStore } from '../../../store/GameStore.store';
+import { QrcodeComponent } from "../../extcomponents/qrcode/qrcode.component";
 
 @Component({
   selector: 'app-host-lobby',
   standalone:true,
-  imports: [CommonModule, NgFor, HostPromptComponent, HostPlayerVotesComponent, HostShowDrawingsComponent, HostResultsComponent, AudioComponent, HostTransitionComponent, HostWaitingRoomComponent,AsyncPipe,AudioComponent],
+  imports: [CommonModule, NgFor, HostPromptComponent, HostPlayerVotesComponent, HostShowDrawingsComponent, HostResultsComponent, AudioComponent, HostTransitionComponent, HostWaitingRoomComponent, AsyncPipe, AudioComponent, QrcodeComponent],
   templateUrl: './host-lobby.component.html',
   styleUrl: './host-lobby.component.css'
 })
@@ -136,7 +137,7 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
   
 
 
-  constructor(private wsService: WebSocketService,private ngZone: NgZone,private router: Router) {}
+  constructor(private wsService: WebSocketService,private router: Router) {}
   
   private playerSubscription!: StompSubscription;
   private gameStateSubscription!: StompSubscription;

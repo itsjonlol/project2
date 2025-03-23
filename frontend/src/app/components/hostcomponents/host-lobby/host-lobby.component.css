@@ -184,3 +184,10 @@ button:active {
   overflow-y: hidden;
   /* background: red; */
 }
+
+.qrcode {
+  position:absolute;
+  z-index:10;
+  top:5%;
+  right:5%;
+}

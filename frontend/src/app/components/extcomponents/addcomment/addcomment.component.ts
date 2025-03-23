@@ -1,8 +1,9 @@
-import { Component, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, inject, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PostComment } from '../../../models/post';
 import { Subject } from 'rxjs';
 import { JsonPipe } from '@angular/common';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-addcomment',
@@ -21,10 +22,16 @@ export class AddcommentComponent implements OnInit{
   private fb = inject(FormBuilder)
 
   protected form!:FormGroup
+  modalRef!: BsModalRef; // Reference to the modal
+  constructor(private modalService: BsModalService) {}
+  
 
   ngOnInit(): void {
     this.form = this.createForm();
 
+  }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
   processForm():void {
@@ -36,6 +43,7 @@ export class AddcommentComponent implements OnInit{
     this.emitPostComment.next(postComment);
 
     this.form = this.createForm();
+    this.modalRef.hide(); // Close the modal
   }
 
 //   export interface PostComment {

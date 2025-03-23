@@ -1,14 +1,24 @@
+.bg-container{
+  background-image: url('/images/transitionbg.jpg');
+  background-size: cover; 
+  background-position: center;
+
+  background-repeat: no-repeat;
+}
+
+
 .game-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
+   
+ 
     overflow: hidden;
     /* background-color: #1a1a2e; */
     /* color: white; */
-    font-family: 'Arial', sans-serif;
+   
   }
   
   .header {
@@ -21,8 +31,8 @@
   
   .timer {
     position: absolute;
-    top: 15%;
-    left: 10%;
+    top: 5%;
+    left: 5%;
     font-size: 3rem;
     font-weight: bold;
     background-color: #333;
@@ -35,6 +45,7 @@
   
   .game-prompt {
     font-size: 2rem;
+    color:white;
     text-align: center;
     margin-top: 0;
     margin-bottom: 20px;
@@ -47,13 +58,14 @@
     text-align: center;
     margin: 10px 0;
     max-width: 90%;
+    color:white;
   }
   
   .lottie-container {
     width: 100%;
     max-width: 600px;
     max-height: 80vh;
-    margin-top: 10px;
+    margin-bottom: 3em;
   }
   
   /* Responsive adjustments */

@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
     <button class="btn btn-primary" (click)="toggleMode('GALLERY')"> Gallery </button>
     <button class="btn btn-warning" (click)="toggleMode('SEARCH')"> Search </button>
 
@@ -12,4 +12,13 @@
     @case('SEARCH') {
         <app-search></app-search>
     }
-}
+} -->
+<div class="bg-container">
+    <div class="container">
+        <tabset class="tabset" >
+          <tab heading="Image Gallery" id="header1" ><app-gallery></app-gallery></tab>
+          <tab heading="Search for User drawings"><app-search></app-search></tab>
+        </tabset>
+      </div>
+</div>
+

@@ -11,22 +11,30 @@
     <div class="d-flex justify-content-center align-items-center vh-100">
         <ng-lottie [options]="options1" style="width: 70%; height: 70%;"></ng-lottie>
     </div> -->
+    <div class="bg-container">
 
+    
     <div class="game-container">
         <h1 class="game-prompt">{{prompt}}</h1>
         
         @if (hasResetOnce) {
           <h3 class="instruction-text">Time to stop drawing! Start giving your image a cool name and description!</h3>
+          <div class="lottie-container">
+            <ng-lottie [options]="options2" ></ng-lottie>
+          </div>
+        } @else {
+            <div class="lottie-container">
+                <ng-lottie [options]="options1"></ng-lottie>
+              </div>
         }
         @if (timerCountDown) {
             <div class="timer">{{timerCountDown}}</div>
         }
         
         
-        <div class="lottie-container">
-          <ng-lottie [options]="options1"></ng-lottie>
-        </div>
+        
       </div>
+    </div>
 
     
 

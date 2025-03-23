@@ -6,12 +6,14 @@ import { Router } from '@angular/router';
 import { GameService } from '../../../services/game.service';
 import { GameRoomResponse } from '../../../services/game.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { QrcodeComponent } from "../qrcode/qrcode.component";
+
 
 
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule],
+  imports: [CommonModule, QrcodeComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'], 
   standalone: true
@@ -23,10 +25,12 @@ export class DashboardComponent {
   constructor(private router: Router) {}
 
   gameService = inject(GameService)
+ 
 
   
 
   ngOnInit(): void {
+    
     // this.userService.getUser().subscribe({
     //   next: (data:User) => {
     //     this.user = data;

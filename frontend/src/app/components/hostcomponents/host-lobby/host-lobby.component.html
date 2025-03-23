@@ -94,11 +94,19 @@
   </div> -->
 
   <div class="waitingroom">
-
+    <div class="qrcode">
+      <app-qrcode></app-qrcode>
+    </div>
 
   <app-host-waiting-room [players]="players" [gameCode]="gameCode" [username]="username" (emitEvent)="processEvent($event)"></app-host-waiting-room>
   <app-audio class="audio"></app-audio>
+ 
 </div>
+
+
+
+
+<!-- <app-host-prompt [submission]="submission" [currentGameState]="currentGameState"></app-host-prompt> -->
 
  <!-- <div class="background-container">
     <app-host-show-drawings [submissionshow]="submission"  ></app-host-show-drawings>

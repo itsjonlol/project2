@@ -6,10 +6,11 @@ import { GameState, Player, Submission } from '../../../models/gamemodels';
 import { JsonPipe } from '@angular/common';
 import { PlayerResultsComponent } from '../player-results/player-results.component';
 import { Subscription } from 'rxjs';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-player-vote-input',
-  imports: [JsonPipe,PlayerResultsComponent],
+  imports: [JsonPipe,PlayerResultsComponent,ReactiveFormsModule],
   templateUrl: './player-vote-input.component.html',
   styleUrl: './player-vote-input.component.css'
 })
@@ -42,6 +43,9 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
   currentGameState!: string | undefined
 
   hasVoted:boolean=false;
+
+  private fb = inject(FormBuilder);
+  protected form!: FormGroup
 
   ngOnInit(): void {
     const gameCodeParam = this.activatedRoute.snapshot.paramMap.get('gameCode');

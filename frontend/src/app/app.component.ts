@@ -4,12 +4,15 @@ import { FireAuthService } from './services/fire-auth.service';
 import { AudioComponent } from './components/extcomponents/audio/audio.component';
 import { EmailRequest, EmailResponse, EmailService } from './services/email.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,RouterModule,AudioComponent],
+  imports: [RouterOutlet, RouterModule, AudioComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
+  providers: [BsModalService]
   
 })
 export class AppComponent implements OnInit {
@@ -22,7 +25,8 @@ export class AppComponent implements OnInit {
   errorMessage!:string;
 
   gameStart:boolean = false;
-
+  
+  
   ngOnInit(): void {
     this.fireAuthService.user$.subscribe(user => {
       if (user) {
@@ -40,6 +44,9 @@ export class AppComponent implements OnInit {
       }
       console.log(this.fireAuthService.currentUserSig())
     })
+    
+
+    
   }
 
 

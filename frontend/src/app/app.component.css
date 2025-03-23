@@ -1,0 +1,7 @@
+.custom-navbar {
+    background-color: peachpuff;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index:10;
+}

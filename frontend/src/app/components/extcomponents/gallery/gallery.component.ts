@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
 import { PostService } from '../../../services/post.service';
 import { Observable } from 'rxjs';
 import { Post } from '../../../models/post';
@@ -7,11 +7,21 @@ import { RouterLink } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { ChangePage, GetPaginatedPosts, GetPosts } from '../../../store/post.state';
 import { PaginationInfo, PostState } from '../../../store/post.actions';
+import { SearchComponent } from '../search/search.component';
+
+
+// enum ViewMode {
+//   GALLERY = 'gallery',
+//   SEARCH = 'search'
+// }
+
+import { register } from 'swiper/element/bundle';
 
 @Component({
   selector: 'app-gallery',
   imports: [AsyncPipe,JsonPipe,NgIf,NgFor,RouterLink,NgStyle],
   templateUrl: './gallery.component.html',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   styleUrl: './gallery.component.css'
 })
 export class GalleryComponent implements OnInit {

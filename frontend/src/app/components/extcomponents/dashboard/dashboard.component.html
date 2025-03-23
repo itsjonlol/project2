@@ -13,23 +13,88 @@
   <button (click)="joinGame()">Join a Game</button>
 </div> -->
 
+<div class="bg-container">
+  <div class="game-container">
 
-<div class="game-container">
-  <!-- <h1 class="game-title">LET'S PLAY A GAME!</h1> -->
+    <div class="ribbon">
+        <img src="/images/artistickribbon.svg" alt="ribbon" />
+    </div>
+   
   
-  
-  <button class="game-button host-button" (click)="hostGame()">
-    <span class="button-icon">🎮</span> Host a Game
-  </button>
-  
-  <button class="game-button join-button" (click)="enterGame()">
-    <span class="button-icon">🚀</span> Join a Game
-  </button>
+    <!-- <button class="button host-button" (click)="hostGame()">
+      <span class="button-icon">🎮</span> Host a Game
+    </button>
+    
+    <button class="button join-button" (click)="enterGame()">
+      <span class="button-icon">🚀</span> Join a Game
+    </button>
+    
+    <button class="button gallery-button" (click)="viewGallery()">
+      <span class="button-icon">🖼️</span> View Gallery
+    </button> -->
+    <div class="btn button button--piyo" (click)="hostGame()">
+      <div class="button__wrapper">
+          <span class="button__text">Host Game</span>
+      </div>
+      <div class="characterBox">
+          <div class="character wakeup">
+              <div class="character__face"></div>
+          </div>
+          <div class="character wakeup">
+              <div class="character__face"></div>
+          </div>
+          <div class="character">
+              <div class="character__face"></div>
+          </div>
+      </div>
+    </div>
 
-  <button class="game-button gallery-button" (click)="viewGallery()">
-    <span class="button-icon">🖼️</span> View Gallery
-  </button>
+  <div class="btn button button--hoo" (click)="enterGame()">
+      <div class="button__wrapper">
+          <span class="button__text">Join Game</span>
+      </div>
+      <div class="characterBox">
+          <div class="character wakeup">
+              <div class="character__face"></div>
+              <div class="charactor__face2"></div>
+              <div class="charactor__body"></div>
+          </div>
+          <div class="character wakeup">
+              <div class="character__face"></div>
+              <div class="charactor__face2"></div>
+              <div class="charactor__body"></div>
+          </div>
+          <div class="character">
+              <div class="character__face"></div>
+              <div class="charactor__face2"></div>
+              <div class="charactor__body"></div>
+          </div>
+      </div>
+    </div>
+
+  <div class="btn button button--pen " (click)="viewGallery()">
+      <div class="button__wrapper">
+          <span class="button__text">Gallery</span>
+      </div>
+      <div class="characterBox">
+          <div class="character wakeup">
+              <div class="character__face"></div>
+              <div class="charactor__face2"></div>
+          </div>
+          <div class="character wakeup">
+              <div class="character__face"></div>
+              <div class="charactor__face2"></div>
+          </div>
+          <div class="character">
+              <div class="character__face"></div>
+              <div class="charactor__face2"></div>
+          </div>
+      </div>
+    </div>
   
+  
+  </div>
 </div>
+
 
 

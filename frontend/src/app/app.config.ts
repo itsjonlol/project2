@@ -13,6 +13,7 @@ import { withNgxsLoggerPlugin } from '@ngxs/logger-plugin';
 import { NgxsModule, provideStore } from '@ngxs/store';
 import { PostState } from './store/post.actions';
 import { provideServiceWorker } from '@angular/service-worker';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 
@@ -24,6 +25,12 @@ export const appConfig: ApplicationConfig = {
     provideLottieOptions({
         player: () => player,
     }),
+    // provideAnimationsAsync(),
+    //     providePrimeNG({
+    //         theme: {
+    //             preset: Aura
+    //         }
+    //     }),
   
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()), provideStore(

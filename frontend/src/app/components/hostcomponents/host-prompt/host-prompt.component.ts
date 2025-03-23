@@ -22,6 +22,9 @@ export class HostPromptComponent implements OnInit,OnDestroy{
   options1: AnimationOptions = {
     path: '/lottiefiles/animation3.json',
   };
+  options2: AnimationOptions = {
+    path: '/lottiefiles/write.json',
+  };
 
 
   wsService = inject(WebSocketService);
@@ -52,7 +55,7 @@ export class HostPromptComponent implements OnInit,OnDestroy{
 
   timerSubscription!: Subscription;
   timerCountDown!:number;
-  timerDuration:number=30;
+  timerDuration:number=5;
   timerSource$:Observable<number> = interval(1000);
   hasResetOnce:boolean=false;
   connectionSub!: Subscription
@@ -86,49 +89,48 @@ export class HostPromptComponent implements OnInit,OnDestroy{
           this.gameStateSubscription.unsubscribe();
         }
 
-        this.gameStateSubscription=this.wsService.client.subscribe(`/topic/gamestate/${this.gameCode}`, (message) => {
-          console.log(message.body);
+        // this.gameStateSubscription=this.wsService.client.subscribe(`/topic/gamestate/${this.gameCode}`, (message) => {
+        //   console.log(message.body);
 
-          const data = JSON.parse(message.body);
           
-          // if (data.gameState === GameState.VOTING) {
-          //   // console.log(true);
-          //   // this.router.navigate(['host','showdrawings',this.gameCode])
-          //   // this.isDrawing = false;
+        //   // if (data.gameState === GameState.VOTING) {
+        //   //   // console.log(true);
+        //   //   // this.router.navigate(['host','showdrawings',this.gameCode])
+        //   //   // this.isDrawing = false;
 
-          //   //TO COMMENT OUT
-          //   setTimeout(()=>this.isDrawing=false,6000);
-          // } 
-          // if (data.gameState === GameState.RESULTS) {
-          //   // this.router.navigate(['host','results',this.gameCode])
+        //   //   //TO COMMENT OUT
+        //   //   setTimeout(()=>this.isDrawing=false,6000);
+        //   // } 
+        //   // if (data.gameState === GameState.RESULTS) {
+        //   //   // this.router.navigate(['host','results',this.gameCode])
     
-          //   setTimeout(()=>this.displayResults=true,2000);
-          // }
-          // if (data.gameState === GameState.FINISHED) {
-          //   setTimeout(()=>this.router.navigate(["dashboard"]));
-          //   this.wsService.disconnect();
-          // }
+        //   //   setTimeout(()=>this.displayResults=true,2000);
+        //   // }
+        //   // if (data.gameState === GameState.FINISHED) {
+        //   //   setTimeout(()=>this.router.navigate(["dashboard"]));
+        //   //   this.wsService.disconnect();
+        //   // }
           
          
-        })
+        // })
         
-        // if (this.submissionSubscription) {
-        //   this.submissionSubscription.unsubscribe();
-        // }
+        // // if (this.submissionSubscription) {
+        // //   this.submissionSubscription.unsubscribe();
+        // // }
 
-        this.submissionSubscription=this.wsService.client.subscribe(`/topic/submission/${this.gameCode}`, (message) => {
-          console.log(message.body)
+        // this.submissionSubscription=this.wsService.client.subscribe(`/topic/submission/${this.gameCode}`, (message) => {
+        //   console.log(message.body)
 
-          // const data = JSON.parse(message.body);
-          // const players = data.players;
-          // const playerSubmissions = data.playerSubmissions;
-          // this.submission = {
-          //   gameCode:this.gameCode,
-          //   players:players,
-          //   playerSubmissions:playerSubmissions
-          // }
+        //   // const data = JSON.parse(message.body);
+        //   // const players = data.players;
+        //   // const playerSubmissions = data.playerSubmissions;
+        //   // this.submission = {
+        //   //   gameCode:this.gameCode,
+        //   //   players:players,
+        //   //   playerSubmissions:playerSubmissions
+        //   // }
  
-         })
+        //  })
         
       }
     })
@@ -154,6 +156,7 @@ export class HostPromptComponent implements OnInit,OnDestroy{
               gameCode: this.gameCode,
               gameState : GameState.DESCRIBE
             }
+            console.log("sending describe...")
             this.wsService.publish(`/app/gamestate/${this.gameCode}`,data);
           } else {
             this.stopTimer();
@@ -174,7 +177,7 @@ export class HostPromptComponent implements OnInit,OnDestroy{
 
   private resetTimer() {
     this.stopTimer();
-    this.timerCountDown = 25;
+    this.timerDuration = 5;
     this.startTimer();
 
   }

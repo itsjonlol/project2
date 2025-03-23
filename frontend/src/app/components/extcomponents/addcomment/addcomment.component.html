@@ -1,8 +1,33 @@
-<p>addcomment works!</p>
-{{form.value | json}}
-<form [formGroup]="form" (submit)="processForm()">
+
+
+<!-- <form [formGroup]="form" (submit)="processForm()">
     
     <input type="text" formControlName="comment">
 
     <button class="btn" type="submit">Submit comment</button>
-</form>
+</form> -->
+<!-- Button to open the modal -->
+<button class="btn btn-primary" (click)="openModal(commentModal)"> <i class="fas fa-comment"></i> Add Comment </button>
+
+<!-- Modal template -->
+<ng-template #commentModal>
+  <div class="modal-header">
+    <h4 class="modal-title">Add a Comment </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.hide()"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" (ngSubmit)="processForm()">
+      <div class="mb-3">
+        <label for="comment" class="form-label">Comment</label>
+        <input
+          type="text"
+          id="comment"
+          class="form-control"
+          formControlName="comment"
+          placeholder="Enter your comment"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</ng-template>

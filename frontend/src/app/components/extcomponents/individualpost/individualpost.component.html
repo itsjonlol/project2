@@ -1,28 +1,76 @@
+<div class="bg-container">
+
+
 <div class="container">
-
-
-
-
     @if (post !== undefined) {
-        <img [src]="post.imageUrl">
-    <h3>{{post.aiComments}}</h3>
-    <h3>{{post.username}}</h3>
-    <h3> {{post.userId}}</h3>
-    <h3> {{post.postId}} </h3>
-    {{post.aiImageUrl}}
-    <button type="button" class="btn btn-danger" [hidden]="!canDelete" (click)="deletePostById(post.postId)">Delete</button>
+      <div class="row">
+        <!-- Image Container -->
+        <div class="col-12">
+          <div class="image-container">
+            <div id="frame">
+              <div id="border">
+                <img [src]="post.imageUrl" [alt]="'Image '" class="img-fluid">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+ 
+        <div class="col-12">
+          <div class="social-container d-flex flex-wrap justify-content-center gap-3 mt-3">
+            <button class="btn btn-warning" (click)="likePost()">
+              <i class="fa fa-heart" aria-hidden="true"></i> Like
+            </button>
+            <button class="btn telegram-btn" (click)="share()">
+              <i class="fa-brands fa-telegram"></i> Share
+            </button>
+            <app-addcomment [postId]="post.postId" (emitPostComment)="processPostComment($event)"></app-addcomment>
+            <button type="button" class="btn btn-danger" [hidden]="!canDelete" (click)="deletePostById(post.postId)">
+              Delete Post
+            </button>
+          </div>
+        </div>
+  
+        <!-- Accordion -->
+        <div class="col-12 mt-5">
+          <accordion [isAnimated]="true">
+            <accordion-group heading="Drawing information">
+              <h3><strong>Creator:</strong> {{post.username}}</h3>
+              <h3><strong>Image Title:</strong> {{post.title}}</h3>
+              <h3><strong>Prompt:</strong> {{post.prompt}}</h3>
+              <h3><strong>Creator Description:</strong> {{post.description}}</h3>
+              <h3><strong>AI Comments:</strong> {{post.aiComments}}</h3>
+            </accordion-group>
+            <accordion-group heading="Comments">
+              <app-individualpostsocial [postSocial$]="postSocial$" (emitDeleteComment)="processDeleteComment($event)"></app-individualpostsocial>
+            </accordion-group>
+            <accordion-group heading="AI Interpretation">
+              @if (!post.aiImageUrl) {
+                <button type="button" class="btn btn-warning" (click)="generateImage()">Generate AI Image</button>
+              }
+              {{post.aiImageUrl}}
+            </accordion-group>
+          </accordion>
+        </div>
+      </div>
+    }
+  
     
-    <app-addcomment [postId]="post.postId" (emitPostComment)="processPostComment($event)"></app-addcomment>
-    <button class="btn btn-primary" (click)="likePost()"> like </button>
-    <button class="btn btn-warning" (click)="share()">Share</button>
-    <app-individualpostsocial [postSocial$]="postSocial$" (emitDeleteComment)="processDeleteComment($event)"></app-individualpostsocial>
+    <!-- <h3> {{post.userId}}</h3>
+    <h3> {{post.postId}} </h3> -->
+   
+
+    
+   
+   
+    
+   
+      
+    <!-- <app-individualpostsocial [postSocial$]="postSocial$" (emitDeleteComment)="processDeleteComment($event)"></app-individualpostsocial> -->
     
 
-    @if (!post.aiImageUrl ){
-       
-        <button type="button" class="btn btn-warning" (click)="generateImage()">Generate ai image</button>
-    }
-    }
+  
+    
     
 
 
@@ -38,4 +86,5 @@
     <app-notfound></app-notfound>
 }
 
+</div>
 </div>

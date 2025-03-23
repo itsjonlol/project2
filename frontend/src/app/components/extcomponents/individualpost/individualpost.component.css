@@ -1,0 +1,72 @@
+.telegram-btn {
+    background-color: #0088cc;
+    color:white;
+
+}
+.telegram-button:hover{
+    background-color: #007dbb;
+    color:white;
+}
+
+.telegram-button:active{
+    background-color: #026698;
+    color:white;
+}
+.telegram-btn:focus {
+    outline: 2px solid #ffcc00; /* Change to your desired outline color */
+    box-shadow: none; /* Remove Bootstrap's default box-shadow on focus */
+  }
+
+
+  .image-container {
+    display: flex;
+    margin-top:2em;
+ 
+ 
+  }
+  
+  /* Frame styling */
+  #frame {
+    position: relative;
+    border: solid 15px black;
+    border-radius: 10px;
+    max-width: 600px; /* Set a reasonable max-width */
+    width: 100%; /* Ensure it takes the full width up to max-width */
+    margin: 0 auto; /* Center the frame */
+    box-shadow: -3px -3px 12px #999;
+    overflow: hidden; /* Ensure the border doesn't overflow */
+    height: 400px; /* Set a fixed height for the frame */
+  }
+  
+  /* Border styling */
+  #border {
+    position: relative;
+    border: solid 1em peachpuff;
+    box-shadow: -3px -3px 12px #999;
+    overflow: hidden; /* Ensure the image doesn't overflow */
+    height: 100%; /* Ensure the border takes the full height of the frame */
+  }
+  
+  /* Image styling */
+  img {
+    display: block;
+    width: 100%; /* Ensure the image takes the full width of its container */
+    height: 100%; /* Ensure the image takes the full height of its container */
+    object-fit: cover; /* Ensure the image covers the entire area without distortion */
+    border-top: solid 2px #aaa;
+    border-left: solid 2px #aaa;
+    border-bottom: solid 2px #ccc;
+    border-right: solid 2px #ccc;
+    overflow-x:hidden;
+  }
+
+  @media (max-width: 576px) {
+    #frame {
+      max-width: 70%; /* Reduce max-width for smaller screens */
+      height: 300px; /* Adjust height for mobile devices */
+      overflow-x:hidden;
+
+    }
+  }
+
+

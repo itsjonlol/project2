@@ -23,5 +23,100 @@
     height: 100%;
     object-fit: cover; /* Ensures the image covers the container */
     display: block;
+    padding: 1em;
     border-radius: 8px; /* Match the container's rounded corners */
+    box-shadow: 2px 2px 4px rgba(0,0,0,.6);
+    border-style: solid;
+    border-width: 15px;
+    border-color: #2F2D2D #434040 #4F4C4C #434040;
   }
+
+  .inv-item {
+   
+  
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  }
+  .inv-item:hover {
+    transform:scale(1.05);
+   
+  }
+  .d-flex{
+  
+  }
+  
+
+  /* #frame{
+    position:relative;
+    padding:0;
+    margin:0;
+    border:solid 15px black; 
+    border-radius:10px;
+    max-width:600px;
+    margin:40px auto;
+    box-shadow:-3px -3px 12px #999;
+    
+    }
+  #border{
+    position:relative;
+    padding:0;
+    margin:0;
+    border:solid 10px peachpuff;
+   box-shadow:-3px -3px 12px #999;
+       }  
+  img{
+    display:block;
+    padding:0;
+    margin:0;
+    width:100%;
+    height:auto;
+    border-top:solid 2px #aaa;
+    border-left:solid 2px #aaa;
+    border-bottom:solid 2px #ccc;
+    border-right:solid 2px #ccc;
+    } */
+
+    /* Frame styling */
+#frame {
+  position: relative;
+  border: solid 15px black;
+  border-radius: 10px;
+  max-width: 100%; /* Ensure the frame doesn't exceed its container */
+  margin: 0 auto; /* Center the frame */
+  box-shadow: -3px -3px 12px #999;
+  overflow: hidden; /* Ensure the border doesn't overflow */
+  height: 300px; /* Set a fixed height for the frame */
+}
+
+/* Border styling */
+#border {
+  position: relative;
+  border: solid 1em peachpuff;
+  box-shadow: -3px -3px 12px #999;
+  overflow: hidden; /* Ensure the image doesn't overflow */
+  height: 100%; /* Ensure the border takes the full height of the frame */
+}
+
+/* Image styling */
+img {
+  display: block;
+  width: 100%; /* Ensure the image takes the full width of its container */
+  height: 100%; /* Ensure the image takes the full height of its container */
+  object-fit: cover; /* Ensure the image covers the entire area without distortion */
+  border-top: solid 2px #aaa;
+  border-left: solid 2px #aaa;
+  border-bottom: solid 2px #ccc;
+  border-right: solid 2px #ccc;
+}
+@media (max-width: 768px) {
+  #frame {
+    height: 250px; /* Adjust height for tablets */
+  }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 576px) {
+  #frame {
+    height: 180px; /* Adjust height for mobile devices */
+  }
+}

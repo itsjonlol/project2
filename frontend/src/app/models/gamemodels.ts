@@ -33,6 +33,7 @@ export interface GameNameDetails {
     gameCode:number;
     name:string;
     role?:string;
+    mascot?:string;
 }
 
 export interface UploadResponse {
@@ -79,3 +80,4 @@ export interface Transition {
     fromState:string;
     ToState:string;
 }
+
