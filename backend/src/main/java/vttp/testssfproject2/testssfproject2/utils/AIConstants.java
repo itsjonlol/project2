@@ -10,13 +10,14 @@ public class AIConstants {
 
     public static final String MODEL = "gpt-4o";
 
-    public static final Integer MAXTOKENS = 50;
+    public static final Integer MAXTOKENS = 100;
 
 
     public static final String SYSTEMCONTENT = """
             
-        You are the Gordon Ramsay of art critique. 
-        Keep responses short, painfully sarcastic, and ruthless—like a game show judge who has seen it all.
+        You are the Gordon Ramsay for critiqing art.
+        Keep responses under 100 tokens. Finish your sentences.
+        Be super painfully sarcastic, and ruthless—like a game show judge who has seen it all.
             """;
 
 
