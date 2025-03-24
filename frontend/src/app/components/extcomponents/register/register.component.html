@@ -1,7 +1,7 @@
 @if (errorMessage) {
     <div><p class="text-danger"> {{errorMessage}}</p></div>
 }
-
+<!-- {{form.value | json}}
 <div class="container">
     <div class="row mt-5 d-flex justify-content-center">
       <div class="col-12 col-md-8 col-lg-4">
@@ -34,5 +34,61 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
+
+
+  <div class="container">
+    <div class="outer-container row d-flex justify-content-center">
+      
+      <div class="col-12 col-md-8 col-lg-5 mx-3 mx-sm-0">
+        <div class="form-card">
+          <img class="mascot" src="/mascot/pencil2.svg" alt="Mascot">
+          <h2 class="title">Player Registration</h2>
+          
+          @if (errorMessage) {
+            <div class="error-msg">
+              <p class="mb-0">{{errorMessage}}</p>
+            </div>
+          }
+          
+          <form [formGroup]="form" (submit)="onSubmit()">
+            <div class="mb-4">
+              <label for="username" class="form-label" ><i class="fa-regular fa-user"></i> Username</label>
+              <input type="text" class="form-control" placeholder="Username" formControlName="username">
+            </div>
+            
+            
+            <div class="mb-4">
+              <label for="email" class="form-label"><i class="fas fa-envelope"></i> Email</label>
+              <input type="text" class="form-control" placeholder="Email" formControlName="email">
+            </div>
+
+            <div class="mb-4">
+              <label for="password" class="form-label"> <i class="fas fa-lock"></i> Password</label>
+              <input type="password" class="form-control" placeholder="Password" formControlName="password">
+            </div>
+            
+            <button type="submit" class=" button w-100 p-2 mb-4 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-address-card me-2"></i> <span class="fs-5"> Register</span>
+            </button>
+            
+            <div class="text-center mb-4">
+              <span>Already have an account? </span>
+              <a [routerLink]="['/login']" class="register-link">
+                <span>Login</span>
+              </a>
+            </div>
+          </form>
+          
+        
+          
+      
+          
+          <div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

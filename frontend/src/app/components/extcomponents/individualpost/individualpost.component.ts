@@ -54,6 +54,7 @@ export class IndividualpostComponent implements OnInit,OnDestroy{
 
 
 
+
     ngOnInit(): void {
       // this.activatedRoute.params.subscribe((params) => {
       //   this.postId = parseInt(params['postId']);
@@ -80,6 +81,7 @@ export class IndividualpostComponent implements OnInit,OnDestroy{
         }
         )
         this.postSocial$ = this.commentService.getPostSocial(this.postId)
+       
       })
   
 

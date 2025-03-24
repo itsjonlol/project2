@@ -1,4 +1,4 @@
-<p>player-drawing works!</p>
+
 
 <!-- <p>drawing component: {{currentGameState}}</p>
 <p> is drawing mode {{isDrawingMode}}</p> -->
@@ -7,20 +7,20 @@
 @if (!isDrawingMode) {
     <div class="container">
 
-        <h1>Drawing time is up! Please give your drawing a funny title and description!</h1>
+        <h1 class="reminder">Drawing time is up! Please give your drawing a funny title and description!</h1>
     <div class="col-md-6 offset-md-3">
 
-        <form (ngSubmit) = "onSubmitDetails()">
+        <form (submit) = "onSubmitDetails()">
         
             <div class="form-group">
                 <label> Enter Image Title</label>
-                <input type="text" class ="form-control" id = "title"
+                <input type="text" class ="form-control" 
                     [(ngModel)] = "title" name = "title">
             </div>
     
             <div class="form-group">
                 <label> Enter Image description</label>
-                <input type="text" class ="form-control" id = "description"
+                <input type="text" class ="form-control"
                     [(ngModel)] = "description" name = "description">
             </div>
     
@@ -40,7 +40,7 @@
 <br>
 
 <div class="canvas-container">
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas" class="mb-5"></canvas>
   
    
     <!-- <div class="toolbar">
@@ -58,17 +58,17 @@
   @if (isDrawingMode) {
     <div class="toolsection">
         <div class="color-picker">
-          <button class="color-button green" (click)="setBrushColor('#008000')"></button>
-          <button class="color-button blue" (click)="setBrushColor('#0000FF')"></button>
-          <button class="color-button black" (click)="setBrushColor('#000000')"></button>
-          <button class="color-button orange" (click)="setBrushColor('#FFA500')"></button>
-          <button class="color-button yellow" (click)="setBrushColor('#FFFF00')"></button>
-          <button class="color-button red" (click)="setBrushColor('#FF0000')"></button> 
+          <button class="color-button green" (click)="setBrushColor('green')"></button>
+          <button class="color-button blue" (click)="setBrushColor('blue')"></button>
+          <button class="color-button black" (click)="setBrushColor('black')"></button>
+          <button class="color-button orange" (click)="setBrushColor('orange')"></button>
+          <button class="color-button yellow" (click)="setBrushColor('yellow')"></button>
+          <button class="color-button red" (click)="setBrushColor('red')"></button> 
         
-          <input type="range" [(ngModel)]="brushWidth" id="sizePicker" min="1" max="30"  (change)="setBrushSize($event)">
+          <input type="range" class="slider" [(ngModel)]="brushWidth" id="sizePicker" min="1" max="10"  (change)="setBrushSize($event)">
       
-          <button (click)="enableEraser()">🧽 Erase</button>
-          <button (click)="clearCanvas()">🗑️ Clear Canvas</button>
+          <button (click)="enableEraser()"><i class="fa-solid fa-eraser"></i> Erase</button>
+          <button (click)="clearCanvas()"><i class="fa-solid fa-trash"></i> Clear Canvas</button>
       </div>
        
       </div>
@@ -110,9 +110,6 @@
         </div> 
 } -->
 
-
-{{gameCode}}
-{{username}}
 
 <!-- @else {
     <app-player-vote-input></app-player-vote-input>

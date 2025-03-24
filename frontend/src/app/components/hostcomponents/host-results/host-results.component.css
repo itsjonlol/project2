@@ -26,7 +26,7 @@
   width: 1000px;
   background-color: peachpuff;
   opacity: 0.9;
- padding-top:10em;
+ /* padding-top:10em; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,7 +71,10 @@
   width: 150px;
 }
 
-
+.button {
+  background-color: red;
+  color:white;
+}
 /* End Game Button */
 /* button {
   padding: 12px 24px;

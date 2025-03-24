@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { FireAuthService } from '../../../services/fire-auth.service';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule,RouterLink],
+  imports: [ReactiveFormsModule,RouterLink,JsonPipe],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

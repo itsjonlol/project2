@@ -11,10 +11,12 @@ import { PlayerTransitionComponent } from "../player-transition/player-transitio
 import { Observable, Subscribable, Subscription } from 'rxjs';
 import { GameStore } from '../../../store/GameStore.store';
 import { AsyncPipe, JsonPipe } from '@angular/common';
+import { DisconnectComponent } from './disconnect.component';
 
 @Component({
   selector: 'app-player-lobby',
-  imports: [PlayerDrawingComponent, PlayerVoteInputComponent, PlayerResultsComponent,PlayerTransitionComponent,AsyncPipe,JsonPipe],
+  imports: [PlayerDrawingComponent, PlayerVoteInputComponent, PlayerResultsComponent,PlayerTransitionComponent,
+    DisconnectComponent,AsyncPipe,JsonPipe],
   templateUrl: './player-lobby.component.html',
   styleUrl: './player-lobby.component.css'
 })
@@ -237,7 +239,12 @@ export class PlayerLobbyComponent implements OnInit,OnDestroy {
   //   console.log("on changes...")
   //   this.gameService.getGameRoomState(this.gameCode).subscribe(d=>this.currentGameState=d.gameState)
   // }
-  
+  handleDisconnection($event:boolean):void {
+    if ($event) {
+      this.disconnect();
+    }
+   
+  }
 
   disconnect():void {
     if (this.gameStateSubscription) {

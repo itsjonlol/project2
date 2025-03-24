@@ -53,7 +53,7 @@
   </div> -->
   <div class="container">
     <div class="row g-4" *ngIf="posts$ | async as posts">
-      <div class="col-6 col-md-4 col-lg-3  inv-item" *ngFor="let post of posts">
+      <div class="col-6 col-md-4 col-lg-3 inv-item" *ngFor="let post of posts">
         <div id="frame">
           <div id="border">
             <a [routerLink]="['/gallery', post.postId]">
@@ -64,6 +64,8 @@
       </div>
     </div>
   </div>
+  
+  
 
  
 

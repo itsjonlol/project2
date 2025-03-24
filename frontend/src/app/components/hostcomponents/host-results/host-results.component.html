@@ -34,7 +34,7 @@
       @for (s of submissionresults.playerSubmissions; let idx = $index; track idx) {
         @if (idx === 0) {
           <div class="inv-container winner">
-            <img [src]="getPlayerMascot(s.playerName)" alt="{{ s.playerName }}'s mascot">
+            <img [src]="getPlayerMascot(s.playerName)" height="200px" width="200px" alt="{{ s.playerName }}'s mascot">
             <p>{{ s.playerName }} (<span>{{ s.total }}</span>) WINNER!!!!</p>
           </div>
         }
@@ -46,13 +46,13 @@
         @for (s of submissionresults.playerSubmissions; let idx = $index; track idx) {
           @if (idx !== 0) {
             <div class="inv-container d-flex">
-              <img [src]="getPlayerMascot(s.playerName)" alt="{{ s.playerName }}'s mascot">
+              <img [src]="getPlayerMascot(s.playerName)" height="200px" width="200px" alt="{{ s.playerName }}'s mascot">
               <p>{{ s.playerName }} (<span>{{ s.total }}</span>)</p>
             </div>
           }
         }
       </div>
-      <button (click)="endGame()">End Game</button>
+      <button class="button" (click)="endGame()">End Game</button>
     </div>
   
     <!-- End Game Button -->

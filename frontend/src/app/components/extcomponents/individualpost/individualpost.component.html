@@ -14,12 +14,11 @@
             </div>
           </div>
         </div>
-  
- 
+       
         <div class="col-12">
           <div class="social-container d-flex flex-wrap justify-content-center gap-3 mt-3">
             <button class="btn btn-warning" (click)="likePost()">
-              <i class="fa fa-heart" aria-hidden="true"></i> Like
+              <i class="fa fa-heart" aria-hidden="true"></i> Like 
             </button>
             <button class="btn telegram-btn" (click)="share()">
               <i class="fa-brands fa-telegram"></i> Share
@@ -30,14 +29,16 @@
             </button>
           </div>
         </div>
+      
   
         <!-- Accordion -->
         <div class="col-12 mt-5">
           <accordion [isAnimated]="true">
             <accordion-group heading="Drawing information">
+              <h3><strong>Prompt:</strong> {{post.prompt}}</h3>
               <h3><strong>Creator:</strong> {{post.username}}</h3>
               <h3><strong>Image Title:</strong> {{post.title}}</h3>
-              <h3><strong>Prompt:</strong> {{post.prompt}}</h3>
+              
               <h3><strong>Creator Description:</strong> {{post.description}}</h3>
               <h3><strong>AI Comments:</strong> {{post.aiComments}}</h3>
             </accordion-group>

@@ -19,7 +19,7 @@
   <div class="container">
    
     
-    <swiper-container
+    <swiper-container #swiper
       class="mySwiper"
       effect="coverflow"
       grab-cursor="true"
@@ -32,6 +32,7 @@
       coverflow-effect-slide-shadows="true"
       loop="false"
       keyboard-enabled="true"
+      
       
     > 
     @for (post of posts$ | async;let idx=$index; track idx;) {

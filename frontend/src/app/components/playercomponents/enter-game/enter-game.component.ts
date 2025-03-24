@@ -1,14 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GameEntry } from '../../../models/gamemodels';
 import { Router, RouterOutlet } from '@angular/router';
-import { WebSocketService } from '../../../services/websocket.service';
+
 import { GameService }from '../../../services/game.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-enter-game',
-  imports: [FormsModule,RouterOutlet],
+  imports: [FormsModule,RouterOutlet,ReactiveFormsModule,JsonPipe],
   templateUrl: './enter-game.component.html',
   styleUrl: './enter-game.component.css'
 })
@@ -29,19 +30,24 @@ export class EnterGameComponent implements OnInit{
   router = inject(Router);
   gameService = inject(GameService);
 
-  test!:any
+  protected form!:FormGroup
+  private fb = inject(FormBuilder)
+
 
   ngOnInit(): void {
-
+    this.form = this.createForm();
     this.username = localStorage.getItem("username") || 'player';
     
   }
   
 
-  onSubmit(gameCode:number) {
-    this.test=gameCode
+  submit(gameCode:number) {
 
-    this.gameEntry.gameCode = this.gameCode;
+
+ 
+
+    this.gameEntry.gameCode = this.form.value.gameCode
+    this.gameCode =this.gameEntry.gameCode 
     this.gameEntry.name = this.username;
     
     console.log(this.gameEntry)
@@ -50,7 +56,7 @@ export class EnterGameComponent implements OnInit{
         next: (response) => {
           console.log(response);
           this.errorMessage='';
-          this.router.navigate(['player','lobby',gameCode])
+          this.router.navigate(['player','lobby',this.gameCode])
         },
         error: (err:HttpErrorResponse) => {
          
@@ -59,8 +65,12 @@ export class EnterGameComponent implements OnInit{
     })
   }
   
-  // onSubmit2(event:any):void {
-  //   this.test=event
-  // }
+  createForm():FormGroup {
+    return this.fb.group({
+      gameCode: this.fb.control<number>(0)
+    
+    })
+  }
+ 
   
 }

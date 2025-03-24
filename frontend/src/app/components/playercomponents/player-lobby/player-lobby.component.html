@@ -23,12 +23,17 @@
 
 <div class="background-container">
 @if (this.currentGameState==="QUEUING") {
-    
+    <!-- <app-player-drawing [currentGameState]="currentGameState"></app-player-drawing> -->
+
         <div class="message-container">
         
             <h1>Waiting for host to start the game for code: {{gameCode}}...</h1>
 
         </div>
+        <div class="leave-room">
+            <app-disconnect (emitDisconnect)="handleDisconnection($event)"></app-disconnect>
+        </div>
+     
       
         <!-- <div class="message-container">
             <app-player-vote-input [currentGameState]="currentGameState"></app-player-vote-input>
@@ -62,6 +67,10 @@
 
 @if(this.currentGameState==="RESULTS" || this.currentGameState==="FINISHED") {
     <app-player-results [currentGameState]="currentGameState" [submissionresults]="submission"></app-player-results>
+    <div class="leave-room">
+        <app-disconnect (emitDisconnect)="handleDisconnection($event)"></app-disconnect>
+    </div>
+  
 }
 
 <!-- @if(!gameStarted) {
@@ -76,7 +85,7 @@
     <app-player-results></app-player-results>
 } -->
 
-<button type="button" class="btn btn-danger leave-room" (click)="disconnect()">Leave room</button>
+<!-- <button type="button" class="btn btn-danger leave-room" (click)="disconnect()">Leave room</button> -->
 
 </div>
 

@@ -1,4 +1,73 @@
 
+
+.register-link {
+  color:red;
+}
+.register-link :hover {
+  color:blue;
+  text-decoration: underline;
+}
+.error-msg {
+  color:red;
+}
+
+
+.form-card {
+  background-color: #f8f4e3;
+  padding: 2em;
+  border-radius: 2em;
+  box-shadow: 0 1em 3em rgba(0,0,0,0.7);
+  margin-bottom:4em;
+  position: relative; /* Add this to make it a positioning context */
+
+}
+.title {
+  color:#8e4a64;
+}
+.button {
+  background-color:  #8e4a64;
+  color:white;
+}
+
+.mascot {
+  position: absolute; /* Change to absolute positioning */
+  top: -6em; /* Adjust these values as needed */
+  right: -7em;
+  height: 300px; /* Smaller size than original */
+  width: 300px;
+  z-index: 2; /* Make sure it appears above the card */
+}
+
+.outer-container {
+  margin-top: 8em;
+  position: relative; /* This helps with positioning context */
+ 
+
+}
+
+@media screen and (max-width: 768px) {
+  .mascot {
+    height: 200px;
+    width: 200px;
+    top: -3em;
+    right: -3em;
+  }
+  .container {
+    overflow-x: hidden; /* Prevent horizontal scroll on the container instead */
+    max-width: 100%;
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .mascot {
+    height: 150px;
+    width: 150px;
+    top: -3em;
+    right: -3em;
+  }
+}
+/* 
   
   .game-card {
     background-color: var(--card-bg);
@@ -123,7 +192,7 @@
     color: white;
   } */
   
-  .register-link {
+  /* .register-link {
     color: var(--text-muted);
     transition: all 0.3s ease;
   }
@@ -150,4 +219,4 @@
     0% { opacity: 1; }
     50% { opacity: 0.7; }
     100% { opacity: 1; }
-  }
+  }  */

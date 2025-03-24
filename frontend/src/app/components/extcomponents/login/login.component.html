@@ -56,12 +56,14 @@
     </div>
   </div>
    -->
-
+ 
    <div class="container">
-    <div class="row mt-5 d-flex justify-content-center">
-      <div class="col-12 col-md-8 col-lg-5">
-        <div class="game-card">
-          <h2 class="game-title">Player Login</h2>
+    <div class="outer-container row d-flex justify-content-center">
+      
+      <div class="col-12 col-md-8 col-lg-5 mx-3 mx-sm-0">
+        <div class="form-card">
+          <img class="mascot" src="/mascot/pencil2.svg" alt="Mascot">
+          <h2 class="title">Player Login</h2>
           
           @if (errorMessage) {
             <div class="error-msg">
@@ -71,46 +73,46 @@
           
           <form [formGroup]="form" (submit)="onSubmit()">
             <div class="mb-4">
-              <label for="email" class="form-label">Email</label>
-              <input type="text" class="form-control" placeholder="Enter your email" formControlName="email">
+              <label for="email" class="form-label"><i class="fas fa-envelope"></i> Email</label>
+              <input type="text" class="form-control" placeholder="Enter email" formControlName="email">
             </div>
             
             <div class="mb-4">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" placeholder="Enter your password" formControlName="password">
+              <label for="password" class="form-label"><i class="fas fa-lock"></i>  Password</label>
+              <input type="password" class="form-control" placeholder="Enter password" formControlName="password">
             </div>
             
-            <button type="submit" class="game-btn w-100 p-3 mb-4 d-flex align-items-center justify-content-center">
-              🎮 Login to Play
+            <button type="submit" class=" button w-100 p-2 mb-4 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-gamepad me-2"></i>  <span class="fs-5"> Login to Play</span>
             </button>
             
             <div class="text-center mb-4">
-              <a [routerLink]="['/register']" class="register-link text-decoration-none">
-                New Player? <span>Register Now</span>
+              <span>New Player? </span>
+              <a [routerLink]="['/register']" class="register-link">
+                <span>Register Now</span>
               </a>
             </div>
           </form>
           
           <div class="my-4 position-relative">
-            <hr class="bg-secondary opacity-25">
-            <span class="position-absolute top-50 start-50 translate-middle px-3" style="background-color: var(--card-bg);">OR</span>
+            <hr>
+            <span class="position-absolute top-50 start-50 translate-middle " >OR</span>
           </div>
           
           <div class="mb-3">
-            <button (click)="loginViaGoogle()" class="social-btn google-btn w-100 p-3 d-flex align-items-center justify-content-center">
-              <img src="/images/google-icon.svg" alt="Google Logo" height="20px" width="20px" class="me-2">
-              Continue with Google
+            <button (click)="loginViaGoogle()" class="button w-100 p-2 d-flex align-items-center justify-content-center">
+              <img src="/images/google-icon.svg" alt="Google Logo" height="24px" width="24px" class="me-2">
+              <span class="fs-5">Continue with Google </span>
             </button>
           </div>
           
           <div>
-            <!-- <button (click)="loginViaGitHub()" class="social-btn github-btn w-100 p-3 d-flex align-items-center justify-content-center">
-              <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-                   alt="GitHub Logo" height="20px" width="20px" class="me-2">
-              Continue with GitHub
-            </button> -->
+          
           </div>
         </div>
       </div>
     </div>
   </div>
+
+
+  

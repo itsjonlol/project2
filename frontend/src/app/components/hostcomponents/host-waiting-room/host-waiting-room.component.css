@@ -169,24 +169,21 @@
   z-index: 10; */
 }
 
-button_game {
-  background: #fbca1f;
-  font-family: inherit;
+.button_game {
+  background: purple;
+  color:white;
   padding: 0.6em 1.3em;
   font-weight: 900;
   font-size: 18px;
   border: 3px solid black;
-  border-radius: 0.4em;
+  border-radius: 2em;
   box-shadow: 0.1em 0.1em;
-  cursor: pointer;
+ 
 }
 
-button_game:hover {
-  transform: translate(-0.05em, -0.05em);
-  box-shadow: 0.15em 0.15em;
-}
 
-button:active {
+
+/* button:active {
   transform: translate(0.05em, 0.05em);
   box-shadow: 0.05em 0.05em;
-}
+} */

@@ -16,14 +16,14 @@
 
 @if (postSocial$ | async; as postSocial) {
     <div class="post-container">
-        <h3>Post ID: {{ postSocial.postId }}</h3>
-        <h1>{{postSocial.likes}}</h1>
+        <!-- <h3>Post ID: {{ postSocial.postId }}</h3> -->
+        <h1>{{postSocial.likes}} likes</h1>
 
-        <h4>Comments</h4>
+        <h4>Comment Section</h4>
         <ul class="comment-list">
             @for (comment of postSocial.comments; let idx = $index; track idx) {
                 <li class="comment-item">
-                    <p class="comment-id">{{comment.commentId}} </p>
+                    <!-- <p class="comment-id">{{comment.commentId}} </p> -->
                     <p class="comment-username"><strong>{{ comment.username }}</strong></p>
                     <p class="comment-text">{{ comment.comment }}</p>
                     @if (comment.username === currentUsername) {

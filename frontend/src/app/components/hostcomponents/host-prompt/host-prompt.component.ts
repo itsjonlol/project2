@@ -59,6 +59,11 @@ export class HostPromptComponent implements OnInit,OnDestroy{
   timerSource$:Observable<number> = interval(1000);
   hasResetOnce:boolean=false;
   connectionSub!: Subscription
+
+
+  audioSrc!:string;
+  audio!:any;
+  playSound:boolean = false;
   
 
   ngOnInit(): void {
@@ -150,6 +155,14 @@ export class HostPromptComponent implements OnInit,OnDestroy{
 
         if (this.timerCountDown===0) {
           if (!this.hasResetOnce) {
+
+            //audio
+
+            this.audioSrc='/music/t2.mp3';
+            this.audio = new Audio(this.audioSrc);
+            this.playSound = true;
+            this.playVoice();
+
             this.resetTimer();
             this.hasResetOnce=true;
             const data = {
@@ -223,6 +236,24 @@ export class HostPromptComponent implements OnInit,OnDestroy{
     // this.wsService.disconnect();
     
   }
+  playVoice(): void {
+    // this.playSound = !this.playSound;
+
+    if (this.playSound) {
+        this.audio.currentTime = 0; // Reset to the beginning
+        this.audio.load();
+        this.audio.play().catch((err: any) => console.error("Error playing audio:", err));
+    } else {
+        this.audio.pause();
+    }
+}
 
 
 }
+
+
+  
+
+  
+
+ 

@@ -99,7 +99,7 @@
     </div>
 
   <app-host-waiting-room [players]="players" [gameCode]="gameCode" [username]="username" (emitEvent)="processEvent($event)"></app-host-waiting-room>
-  <app-audio class="audio"></app-audio>
+  
  
 </div>
 
@@ -215,4 +215,4 @@
 @if (currentGameState === "RESULTS") {
   <app-host-results [submissionresults]="submission"></app-host-results>
 }
-
+<app-audio class="audio" [volume]="audioVolume" [currentGameState]="currentGameState"></app-audio>

@@ -10,13 +10,12 @@
     margin: 0;
 }
 
-/* Media query for mobile devices */
+
 @media screen and (max-width: 768px) {
     .bg-container {
         background-position: center center;
         background-image: url('/images/beigebg2-mobile.jpg');
-        /* Optional: You can adjust the background-size for mobile if needed */
-        /* background-size: contain; */
+      
     }
 }
 

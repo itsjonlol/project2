@@ -54,10 +54,10 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
 
 
   private canvas!: fabric.Canvas;
-  public brushColor: string = '#000000'; // Default brush color
-  public brushWidth: number = 5; // Default brush size
-  public isErasing: boolean = false; // Eraser mode flag
-  private backgroundColor: string = "white"; // Background color (same as canvas)
+  brushColor: string = 'black'; // Default brush color
+  brushWidth: number = 5; // Default brush size
+  isErasing: boolean = false; // Eraser mode flag
+  backgroundColor: string = "white"; // Background color (same as canvas)
   // protected _canvas?: fabric.Canvas;
   // @ViewChild('canvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
 
@@ -195,7 +195,7 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
 
   public clearCanvas(): void {
     this.canvas.clear();
-    // this.canvas.backgroundColor = this.backgroundColor; // Reset background
+    this.canvas.backgroundColor = this.backgroundColor; // Reset background
   }
 
   submitCanvas() {

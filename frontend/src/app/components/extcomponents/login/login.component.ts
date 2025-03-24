@@ -63,18 +63,18 @@ export class LoginComponent {
     })
   }
 
-  loginViaGitHub():void {
-    this.fireAuthService.loginViaGitHub()
-    .subscribe({
-      next: () => {
+  // loginViaGitHub():void {
+  //   this.fireAuthService.loginViaGitHub()
+  //   .subscribe({
+  //     next: () => {
 
-        this.router.navigate(['/dashboard'])
-      },
-      error: (err) => {
-        this.errorMessage = err.code
-      }
-    })
-  }
+  //       this.router.navigate(['/dashboard'])
+  //     },
+  //     error: (err) => {
+  //       this.errorMessage = err.code
+  //     }
+  //   })
+  // }
  
 
 

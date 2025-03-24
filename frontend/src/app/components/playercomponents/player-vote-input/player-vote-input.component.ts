@@ -6,7 +6,7 @@ import { GameState, Player, Submission } from '../../../models/gamemodels';
 import { JsonPipe } from '@angular/common';
 import { PlayerResultsComponent } from '../player-results/player-results.component';
 import { Subscription } from 'rxjs';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-player-vote-input',
@@ -44,7 +44,9 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
 
   hasVoted:boolean=false;
 
+
   private fb = inject(FormBuilder);
+
   protected form!: FormGroup
 
   ngOnInit(): void {
@@ -56,6 +58,8 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
     } else {
       console.error('Game code not found in route parameters.');
     }
+    this.form = this.createForm();
+
     this.wsService.connect();
     this.connectionSub = this.wsService.isConnected$.subscribe((isConnected)=>{
       if (isConnected) {
@@ -110,6 +114,12 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
     
   }
 
+  createForm():FormGroup {
+    return this.fb.group({
+      playerVote:this.fb.control<number>(0,[Validators.min(0),Validators.max(10)])
+    })
+  } 
+
   processVote(voteString : string) {
     this.hasVoted=true;
     this.playerVote = {
@@ -123,6 +133,23 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
     }
       
       this.wsService.publish(`/app/playervote/${this.gameCode}`,data);
+
+    // this.playerVote.vote = 0;
+  }
+  processVote2() {
+    this.hasVoted=true;
+    this.playerVote = {
+      name: this.username,
+      vote: this.form.value.playerVote
+    }
+    const data = {
+      gameCode: this.gameCode,
+      ...this.playerVote,
+      currentPlayerName: this.currentPlayerName
+    }
+      
+      this.wsService.publish(`/app/playervote/${this.gameCode}`,data);
+      this.form = this.createForm();
 
     // this.playerVote.vote = 0;
   }

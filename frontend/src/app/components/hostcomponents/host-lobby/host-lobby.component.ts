@@ -60,6 +60,8 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
   currentGameState:string|null ='' 
   gameStore = inject(GameStore);
   storeGameState$!: Observable<string | null>
+
+  audioVolume:number = 1;
   
   gameRoomState$!: Observable<GameStateManager>;
   submission!:Submission
@@ -68,7 +70,7 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
 //     gameCode: 2,
 //     gamePrompt: 'test string',
 //     players: [
-//         { name: "jon1", vote: 0, mascot: "/mascot/mascot1.svg" },
+//         { name: "jon1", vote: 10, mascot: "/mascot/mascot1.svg" },
 //         { name: "jon2", vote: 0, mascot: "/mascot/mascot1.svg" },
 //         { name: "jon3", vote: 0, mascot: "/mascot/mascot1.svg" },
 //         { name: "jon4", vote: 0, mascot: "/mascot/mascot1.svg" }
@@ -79,7 +81,7 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
 //             playerName: "jon1",
 //             title: "title1",
 //             description: "description1",
-//             aiComments: "aicomments1",
+//             aiComments: "Ah, a masterpiece worthy of the Louvre! This is clearly the pinnacle of abstract minimalism. The 'Patrick Star label is crucial, or I'd have mistaken it for avant-garde spaghetti. Bravo!",
 //             imageUrl: "https://artistick.sgp1.digitaloceanspaces.com/ec1306ad_canvas-image.png",
 //             total: 0,
 //             isWinner: false
@@ -227,7 +229,8 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
               const data = JSON.parse(message.body);
               
               if (data.gameState === GameState.STARTED) {
-              
+                
+                this.audioVolume=0.1;
                 this.currentGameState = GameState.TRANSITION
 
 
@@ -242,6 +245,7 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
 
                
                 setTimeout(()=>{
+                  this.audioVolume=1;
                   this.currentGameState = GameState.STARTED
                   // this.gameStore.updateGameState({gameCode:this.gameCode,gameState: GameState.STARTED})
                   // this.gameStore.updateGameState(GameState.STARTED);
@@ -254,9 +258,11 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
                 this.currentGameState = GameState.DESCRIBE
                 // this.gameStore.updateGameState({gameCode:this.gameCode,gameState: GameState.DESCRIBE})
                 // this.gameStore.updateGameState(GameState.DESCRIBE);
+                
               }
 
               if (data.gameState === GameState.VOTING) {
+                this.audioVolume=0.1;
                 this.currentGameState = GameState.TRANSITION
 
                 this.transition = {
@@ -270,6 +276,7 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
                 
 
                 setTimeout(()=>{
+                  this.audioVolume=1;
                   this.currentGameState=GameState.VOTING
                   // this.gameStore.updateGameState({gameCode:this.gameCode,gameState: GameState.VOTING})
                   // this.gameStore.updateGameState(GameState.VOTING);
@@ -278,7 +285,7 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
               }
 
               if (data.gameState === GameState.RESULTS) {
-
+                this.audioVolume=0.1;
                 this.currentGameState = GameState.TRANSITION
                 // this.gameStore.updateGameState({gameCode:this.gameCode,gameState: GameState.TRANSITION})
 
@@ -291,6 +298,7 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
                 
 
                 setTimeout(()=>{
+                  this.audioVolume=1;
                   this.currentGameState=GameState.RESULTS
                   // this.gameStore.updateGameState({gameCode:this.gameCode,gameState: GameState.RESULTS})
                   // this.gameStore.updateGameState(GameState.RESULTS);
@@ -330,19 +338,19 @@ export class HostLobbyComponent implements OnInit ,OnDestroy{
     
   }
   
-  audio = new Audio('/music/track1.mp3'); // Create the audio object once
+  // audio = new Audio('/music/track1.mp3'); // Create the audio object once
 
-  playMusic(): void {
-      this.playSound = !this.playSound;
+  // playMusic(): void {
+  //     this.playSound = !this.playSound;
   
-      if (this.playSound) {
-          this.audio.currentTime = 0; // Reset to the beginning
-          this.audio.load();
-          this.audio.play().catch(err => console.error("Error playing audio:", err));
-      } else {
-          this.audio.pause();
-      }
-  }
+  //     if (this.playSound) {
+  //         this.audio.currentTime = 0; // Reset to the beginning
+  //         this.audio.load();
+  //         this.audio.play().catch(err => console.error("Error playing audio:", err));
+  //     } else {
+  //         this.audio.pause();
+  //     }
+  // }
 
   processEvent($event:string) {
     if ($event === 'start') {

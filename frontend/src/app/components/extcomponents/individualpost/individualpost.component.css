@@ -30,12 +30,12 @@
     position: relative;
     border: solid 15px black;
     border-radius: 10px;
-    max-width: 600px; /* Set a reasonable max-width */
+    max-width: 500px; /* Set a reasonable max-width */
     width: 100%; /* Ensure it takes the full width up to max-width */
     margin: 0 auto; /* Center the frame */
     box-shadow: -3px -3px 12px #999;
     overflow: hidden; /* Ensure the border doesn't overflow */
-    height: 400px; /* Set a fixed height for the frame */
+    height: 500px; /* Set a fixed height for the frame */
   }
   
   /* Border styling */
