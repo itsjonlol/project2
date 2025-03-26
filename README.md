@@ -1,3 +1,6 @@
+Only host screen not fully mobile responsive. Meant to be viewed on large screen for an audience
+Rest of the app is mobile responsive (including player lobby)
+
 (Host Instructions - meant to use a computer for a better viewing experience)
 
 <img src="docs/images/image.png" alt="Main lobby screen" width="600">
