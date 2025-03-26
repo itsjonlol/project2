@@ -22,7 +22,7 @@ After 75 seconds, host screen will tell players to give their drawings a title a
 
 5. During voting phase, host screen will show each drawing one by one. Players can all vote for each drawing
 (for now, all players can vote their own drawings)
-<img src="docs/images/host-showdrawings.png" alt="Host showing drawings" width="500">
+<img src="docs/images/showdrawings.png" alt="Host showing drawings" width="500">
 
 6. At the end of the game. Host presses "End Game" and everyone will leave the game room.
 (for now, winner is the first highest votes,including tied votes)
