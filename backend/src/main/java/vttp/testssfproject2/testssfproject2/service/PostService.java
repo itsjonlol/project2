@@ -19,10 +19,6 @@ public class PostService {
 
     
 
-    // public List<Post> retrieveAllPosts(Integer page,Integer limit) {
-    //     return postRepo.retrieveAllPosts(page,limit);
-    // }
-
     public List<Post> retrieveAllPosts() {
         return postRepo.retrieveAllPosts();
     }

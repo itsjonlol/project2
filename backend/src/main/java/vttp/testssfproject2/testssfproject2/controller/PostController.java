@@ -40,38 +40,17 @@ public class PostController {
     @Autowired
     CommentService commentService;
     
-    // @GetMapping(path="/allposts",produces=MediaType.APPLICATION_JSON_VALUE)
-    // public ResponseEntity<?> getAllPosts(@RequestParam("page") Integer page) {
-    //     Integer limit = 4;
-
-    //     Map<String,Object> response = new HashMap<>();
-
-    //     Integer numPosts = postService.getNumOfPosts();
-    //     Integer numPages = (int) Math.ceil((double) numPosts / limit);
-
-
-    //     List<Post> posts = postService.retrieveAllPosts(page,limit);
-
-    //     response.put("posts",posts);
-    //     response.put("currentPage",page);
-    //     response.put("totalPosts",numPosts);
-    //     response.put("totalPages",numPages);
-        
-
-
-    //     return ResponseEntity.status(200).body(response);
-    // }
-
+    //retrieve all posts
     @GetMapping(path="/allposts",produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllPosts() {
        
-
+        
         List<Post> posts = postService.retrieveAllPosts();
 
        
         return ResponseEntity.status(200).body(posts);
     }
-
+    // get an individual post by id
     @GetMapping(path="/getpost/{postid}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getPostById(@PathVariable("postid") String postId) {
         Optional<Post> opt = postService.retrievePostById(postId);
@@ -87,6 +66,7 @@ public class PostController {
         return ResponseEntity.status(200).body(opt.get());
     }
 
+    //  get posts by username
     @GetMapping(path="getposts",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getPostsByUsername(@RequestParam("username") String username) {
         List<Post> posts = postService.retrieveAllPostsByUsername(username);
@@ -94,7 +74,7 @@ public class PostController {
         return ResponseEntity.status(200).body(posts);
     }
     
-
+    // delete post by id
     @DeleteMapping(path="/deletepost/{postid}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deletePostById(@PathVariable("postid") String postId) {
         Optional<Post> opt = postService.retrievePostById(postId);
@@ -104,6 +84,7 @@ public class PostController {
             response.put("message",postId + " not available.");
             return ResponseEntity.status(404).body(response);
         }
+        //delete both the post and the comments associated with that code
         postService.deactivatePost(postId);
         commentService.deletePostSocial(postId);
         response.put("message",true);
@@ -112,6 +93,8 @@ public class PostController {
 
     }
 
+    
+    // implemented but not used in this current project (generate ai image)-> for future development
     @PostMapping(path="/generateimage",produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> generateAiImage(@RequestBody AiImage aiImageRequest) {
 
@@ -124,8 +107,8 @@ public class PostController {
         }
 
 
-       String aiImageUrl = "blabla"; // placeholder
-
+       String aiImageUrl = ""; // placeholder
+       aiImageUrl = openAiService.generateImage(aiImageRequest.getPrompt());
        postService.insertAiImageurl(aiImageRequest.getPostId(), aiImageUrl);
 
     

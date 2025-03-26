@@ -32,6 +32,7 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
+    //Get comments for that post id
     @GetMapping("/postsocial/{postId}")
     public ResponseEntity<?> getPostSocial(@PathVariable("postId") String postId) {
 
@@ -48,7 +49,7 @@ public class CommentController {
        
         return ResponseEntity.status(200).body(opt.get());
     }
-    
+    // post a comment for that post id
     @PostMapping("/comment")
     public ResponseEntity<?> insertComment(@RequestBody String commentPostJsonStr) {
        
@@ -64,8 +65,7 @@ public class CommentController {
         commentPost.setComment(comment);
 
         
-        
-
+        // see whether the post id is available in the first place
         Optional<PostSocial> opt = commentService.getPostSocial(postId);
 
         Map<String,Object> response = new HashMap<>();
@@ -74,10 +74,11 @@ public class CommentController {
             response.put("message",postId + " is not available");
             return ResponseEntity.status(404).body(response);
         }
+        //insert a comment
         commentService.insertComment(commentPost, postId);
        
         
-
+        // send back the post with the updated comments
         PostSocial postSocial = commentService.getPostSocial(postId).get();
         
         return ResponseEntity.status(201).body(postSocial);
@@ -93,17 +94,19 @@ public class CommentController {
 
         Map<String,Object> response = new HashMap<>();
         Optional<PostSocial> opt = commentService.getPostSocial(postId);
+        //see if post exist in the first place
         if (opt.isEmpty()) {
             response.put("message",postId + " is not available");
             return ResponseEntity.status(404).body(response);
         }
         commentService.deleteComment(postId, commentId);
+        //send back the post with the updated comments
         PostSocial postSocial = commentService.getPostSocial(postId).get();
         
         return ResponseEntity.status(200).body(postSocial);
         
     }
-
+    // to add a like to the post
     @PostMapping("/like")
     public ResponseEntity<?> postLike(@RequestBody String likePostJsonStr) {
         JsonObject commentPostJson = getJsonObjectFromPayloadString(likePostJsonStr);
@@ -123,13 +126,13 @@ public class CommentController {
         
         commentService.changeLikes(like, postId);
 
-
+        //send back the post with the updated likes
         PostSocial postSocial = commentService.getPostSocial(postId).get();
         
         return ResponseEntity.status(201).body(postSocial);
     }
     
-    
+        // helper to read the json object from payload
      private JsonObject getJsonObjectFromPayloadString (String message ) {
         InputStream is = new ByteArrayInputStream(message.getBytes());
         JsonReader reader = Json.createReader(is);

@@ -24,15 +24,16 @@ public class EmailService {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-        // Process the template with the given context
+    
         String htmlContent = templateEngine.process(template, context);
 
-        // Set email properties
+
+        // set email properties
         helper.setTo(to);
         helper.setSubject(subject);
-        helper.setText(htmlContent, true); // Set true for HTML content
+        helper.setText(htmlContent, true); 
 
-        // Send the email
+        // send the actual email
         mailSender.send(mimeMessage);
     }
 }

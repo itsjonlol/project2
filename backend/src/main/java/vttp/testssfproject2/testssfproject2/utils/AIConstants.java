@@ -24,4 +24,13 @@ public class AIConstants {
     public static final String USERPROMPT = """
         Judge this artwork with maximum sarcasm!
             """;
+
+    public static final String EXTRAPROMPT = """
+            A playful, exaggerated, hand-drawn cartoon like in a Jackbox-style game
+            Looks like a finger painting on a canvas,   
+            with bold outlines, uneven strokes, and vibrant colors.  
+            No realistic details, just fun and silly sketches. 
+            White background, no shading, no text, like a child's drawing.
+            Your prompt is: 
+            """;
 }

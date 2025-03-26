@@ -21,7 +21,7 @@ public class GameRoomService {
     GameRoomRepo gameRoomRepo;
 
     public Optional<GameRoom> getGameRoom(Integer gameCode) {
-        System.out.println("getting game room from service...");
+       
         return gameRoomRepo.getGameRoom(gameCode);
     }
     

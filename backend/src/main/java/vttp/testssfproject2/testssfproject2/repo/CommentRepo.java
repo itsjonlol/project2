@@ -33,7 +33,7 @@ public class CommentRepo {
 
 
 
-
+    // to insert comments for posts
     public void insertComment(Comments comments,String postId) {
         
         Criteria criteria = Criteria.where("_id").is(postId);
@@ -50,19 +50,19 @@ public class CommentRepo {
 
         
     }
-
+    // delete a comment
     public void deleteComment(String postId, String commentId) {
-        // Define the query to find the post by post_id
+    
+
         Query query = new Query(Criteria.where("_id").is(postId));
 
-        // Define the update to remove the comment with the specified commentId
         Update updateOps = new Update().pull("comments", 
         Query.query(Criteria.where("commentid").is(commentId)));
 
-        // Execute the update
+      
         template.updateFirst(query, updateOps, C_COMMENTS);
     }
-
+    // to create the comment structure when first creating a post
     public void insertPostSocial(String postId) {
 
         List<Comments> comments = new ArrayList<>();
@@ -95,7 +95,7 @@ public class CommentRepo {
 
         
     }
-
+    // get the comments for the post
     public Optional<PostSocial> getPostSocial(String postId) {
 
         Criteria criteria = Criteria.where("_id").is(postId);
@@ -109,7 +109,7 @@ public class CommentRepo {
 
         return Optional.of(DocToPostSocial(document));
     }
-
+    // delete the comment from the post
     public void deletePostSocial(String postId) {
         Criteria criteria = Criteria.where("_id").is(postId);
         Query query = new Query(criteria);

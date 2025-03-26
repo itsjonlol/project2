@@ -15,32 +15,7 @@ public class UserRepo {
     @Autowired
     JdbcTemplate template;
 
-    // public String getUserId(User user) {
-        
-    //     SqlRowSet rs = template.queryForRowSet(FIND_USER_ID, user.getUsername(),user.getEmail());
-       
-    //     String userId;
-    //     // if user doesnt exist, create in database and get the userid
-
-   
-    //     if (!rs.next()) {
-            
-    //         userId = this.createUser(user);
-    //         return userId;
-    //     }
-       
-    //     User userFromDB = toUser(rs);
-    //     userId = userFromDB.getUserId();
-        
-        
-    //     return userId;
-    // }
-
-    // public String createUser(User user) {
-    //     String userId = UUID.randomUUID().toString().substring(0,8);
-    //     template.update(INSERT_USER,userId,user.getUsername(),user.getEmail());
-    //     return userId;
-    // }
+    
 
     public void postUser(User user) {
         //see if user exist in the users table

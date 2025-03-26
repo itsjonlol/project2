@@ -14,11 +14,10 @@ public class SubmissionService {
     @Autowired
     SubmissionRepo submissionRepo;
 
-    @Autowired
-    CommentService commentService;
+   
 
 
-    
+    // insert game submissions after the game ends
     @Transactional
     public void insertGameSubmissions(Submission submission) {
         String gameId = UUID.randomUUID().toString().substring(0,8);

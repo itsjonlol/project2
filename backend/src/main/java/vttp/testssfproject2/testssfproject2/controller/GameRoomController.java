@@ -32,7 +32,7 @@ public class GameRoomController {
     @Autowired
     GameRoomService gameRoomService;
     
-
+    // to gain entry to a game room for players
     @PostMapping("/accessroom")
     public ResponseEntity<?> accessGameRoom(@RequestBody String entryDetailsJson) {
         InputStream is = new ByteArrayInputStream(entryDetailsJson.getBytes());
@@ -47,8 +47,8 @@ public class GameRoomController {
         Map<String,Object> response = new HashMap<>();
         
         Optional<GameRoom> opt = gameRoomService.getGameRoom(gameCode);
-        // System.out.println(opt.get().getGameState());
-        
+    
+       
 
         if (opt.isEmpty()){
             response.put("success", false);
@@ -56,6 +56,7 @@ public class GameRoomController {
             return ResponseEntity.status(400).header("Content-Type", "application/json").body(response);
 
         }
+
         if (opt.get().getIsActive()){
             response.put("success", false);
             response.put("message", "Game is currently running");
@@ -69,15 +70,16 @@ public class GameRoomController {
             return ResponseEntity.status(400).header("Content-Type", "application/json").body(response);
 
         }
-
-        if (opt.get().getIsFull()){
+        
+        // >=4 means 4 player max
+        if (opt.get().getPlayers().size() >=4){
             response.put("success", false);
             response.put("message", "Game is currently full");
             return ResponseEntity.status(400).header("Content-Type", "application/json").body(response);
 
         }
         
-
+        // successful message to get an available game code
         response.put("success", true);
         response.put("message", "Joining game " + gameCode);
         // response.put("players",opt.get().getPlayers());
@@ -86,7 +88,7 @@ public class GameRoomController {
 
         return ResponseEntity.status(200).header("Content-Type", "application/json").body(response);
     }
-
+    // for a host to get a random available game room
     @GetMapping("/getgameroom")
     public ResponseEntity<?> getGameRoom() {
         Optional<GameRoom> opt = gameRoomService.getRandomAvailableGameRoom();
@@ -106,7 +108,7 @@ public class GameRoomController {
 
     
     }
-
+    // to get the current game state for a current room
     @GetMapping("/gamestate/{gameCode}") 
     public ResponseEntity<?> getGameState(@PathVariable("gameCode") Integer gameCode) {
         GameState gameState = gameRoomService.getGameState(gameCode);
@@ -116,7 +118,7 @@ public class GameRoomController {
         response.put("gameState",gameState);
         return ResponseEntity.status(200).header("Content-Type", "application/json").body(response);
     }
-
+    // to get the game prompt for a current room
     @GetMapping(path = "/gameprompt/{gameCode}",produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getGamePrompt(@PathVariable("gameCode") Integer gameCode) {
         String gamePrompt = gameRoomService.getGamePrompt(gameCode);
@@ -129,7 +131,5 @@ public class GameRoomController {
     
 
     
-    
-
     
 }

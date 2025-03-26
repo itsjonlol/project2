@@ -34,16 +34,12 @@ public class MongoRepoUtils {
             return player;
         }).toList();
         gameRoom.setPlayers(players);
-        // gameRoom.setPlayers(document.getList("players", List<Player>.class));
+       
 
         return gameRoom;
         
     }
-    /*
-     *  private Integer gameCode;
-    private List<Player> players;
-    private List<PlayerSubmission> playerSubmissions;
-     */
+   
     public static Submission getSubmissionFromDoc(Document document) {
         Submission submission = new Submission();
         submission.setGameCode(document.getInteger("_id"));

@@ -26,19 +26,8 @@ public class PostRepo {
     @Autowired
     JdbcTemplate template;
 
-    // public List<Post> retrieveAllPosts(Integer page,Integer limit) {
-    //     Integer offset = (page-1) * limit;
 
-    //     SqlRowSet rs = template.queryForRowSet(RETRIEVE_ALL_POSTS,limit,offset);
-    //     List<Post> posts = new ArrayList<>();
-
-    //     while (rs.next()) {
-    //         posts.add(toPost(rs));
-    //     }
-
-    //     return posts;
-    // }
-
+    // Retrieve all posts
     public List<Post> retrieveAllPosts() {
         
 
@@ -51,6 +40,7 @@ public class PostRepo {
 
         return posts;
     }
+    //search parameter for username
     public List<Post> retrieveAllPostsByUsername(String username) {
 
         SqlRowSet rs = template.queryForRowSet(RETRIEVE_POSTS_BY_USER,"%%%s%%".formatted(username));
@@ -62,7 +52,7 @@ public class PostRepo {
         return posts;
     }
 
-
+    // to see each individual post
     public Optional<Post> retrievePostById(String postId) {
         
         SqlRowSet rs = template.queryForRowSet(RETRIEVE_POST_BY_ID, postId);
@@ -73,16 +63,16 @@ public class PostRepo {
 
         return Optional.of(toPost(rs));
     }
-
+    // delete post
     public void deactivatePost(String postId) {
         template.update(SET_INACTIVE_POST,postId);
     }
-
+    // get the number of posts available
     public Integer getNumOfPosts() { 
 
         return template.queryForObject(GET_N_POSTS, Integer.class);
     }
-
+    // add ai image from prompt
     public void insertAiImageurl(String postId, String aiImageUrl) { 
         template.update(INSERT_AI_IMAGEURL,aiImageUrl,postId);
     }

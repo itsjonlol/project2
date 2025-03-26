@@ -36,7 +36,7 @@ public class GameRoomRepo {
     @Autowired
     MongoTemplate mongoTemplate;
 
-
+    // Get an available gamer oom
     public Optional<GameRoom> getGameRoom(Integer gameCode) {
 
         Criteria criteria = Criteria.where("_id").is(gameCode);
@@ -57,29 +57,14 @@ public class GameRoomRepo {
         return Optional.of(getGameRoomFromDoc(document));
 
     }
-    // public Optional<GameRoom> getAvailableRoom() {
-
-    //     Criteria criteria = Criteria.where("gameState").is(GameState.AVAILABLE)
-    //         .and("isFull").is(false);
-
-    //     Query query = new Query(criteria);
-
-    //     Document document =  mongoTemplate.findOne(query,Document.class,C_GAMEROOM);
-       
-
-    //     if (document == null) {
-    //         return Optional.empty();
-    //     }
-
-    //     return Optional.of(getGameRoomFromDoc(document));
-
-    // }
+    // Get a randomised available room
     public Optional<GameRoom> getRandomAvailableRoom() {
         Criteria criteria = Criteria.where("gameState").is(GameState.AVAILABLE)
                 .and("isFull").is(false);
 
         MatchOperation matchStage = Aggregation.match(criteria);
-        SampleOperation sampleStage = Aggregation.sample(1); // ✅ Get 1 random room
+        //just take 1 room
+        SampleOperation sampleStage = Aggregation.sample(1); 
 
         Aggregation aggregation = Aggregation.newAggregation(matchStage, sampleStage);
 
@@ -91,7 +76,8 @@ public class GameRoomRepo {
 
         return Optional.of(getGameRoomFromDoc(results.get(0)));
     }
-
+    
+    // initialise the game i.e. set the game state to queuing
     public void initialiseGame(Integer gameCode) {
         Criteria criteria = Criteria.where("_id").is(gameCode);
         Query query = new Query(criteria);
@@ -101,6 +87,7 @@ public class GameRoomRepo {
         
         mongoTemplate.updateFirst(query, updateOps, C_GAMEROOM);
     }
+    // get the game state of the room at any point in time
     public GameState getGameState(Integer gameCode) {
         Criteria criteria = Criteria.where("_id").is(gameCode);
         Query query = new Query(criteria);
@@ -110,6 +97,7 @@ public class GameRoomRepo {
         return gameRoom.getGameState();
     }
 
+    // to change the game state of the room throughout the game session
     public void changeGameState(Integer gameCode,GameState gameState) {
         Criteria criteria = Criteria.where("_id").is(gameCode);
         Query query = new Query(criteria);
@@ -119,7 +107,7 @@ public class GameRoomRepo {
         
         mongoTemplate.updateFirst(query, updateOps, C_GAMEROOM);
     }
-
+    // get the game prompt for that room chosen
     public String getGamePrompt(Integer gameCode) {
         Criteria criteria = Criteria.where("_id").is(gameCode);
         Query query = new Query(criteria);
@@ -128,7 +116,7 @@ public class GameRoomRepo {
         GameRoom gameRoom = getGameRoomFromDoc(document);
         return gameRoom.getGamePrompt();
     }
-
+    // add players who joined the room into the database
     public void addPlayers(Integer gameCode,Player player) {
         Criteria criteria = Criteria.where("_id").is(gameCode);
         Query query = new Query(criteria);
@@ -138,25 +126,23 @@ public class GameRoomRepo {
         
         mongoTemplate.updateFirst(query, updateOps, C_GAMEROOM);
     }
-
+    // remove players who have left or disconnected
     public void removePlayers(Integer gameCode,String playerName, String role) {
         Query query = new Query(Criteria.where("_id").is(gameCode));
         if (role.toLowerCase().equals("player")) {
             
             Update update = new Update()
                 .pull("players", Query.query(Criteria.where("name").is(playerName)));
-                // .pull("submissions", Query.query(Criteria.where("playerName").is(playerName)));
+
+               
 
             mongoTemplate.updateFirst(query, update, C_GAMEROOM);
         } else if (role.toLowerCase().equals("host")) {
             this.resetGameRoom(gameCode);
-            // Update update = new Update()
-            //     .set("players", Collections.emptyList())  
-            //     .set("submissions", Collections.emptyList()); 
-            // mongoTemplate.updateFirst(query, update, C_GAMEROOM);
+           
         }
     }
-
+    // insert a unique player submission
     public void insertPlayerSubmission(Integer gameCode,PlayerSubmission playerSubmission) {
         Criteria criteria = Criteria.where("_id").is(gameCode);
         Query query = new Query(criteria);
@@ -166,7 +152,7 @@ public class GameRoomRepo {
         
         mongoTemplate.updateFirst(query, updateOps, C_GAMEROOM);
     }
-    
+    // get the overall Room Submission
     public Submission getRoomSubmission(Integer gameCode) {
         Criteria criteria = Criteria.where("_id").is(gameCode);
         Query query = new Query(criteria);
@@ -176,17 +162,19 @@ public class GameRoomRepo {
         Submission submission = getSubmissionFromDoc(document);
         return submission;
     }
-
+    
+    // increment the vote of the player for each round
     public void updatePlayerVote(Integer gameCode,String playerName, String currentPlayerDrawing,Integer vote ) {
+        //update the vote count for the player
         Query voterQuery = new Query(Criteria.where("_id").is(gameCode).and("players.name").is(playerName));
         Update voterUpdate = new Update().inc("players.$.vote", vote);
         mongoTemplate.updateFirst(voterQuery, voterUpdate, C_GAMEROOM);
-
+        // update the total vote count for the player throughout each round
         Query currentDrawingQuery = new Query(Criteria.where("_id").is(gameCode).and("submissions.playerName").is(currentPlayerDrawing));
         Update currentDrawingUpdate = new Update().inc("submissions.$.total", vote);
         mongoTemplate.updateFirst(currentDrawingQuery, currentDrawingUpdate, C_GAMEROOM);
     }
-
+    // reset the player votes to 0 after each round ends
     public void resetPlayerVotes(Integer gameCode) {
         Criteria criteria = Criteria.where("_id").is(gameCode);
         Query query = new Query(criteria);
@@ -195,7 +183,7 @@ public class GameRoomRepo {
             .set("players.$[].vote", 0);
         mongoTemplate.updateFirst(query, updateOps, C_GAMEROOM);
     }
-
+    // get the sorted submission after the game ends to find the winner
     public Submission getSortedSubmission(Integer gameCode) {
         Aggregation aggregation = Aggregation.newAggregation(
         Aggregation.match(Criteria.where("_id").is(gameCode)), 
@@ -225,7 +213,8 @@ public class GameRoomRepo {
         GameSess gameSess = getGameSessFromDoc(document);
         return gameSess;
     }
-
+    
+    // reset the game room after the game ends for that game code
     public void resetGameRoom(Integer gameCode) {
         Criteria criteria = Criteria.where("_id").is(gameCode);
         Query query = new Query(criteria);

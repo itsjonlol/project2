@@ -31,7 +31,7 @@ public class S3Service {
 
     public String uploadFile(MultipartFile file, String name) throws IOException {
         if (file == null || file.isEmpty()) {
-            throw new IllegalArgumentException("File cannot be empty");
+            throw new IllegalArgumentException("File must not be empty or null");
         }
 
         ObjectMetadata metadata = new ObjectMetadata();
@@ -42,30 +42,29 @@ public class S3Service {
         userMetadata.put("name", name);
         metadata.setUserMetadata(userMetadata);
 
-        // Generate unique filename
+      
         String originalFilename = file.getOriginalFilename();
         String finalFilename = UUID.randomUUID().toString()
-        .replace("-", "").substring(0, 8) + "_" + (originalFilename != null ? originalFilename : "uploaded_file");
+        .replace("-", "")
+        .substring(0, 8) + "_" + (originalFilename != null ? originalFilename : "uploaded_file");
 
-        // Upload to S3
         PutObjectRequest request = new PutObjectRequest(bucketName, finalFilename, file.getInputStream(), metadata)
                 .withCannedAcl(CannedAccessControlList.PublicRead);
         amazonS3.putObject(request);
 
-        // Generate file URL
+
         String fileUrl = String.format("https://%s.%s/%s", bucketName, endPoint, finalFilename);
-        System.out.println("File uploaded to: " + fileUrl);
+    
         return fileUrl;
     }
 
     public String deleteFile(String fileKey) throws FileNotFoundException {
         try {
-            // Check if the file exists before deleting
+          
             if (!amazonS3.doesObjectExist(bucketName, fileKey)) {
-                throw new FileNotFoundException("File does not exist: " + fileKey);
+                throw new FileNotFoundException(fileKey + "doesn't exist");
             }
 
-            // Delete file from S3
             amazonS3.deleteObject(bucketName, fileKey);
             return "File deleted successfully: " + fileKey;
 

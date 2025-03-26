@@ -18,6 +18,7 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import static vttp.testssfproject2.testssfproject2.utils.AIConstants.EXTRAPROMPT;
 import static vttp.testssfproject2.testssfproject2.utils.AIConstants.IMAGEURL;
 import static vttp.testssfproject2.testssfproject2.utils.AIConstants.MAXTOKENS;
 import static vttp.testssfproject2.testssfproject2.utils.AIConstants.MODEL;
@@ -37,19 +38,9 @@ public class OpenAiService {
     private String API_KEY;
 
     
-    
-    // private final ObjectMapper objectMapper;
-
-    // public OpenAiService(ObjectMapper objectMapper) {
-       
-    //     this.objectMapper = objectMapper;
-    // }
-
-    
-
+    // make a request to the OpenAI API to analyze an image
     public String analyzeImage(String imageUrl) {
-        // Create request headers
-        System.out.println(imageUrl);
+      
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -110,7 +101,7 @@ public class OpenAiService {
         try {
             ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity,String.class);
             String payload = responseEntity.getBody();
-            System.out.println(payload);
+            // System.out.println(payload);
             InputStream is = new ByteArrayInputStream(payload.getBytes());
             JsonReader reader = Json.createReader(is);
             JsonObject jsonObj = reader.readObject();
@@ -123,23 +114,24 @@ public class OpenAiService {
         }
 
 
-
         return responseContent;
 
         
     }
 
-    public String generateImage() {
+    //function to generate ai image
+    // implemented but not used in this current project (generate ai image)-> for future development
+    public String generateImage(String prompt) {
         String imageUrl = "";
 
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(API_KEY); // Sets Authorization: Bearer <API_KEY>
+        headers.setBearerAuth(API_KEY);
 
         JsonObject jsonObject = Json.createObjectBuilder()
             .add("model", "dall-e-2")
-            .add("prompt","simple hand-drawn cute canvas image of a cat playing basketball")
+            .add("prompt",EXTRAPROMPT +  prompt)
             .add("n",1)
             .add("size","256x256")
             .build();
@@ -151,7 +143,7 @@ public class OpenAiService {
         try {
             ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity,String.class);
             String payload = responseEntity.getBody();
-            System.out.println(payload);
+            // System.out.println(payload);
             InputStream is = new ByteArrayInputStream(payload.getBytes());
             JsonReader reader = Json.createReader(is);
             JsonObject jsonObj = reader.readObject();
@@ -165,44 +157,4 @@ public class OpenAiService {
 
 
 
-    // public String generateFunnyTitleAndDescription(String imageUrl) {
-    //     try {
-    //         // Set headers
-    //         HttpHeaders headers = new HttpHeaders();
-    //         headers.setContentType(MediaType.APPLICATION_JSON);
-    //         headers.setBearerAuth(API_KEY);
-
-    //         // Build request body
-    //         Map<String, Object> requestBody = Map.of(
-    //             "model", "gpt-4o",
-    //             "messages", List.of(
-    //                 Map.of("role", "system", "content", 
-    //                     "You are an over-the-top, game-show-style AI judge in a hilarious Jackbox-style drawing game. "
-    //                     + "Your job is to analyze each drawing and give it a ridiculous, exaggerated title and description. "
-    //                     + "Be funny, sarcastic, and act as if you're hosting a live comedy show!"
-    //                 ),
-    //                 Map.of("role", "user", "content", List.of(
-    //                     Map.of("type", "text", "text", "Analyze this drawing and generate a funny title and description."),
-    //                     Map.of("type", "image_url", "image_url", Map.of("url", imageUrl))
-    //                 ))
-    //             ),
-    //             "max_tokens", 100
-    //         );
-
-    //         // Create request entity
-    //         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
-
-    //         // Send POST request to OpenAI API
-    //         ResponseEntity<String> responseEntity = restTemplate.exchange(
-    //             OPENAI_API_URL, HttpMethod.POST, requestEntity, String.class
-    //         );
-
-    //         // Parse JSON response
-    //         JsonNode root = objectMapper.readTree(responseEntity.getBody());
-    //         return root.path("choices").get(0).path("message").path("content").asText();
-
-    //     } catch (Exception e) {
-    //         return "Error generating title and description: " + e.getMessage();
-    //     }
-    // }
 }

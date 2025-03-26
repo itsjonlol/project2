@@ -19,22 +19,12 @@ public class UserController {
     @Autowired
     UserService userService;
     
-    // @PostMapping(path="/getuserid",consumes=MediaType.APPLICATION_JSON_VALUE,
-    // produces=MediaType.APPLICATION_JSON_VALUE)
-    // public ResponseEntity<?> getUserId(@RequestBody User user) {
-    //     String userId = userService.getUserId(user);
-        
-    //     return ResponseEntity.status(200).body(userId);
-    // }
-    
     @PostMapping(path="/postuser",consumes=MediaType.APPLICATION_JSON_VALUE,
     produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> postUser(@RequestBody User user) {
 
         userService.postUser(user);
-        // Map<String,Object> response = new HashMap<>();
-        // response.put("message","verified");
-
+    
         return ResponseEntity.status(200).body(user);
     }
 }

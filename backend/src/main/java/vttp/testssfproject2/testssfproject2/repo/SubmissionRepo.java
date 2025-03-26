@@ -30,14 +30,21 @@ public class SubmissionRepo {
 
     public void insertPlayerSubmissions(Submission submission,String gameId) {
         List<PlayerSubmission> lis = submission.getPlayerSubmissions();
-        //should add random 4 digit number for primary key instead
-
+       
+        //batch update submissions after a game has ended
         List<Object[]> params = lis.stream()
         .map(li -> {
             Object[] rec = new Object[7];
             String postId = UUID.randomUUID().toString().substring(0,8); 
             rec[0] = postId; 
+            // once postId is obtained, instantiate the comment section in mongodb for that postId
             commentRepo.insertPostSocial(postId); 
+            System.out.println(li.getTitle());
+            System.out.println(li.getDescription());
+            System.out.println(li.getAiComments());
+            System.out.println(li.getImageUrl());
+            System.out.println(li.getUserId());
+            System.err.println(gameId);
 
             rec[1] = li.getTitle();
             rec[2] = li.getDescription();

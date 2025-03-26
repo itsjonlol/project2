@@ -18,9 +18,7 @@ public class Player {
 
     public Player() {
         this.vote=0;
-        // this.mascot="../mascot/mascot1.svg";
-    // int randomNum = 1 + (int)(Math.random() * 6);
-    // this.mascot = "../mascot/mascot" + randomNum + ".svg";
+      
     }
 
 
@@ -30,9 +28,7 @@ public class Player {
         this.vote=0;
         this.name = name;
         this.mascot = mascot;
-        // int randomNum = 1 + (int)(Math.random() * 6);
-        // this.mascot = "../mascot/mascot" + randomNum + ".svg";
-        // this.mascot="../mascot/mascot1.svg";
+
     }
 
 
@@ -67,7 +63,7 @@ public class Player {
         return Objects.hash(name);
     }
 
-    // private String mascot;
+
 
     public String getMascot() {
         return mascot;

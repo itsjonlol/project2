@@ -29,7 +29,7 @@ public class EmailController {
     @PostMapping(value="/sendemail",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> sendEmail(@RequestBody EmailRequest emailRequest) {
         Context context = new Context();
-        // Set variables for the template from the POST request data
+        // fill up the email name and subject from the post request
         context.setVariable("name", emailRequest.getName());
         context.setVariable("subject", emailRequest.getSubject());
         try {

@@ -15,7 +15,7 @@ SELECT "GAMES TABLE";
 create table games (
     game_id char(8),
     prompt varchar(255),
-    aiimageurl varchar(255), -- test
+    aiimageurl TEXT, -- test
     constraint pk_game_id primary key(game_id)
 );
 
@@ -28,7 +28,7 @@ create table submissions (
     imageurl varchar(128),
     user_id char(28),
     game_id char(8),
-    aiimageurl varchar(255) default '',
+    aiimageurl TEXT default '',
     isactive boolean default true, -- test
     
     constraint pk_sub_id primary key(sub_id),
@@ -38,4 +38,3 @@ create table submissions (
 
 );
 
--- grant all privileges on artistick.* to 'fred'@'%';

@@ -12,10 +12,6 @@ public class UserService {
     @Autowired
     UserRepo userRepo;
 
-    // public String getUserId(User user) {
-    //     return userRepo.getUserId(user);
-
-    // }
 
     public void postUser(User user) {
         userRepo.postUser(user);

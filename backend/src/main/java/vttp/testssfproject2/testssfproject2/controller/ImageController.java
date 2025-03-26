@@ -26,10 +26,6 @@ import vttp.testssfproject2.testssfproject2.service.S3Service;
 public class ImageController {
 
    
-
-    // @Autowired
-    // private ImageService imageService;
-
     @Autowired
     private S3Service s3Service;
 
@@ -61,10 +57,14 @@ public class ImageController {
         return ResponseEntity.ok(response.toString());
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("{\"error\": \"" + e.getMessage() + "\"}");
+            
+            JsonObject response  = Json.createObjectBuilder()
+                .add("message", "Error uploading file: " + e.getMessage())
+                .build();
+            return ResponseEntity.badRequest().body(response.toString());
         }
     }
-
+    // to delete a file in s3
      @DeleteMapping("/{fileKey}")
     public ResponseEntity<String> deleteFile(@PathVariable String fileKey) {
         try {
