@@ -88,7 +88,7 @@ export class PlayerVoteInputComponent implements OnInit,OnDestroy{
 
   createForm():FormGroup {
     return this.fb.group({
-      playerVote:this.fb.control<number>(0,[Validators.min(0),Validators.max(10)])
+      playerVote:this.fb.control<number>(0,[Validators.required,Validators.min(1),Validators.max(10)])
     })
   } 
   

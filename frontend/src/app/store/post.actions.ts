@@ -122,36 +122,7 @@ export class PostState{
         }))
     }
 
-     // implemented but not used
-//     @Action(RequestAiImage)
-//     requestAiImage(ctx: StateContext<PostStateModel>, { aiImageRequest }: RequestAiImage) {
-//     const state = ctx.getState();
-
-//     const existingPostIndex = state.posts.findIndex(post => post.postId === aiImageRequest.postId);
-//     // see if post already exist in the state
-//     if (existingPostIndex === -1) {
-//         return; 
-//     }
-    
-//     return this.postService.requestAiImage(aiImageRequest).pipe(
-//         tap((response: AiImageRequestResponse) => {
-           
-//             const updatedPost = {
-//                 ...state.posts[existingPostIndex], 
-//                 aiImageUrl: response.aiImageUrl      
-//             };
-
-//             // Create a new posts array with the updated post
-//             const updatedPosts = [...state.posts];
-//             updatedPosts[existingPostIndex] = updatedPost; 
-
-//             ctx.patchState({ posts: updatedPosts });
-//         })
-//     );
-// }
-  
-
-
+     
 
 
 
