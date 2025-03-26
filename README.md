@@ -15,7 +15,7 @@ Click on "Start" and the game will play itself with instructions via text/audio.
 
 4. Host screen will show a prompt where players will take this time to draw on their canvas.
 After 75 seconds, host screen will tell players to give their drawings a title and description (30 seconds)
-<img src="docs/images/host-prompt2.jpg" alt="Host prompt" width="500">
+<img src="docs/images/hostprompt.png" alt="Host prompt" width="500">
 
 5. During voting phase, host screen will show each drawing one by one. Players can all vote for each drawing
 (for now, all players can vote their own drawings)
