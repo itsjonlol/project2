@@ -22,15 +22,13 @@ export class GameService {
 
   httpClient = inject(HttpClient);
 
-  // private backendUrl = 'http://localhost:4000/api';
-
+  // for a player to enter a room
   postAccessRoom(gameEntry:GameEntry):Observable<object> {
     return this.httpClient.post<GameEntry>(`${environment.backendUrl}/accessroom`,gameEntry);
     
   }
-
+  // get a game room for the host to join
   getGameRoom():Observable<GameRoomResponse> {
-
     return this.httpClient.get<GameRoomResponse>(`${environment.backendUrl}/getgameroom`);
   }
 

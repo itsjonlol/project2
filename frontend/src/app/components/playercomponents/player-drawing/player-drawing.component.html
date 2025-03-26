@@ -1,9 +1,3 @@
-
-
-<!-- <p>drawing component: {{currentGameState}}</p>
-<p> is drawing mode {{isDrawingMode}}</p> -->
-
-
 @if (!isDrawingMode) {
     <div class="container">
 
@@ -23,38 +17,18 @@
                 <input type="text" class ="form-control"
                     [(ngModel)] = "description" name = "description">
             </div>
-    
-            
-        
-            <!-- <button class = "btn btn-success" type ="submit">Submit Details</button> -->
         
         </form>
         </div> 
-
-
     </div>
     
 }
-
 <br>
 <br>
 
 <div class="canvas-container">
     <canvas id="canvas" class="mb-5"></canvas>
   
-   
-    <!-- <div class="toolbar">
-      <label for="colorPicker">Brush Color:</label>
-      <input type="color" id="colorPicker" [(ngModel)]="brushColor" (change)="setBrushColor(brushColor)">
-      
-  
-      <label for="sizePicker">Brush Size:</label>
-      <input type="range" [(ngModel)]="brushWidth" id="sizePicker" min="1" max="30"  (change)="setBrushSize($event)">
-      {{brushWidth}}
-      <button (click)="enableEraser()">🧽 Erase</button>
-      <button (click)="clearCanvas()">🗑️ Clear Canvas</button>
-    </div>
-  </div> -->
   @if (isDrawingMode) {
     <div class="toolsection">
         <div class="color-picker">
@@ -81,37 +55,4 @@
     </div>
 }
 
-<!-- <button [disabled]="isUploaded" (click)="submitCanvas()">Submit Drawing</button> -->
 
-
-<!-- @if (!isDrawingMode) {
-    <h1>Drawing time is up! Please give your drawing a funny title and description!</h1>
-    <div class="col-md-6 offset-md-3">
-
-        <form (ngSubmit) = "onSubmitDetails()">
-        
-            <div class="form-group">
-                <label> Enter Image Title</label>
-                <input type="text" class ="form-control" id = "title"
-                    [(ngModel)] = "title" name = "title">
-            </div>
-    
-            <div class="form-group">
-                <label> Enter Image description</label>
-                <input type="text" class ="form-control" id = "description"
-                    [(ngModel)] = "description" name = "description">
-            </div>
-    
-            
-        
-            <button class = "btn btn-success" type ="submit">Submit Details</button>
-        
-        </form>
-        </div> 
-} -->
-
-
-<!-- @else {
-    <app-player-vote-input></app-player-vote-input>
-
-} -->

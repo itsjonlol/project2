@@ -1,8 +1,3 @@
-// export interface User {
-//     name:string;
-//     email:string;
-// }
-
 export interface GameEntry {
     gameCode: number;
     name: string;

@@ -13,14 +13,10 @@ import { environment } from '../../environments/environment.development';
 })
 export class UserService {
 
-  // private loginUrl = 'http://localhost:4000/api/user';
-  // private logoutUrl = 'http://localhost:4000/logout';
-
-
-  // private postLoginUrl = 'http://localhost:4000/api/postuser'
 
   constructor(private httpClient: HttpClient) {}
-
+  // when login, do a call to mysql backend to check if user exists
+  // if user doesnt exist, create a user in mysql
   postUser(user:UserInterface):Observable<void> {
     return this.httpClient.post<void>(`${environment.backendUrl}/postuser`,user);
   }

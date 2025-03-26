@@ -3,13 +3,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { StompSubscription } from '@stomp/stompjs';
 import { WebSocketService } from '../../../services/websocket.service';
 import { Submission } from '../../../models/gamemodels';
-import { JsonPipe } from '@angular/common';
 import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-player-results',
-  imports: [JsonPipe,LottieComponent],
+  imports: [LottieComponent],
   templateUrl: './player-results.component.html',
   styleUrl: './player-results.component.css'
 })
@@ -45,43 +44,36 @@ export class PlayerResultsComponent implements OnInit,OnDestroy{
 
   ngOnInit(): void {
     const gameCodeParam = this.activatedRoute.snapshot.paramMap.get('gameCode');
-    this.username = localStorage.getItem("username") || 'player';
+    this.username = sessionStorage.getItem("username") || 'player';
     if (gameCodeParam) {
-      // Convert the parameter to a number
+
       this.gameCode = +gameCodeParam;
-    } else {
-      console.error('Game code not found in route parameters.');
     }
+   
     this.checkIfWinner();
     this.wsService.connect();
   }
-
+  // check if they are a winner
   private checkIfWinner() {
+    // ensure that the first person is the winner ( even for case of tied votes )
     this.submissionresults.playerSubmissions.sort((a, b) => b.total - a.total);
     if (this.submissionresults.playerSubmissions[0].playerName === this.username) {
       this.isWinner=true;
     }
   }
 
-  // ngOnChanges():void {
-  //   if (this.currentGameState==="FINISHED") {
-  //       this.wsService.disconnect();
-        
-  //       setTimeout(()=>this.router.navigate(["dashboard"]),2000);
-  //   }
-  // }
 
+  // clean up subscriptions
   ngOnDestroy(): void {
 
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
-      console.log("✅ Unsubscribed from gameStateSubscription");
+    
   }
 
-  // ✅ Unsubscribe from WebSocket connection observable
   if (this.connectionSub) {
       this.connectionSub.unsubscribe();
-      console.log("✅ Unsubscribed from WebSocket isConnected$");
+   
   }
    this.wsService.disconnect();
   }

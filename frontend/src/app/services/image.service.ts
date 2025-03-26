@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import * as fabric from 'fabric';
+
 import { Observable } from 'rxjs';
 import { UploadResponse } from '../models/gamemodels';
 import { environment } from '../../environments/environment.development';
@@ -14,9 +14,9 @@ export class ImageService {
 
   httpClient = inject(HttpClient)
 
-  private backendUrl = 'http://localhost:4000/api';
+  
 
-
+  //convert base 64 to blob. Because fabric canvas returns base64
   dataURItoBlob(dataURI: string): Blob{
     const [meta, base64Data] = dataURI.split(',');
     const mimeMatch = meta.match(/:(.*?);/);
@@ -30,11 +30,9 @@ export class ImageService {
     }
     return new Blob([ia], {type: mimeType});
   }
-
+  // to upload the canvas that has been converted to a blob
   uploadBlob(blob:Blob):Observable<UploadResponse> {
     const file = new File([blob], 'canvas-image.png', { type: 'image/png' });
-
-    // Create FormData
     const formData = new FormData();
     formData.append('name', 'canvasImage');
     formData.append('file', file);

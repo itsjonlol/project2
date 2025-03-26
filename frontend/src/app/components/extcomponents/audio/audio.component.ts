@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { GameState } from '../../../models/gamemodels';
+
 
 @Component({
   selector: 'app-audio',
@@ -9,17 +9,12 @@ import { GameState } from '../../../models/gamemodels';
 })
 export class AudioComponent implements OnChanges,OnDestroy,OnInit{
   playSound:boolean = false;
-  audio = new Audio('/music/track1.mp3'); // Create the audio object once
+  audio = new Audio('/music/track1.mp3');
   @Input()
   volume:number=1;
-  
-  @Input()
-  currentGameState:string | null=''
-
-  
-
+    
   constructor() {
-    this.audio.loop = true; // Enable looping
+    this.audio.loop = true; 
   }
   ngOnInit(): void {
     
@@ -30,18 +25,13 @@ export class AudioComponent implements OnChanges,OnDestroy,OnInit{
     this.audio.volume = this.volume;
     
 
-    // if (this.currentGameState === GameState.FINISHED) {
-    //   this.audio.pause();
-    //   this.audio.currentTime = 0; 
-     
-    // }
   }
-
+  // to toggle audio between on and off when user clicks on the music button
   playMusic(): void {
       this.playSound = !this.playSound;
   
       if (this.playSound) {
-          this.audio.currentTime = 0; // Reset to the beginning
+          this.audio.currentTime = 0; 
           this.audio.volume = this.volume
           this.audio.load();
           this.audio.play().catch(err => console.error("Error playing audio:", err));
@@ -51,7 +41,7 @@ export class AudioComponent implements OnChanges,OnDestroy,OnInit{
   }
 
   ngOnDestroy(): void {
-    console.log(" audio destroyed")
+    // console.log(" audio destroyed")
     this.audio.pause();
     this.audio.currentTime = 0; 
   }

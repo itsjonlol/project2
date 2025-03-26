@@ -8,7 +8,7 @@ export class GetPaginatedPosts {
 
 export class ChangePage {
     static readonly type = '[Page] Change Page';
-    constructor(public page: number) {} // Pass the new page number
+    constructor(public page: number) {} 
   }
 
 export class GetPosts {

@@ -22,13 +22,14 @@ export class SearchComponent implements OnInit {
 
   posts$!:Observable<Post[]>
 
+  noPosts:boolean = true;
 
   ngOnInit(): void {
     this.form=this.createForm()
   }
 
   processForm():void {
-
+    // get post for that particular user
     this.posts$ =  this.postService.getPostsByUser(this.form.value.query);
 
 

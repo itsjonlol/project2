@@ -1,34 +1,29 @@
-import { Component, inject, Input, input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { WebSocketService } from '../../../services/websocket.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameState, GameStateManager, PlayerSubmission, Submission } from '../../../models/gamemodels';
 import { StompSubscription } from '@stomp/stompjs';
-import { JsonPipe } from '@angular/common';
-import { interval, Observable, Subject, Subscription, timer } from 'rxjs';
+import { interval, Observable, Subscription } from 'rxjs';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 
 @Component({
   selector: 'app-host-show-drawings',
-  imports: [JsonPipe],
   providers: [],
   templateUrl: './host-show-drawings.component.html',
   styleUrl: './host-show-drawings.component.css',
   animations:[
     trigger('curtainRise', [
       state('open', style({
-        transform: 'translateY(-100%)', // Curtain moves up
+        transform: 'translateY(-100%)',
         opacity: 0
       })),
       state('closed', style({
-        transform: 'translateY(0%)', // Curtain covers the content
+        transform: 'translateY(0%)',
         opacity: 1
       })),
-      transition('open => closed', [
-        animate('2s ease-in-out') // Curtain closes (moves down)
-      ]),
-      transition('closed => open', [
-        animate('2s ease-in-out') // Curtain opens (moves up)
+      transition('open <=> closed', [
+        animate('2s ease-in-out') 
       ])
     ])
   ]
@@ -56,10 +51,6 @@ export class HostShowDrawingsComponent implements OnInit ,OnDestroy{
 
   currentIndex:number = 0;
   
-
-  // @Output()
-  // emitResetVote = new Subject<boolean>();
-
   timerSubscription!: Subscription;
   timerDuration:number=30;
   timerCountDown!:number;
@@ -67,28 +58,28 @@ export class HostShowDrawingsComponent implements OnInit ,OnDestroy{
 
   finishedAllDrawings:boolean = false;
 
-  // curtainState: 'open' | 'closed' = 'open';
-  curtainState: 'open' | 'closed' = 'closed';
+  curtainState: 'open' | 'closed' = 'closed'; // make the curtain closed at first
 
   
   ngOnInit(): void {
 
     const gameCodeParam = this.activatedRoute.snapshot.paramMap.get('gameCode');
-    this.username = localStorage.getItem("username") || 'player';
+    this.username = sessionStorage.getItem("username") || 'host';
     if (gameCodeParam) {
-      // Convert the parameter to a number
+     
       this.gameCode = +gameCodeParam;
-    } else {
-      console.error('Game code not found in route parameters.');
-    }
-
+    } 
+  
+    //connect to websocket
     this.wsService.connect();
+    //get current drawing starting from first drawing (index 0)
     this.drawing=this.submissionshow.playerSubmissions[this.currentIndex];
-    //COMMENT IN
-    // this.sendCurrentDrawing();
+   
 
-    //COMMENT OUT
+  
     setTimeout(()=> {
+
+      // host send the current drawing to the backend 
       this.sendCurrentDrawing();
       
       this.startTimer();
@@ -102,13 +93,11 @@ export class HostShowDrawingsComponent implements OnInit ,OnDestroy{
       next: (remaining) => {
         this.timerCountDown = this.timerDuration - remaining;
         if (this.timerCountDown === 4) {
-          this.curtainToggle(); // close when 4 seconds left
+          this.curtainToggle(); // close curtain when 4 seconds left
         }
-
         if (this.timerCountDown === 0) {
           if  (!this.finishedAllDrawings) {
-            this.nextDrawing();
-          
+            this.nextDrawing(); // tell backend to go to the next drawing
             this.resetTimer();
           } else {
             this.stopTimer();
@@ -133,6 +122,7 @@ export class HostShowDrawingsComponent implements OnInit ,OnDestroy{
 
   protected nextDrawing() {
      // make curtain fall
+     //increment to the next drawing
     this.currentIndex++;
     
     this.drawing = this.submissionshow.playerSubmissions[this.currentIndex];
@@ -142,25 +132,25 @@ export class HostShowDrawingsComponent implements OnInit ,OnDestroy{
       gameState:GameState.NEXT
     } 
     
-  
+    // tell backend the current gamestate
     this.wsService.publish(`/app/gamestate/${this.gameCode}`,data);
     
-
     if (this.currentIndex === (this.submissionshow.players.length -1)) {
       this.finishedAllDrawings = true;
     }
-    // this.emitResetVote.next(true);
+ 
   }
-
+  // host to send to backend about current drawing
   private sendCurrentDrawing() {
     this.curtainToggle(); // make curtain rise
     const currentDrawing = {
       gameCode: this.gameCode,
       currentPlayerName: this.drawing.playerName
     }
-    this.wsService.publish(`/app/currentdrawing/${this.gameCode}`,currentDrawing);
-  }
 
+    this.wsService.publish(`/app/currentdrawing/${this.gameCode}`,currentDrawing);
+  } 
+  //host tell backend and players to transition to the next phase, i.e. 
   private goToResults() {
     const data = {
       gameCode:this.gameCode,
@@ -169,6 +159,7 @@ export class HostShowDrawingsComponent implements OnInit ,OnDestroy{
     this.wsService.publish(`/app/gamestate/${this.gameCode}`,data);
   }
 
+  //trigger the curtain animation
   curtainToggle():void {
     if (this.curtainState === 'open') {
       this.curtainState = 'closed'
@@ -176,14 +167,12 @@ export class HostShowDrawingsComponent implements OnInit ,OnDestroy{
       this.curtainState = 'open'
     }
   }
-
+  //clean up subscriptions
   ngOnDestroy(): void {
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
-      console.log("✅ Unsubscribed from gameStateSubscription");
   }
 
-  // ✅ Unsubscribe from timerSubscription
   if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
       console.log("✅ Unsubscribed from timerSubscription");

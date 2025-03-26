@@ -25,13 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideLottieOptions({
         player: () => player,
     }),
-    // provideAnimationsAsync(),
-    //     providePrimeNG({
-    //         theme: {
-    //             preset: Aura
-    //         }
-    //     }),
-  
+
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()), provideStore(
 [PostState],

@@ -1,40 +1,31 @@
 
-<!-- @if (errorMessage) {
-    {{errorMessage}}
-} -->
-
-<!-- <pre> {{postSocial$ | async | json}}</pre> -->
-
-<!-- @if (postSocial$ | async; as postSocial) {
-    {{postSocial.postId}}
-
-    @for ( comment of postSocial.comments;let idx = $index; track idx) {
-        <p> {{ comment.username }}</p>
-        <p>{{comment.comment}} </p>
-    } 
-} -->
-
 @if (postSocial$ | async; as postSocial) {
-    <div class="post-container">
-        <!-- <h3>Post ID: {{ postSocial.postId }}</h3> -->
+    
+       
         <h1>{{postSocial.likes}} likes</h1>
 
         <h4>Comment Section</h4>
-        <ul class="comment-list">
+      
+          <ul class="list-group">
             @for (comment of postSocial.comments; let idx = $index; track idx) {
-                <li class="comment-item">
-                    <!-- <p class="comment-id">{{comment.commentId}} </p> -->
-                    <p class="comment-username"><strong>{{ comment.username }}</strong></p>
-                    <p class="comment-text">{{ comment.comment }}</p>
-                    @if (comment.username === currentUsername) {
-                        <button (click)="deleteComment(postSocial.postId,comment.commentId)">Delete</button>
-                    }
-                   
-                </li>
+              <li class="list-group-item py-3">
+                <div class="d-flex justify-content-between">
+                  <div class="me-2">
+                    <div class="fw-bold mb-1">{{ comment.username }}</div>
+                    <div class="text-muted">{{ comment.comment }}</div>
+                  </div>
+                  @if (comment.username === currentUsername) {
+                    <button class="button delete align-self-start"
+                            (click)="deleteComment(postSocial.postId,comment.commentId)">
+                            <i class="fa-solid fa-trash"></i> Delete
+                    </button>
+                  }
+                </div>
+              </li>
             }
-        </ul>
-    </div>
+          </ul>
+    
 
-    <!-- {{currentUsername}} -->
+
 }
 

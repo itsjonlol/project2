@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
   templateUrl: './disconnect.component.html',
   styleUrl: './disconnect.component.css'
 })
+//handle disconnections
 export class DisconnectComponent {
 
   @Output()

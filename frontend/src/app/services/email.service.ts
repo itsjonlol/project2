@@ -23,8 +23,8 @@ export class EmailService {
 
   httpClient = inject(HttpClient)
   
-  // private backendUrl = 'http://localhost:4000/api';
-
+  
+  //send name and email details for the backend to send to client
   requestEmailUpdates(emailRequest: EmailRequest): Observable<EmailResponse> {
     return this.httpClient.post<EmailResponse>(`${environment.backendUrl}/sendemail`,emailRequest)
   }

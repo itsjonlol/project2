@@ -1,15 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GameEntry } from '../../../models/gamemodels';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { GameService }from '../../../services/game.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { JsonPipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-enter-game',
-  imports: [FormsModule,RouterOutlet,ReactiveFormsModule,JsonPipe],
+  imports: [FormsModule,ReactiveFormsModule],
   templateUrl: './enter-game.component.html',
   styleUrl: './enter-game.component.css'
 })
@@ -36,7 +36,8 @@ export class EnterGameComponent implements OnInit{
 
   ngOnInit(): void {
     this.form = this.createForm();
-    this.username = localStorage.getItem("username") || 'player';
+    //get the username from session storage
+    this.username = sessionStorage.getItem("username") || 'player';
     
   }
   
@@ -52,6 +53,7 @@ export class EnterGameComponent implements OnInit{
     
     console.log(this.gameEntry)
 
+    //post the access room to backend to enter the gameroom
     this.gameService.postAccessRoom(this.gameEntry).subscribe({
         next: (response) => {
           console.log(response);

@@ -3,7 +3,7 @@
     max-width: 600px;
     margin: auto;
     padding: 10px;
-    background: #f9f9f9;
+    background: peachpuff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -36,3 +36,12 @@ h3, h4 {
     font-size: 13px;
     color: #555;
 }
+
+.delete {
+    background-color: red;
+    color:white;
+}
+
+.list-group-item {
+    background-color:#fbf8f1;
+  }

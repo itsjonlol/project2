@@ -1,15 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { FireAuthService } from './services/fire-auth.service';
-import { AudioComponent } from './components/extcomponents/audio/audio.component';
+
 import { EmailRequest, EmailResponse, EmailService } from './services/email.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import {  BsModalService } from 'ngx-bootstrap/modal';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterModule, AudioComponent],
+  imports: [RouterOutlet, RouterModule,],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers: [BsModalService]
@@ -17,6 +17,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 })
 export class AppComponent implements OnInit {
 
+  //Firebase auth service
   fireAuthService = inject(FireAuthService);
 
   emailService = inject(EmailService)
@@ -26,7 +27,7 @@ export class AppComponent implements OnInit {
 
   gameStart:boolean = false;
   
-  
+  // put details on session storage
   ngOnInit(): void {
     this.fireAuthService.user$.subscribe(user => {
       if (user) {
@@ -36,10 +37,11 @@ export class AppComponent implements OnInit {
           email:user.email!,
           username: user.displayName!
         })
-        sessionStorage.setItem('userid',user.uid || 'blank')
+        sessionStorage.setItem('userId',user.uid || 'blank')
         sessionStorage.setItem('email',user.email || 'blank')
-        localStorage.setItem('username',user.displayName || '');
+        sessionStorage.setItem('username',user.displayName || '');
       } else {
+        this.clearStorage();
         this.fireAuthService.currentUserSig.set(null)
       }
       console.log(this.fireAuthService.currentUserSig())
@@ -48,21 +50,26 @@ export class AppComponent implements OnInit {
 
     
   }
+  //clear storage when session ends
+  private clearStorage(): void {
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('email');
+    sessionStorage.removeItem('userId');
+  }
 
 
   logout(): void {
+    this.clearStorage();
     this.fireAuthService.logout()
-    localStorage.removeItem('username')
-    sessionStorage.removeItem('userid')
-    sessionStorage.removeItem('email')
+    
     this.router.navigate(['/login'])
 
     
   }
-
+  //details required for email request
   sendEmailRequest():void {
     const email = sessionStorage.getItem("email");
-    const name = localStorage.getItem("username")
+    const name = sessionStorage.getItem("username")
   
     let emailRequest:EmailRequest = {
       to:email!,
@@ -80,7 +87,7 @@ export class AppComponent implements OnInit {
     })
 
   }
-
+  // to not display the nav bar when in a game
   checkIfInGame(): boolean {
     if (this.router.url.includes('/player') || this.router.url.includes('/host')) {
       this.gameStart = true;

@@ -20,7 +20,7 @@
    
   }
 .ribbon {
-    /* border: #0072ff 2px solid; */
+   
     width: 600px;
     height: 200px;
     overflow: hidden;
@@ -36,7 +36,7 @@
   }
 
 
-/* Media query for mobile devices */
+
 @media screen and (max-width: 768px) {
     .bg-container {
         background-position: center center;
@@ -67,20 +67,7 @@
 
 
 
-
-  
-  
-
-  
-
-  /* @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  } */
+/*  referenced from codepen */
 
 
   .button--piyo{

@@ -1,21 +1,11 @@
 
 
-<!-- <pre>{{posts$ | async | json}}</pre> -->
-
-<!-- @if ( posts$ | async; as posts) {
-    @for ( post of posts; let idx = $index; track idx) {
-        <img [src]="post.imageUrl">
-    }
-} -->
 
 
 
 
 
 
-<div class="bg-container">
-  
-</div>
   <div class="container">
    
     
@@ -46,80 +36,25 @@
         </div>
     </swiper-slide>
       
+    } @empty {
+      <p class="d-flex w-100 justify-content-center align-content-center">No posts found...</p>
     }
       </swiper-container>
       </div>
       
-      <!-- <div class="container">
-        <div class="row g-4" *ngIf="posts$ | async as posts">
-          <div class="col-6 col-md-4 col-lg-3 inv-item" *ngFor="let post of posts">
-            <div id="frame">
-              <div id="border">
-                <a [routerLink]="['/gallery', post.postId]">
-                  <img [src]="post.imageUrl" [alt]="'Image '" class="img-fluid">
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-
-
-  <!-- <div *ngIf="paginationInfo$ | async as paginationInfo">
-    <p>Page {{ paginationInfo.currentPage }} of {{ paginationInfo.totalPages }}</p>
-  
-    <button 
-      (click)="loadPage(paginationInfo.currentPage - 1)" 
-      [disabled]="paginationInfo.currentPage === 1">
-      Previous
-    </button>
-  
-    <button 
-      (click)="loadPage(paginationInfo.currentPage + 1)" 
-      [disabled]="paginationInfo.currentPage >= paginationInfo.totalPages">
-      Next
-    </button>
-  </div> -->
-
-<!-- <div class="gallery" *ngIf="posts$ | async as posts">
-  <div class="gallery-item" *ngFor="let post of posts">
-    <a [routerLink]="['/gallery', post.postId]">
-      <img [src]="post.imageUrl" [alt]="'Image '" class="gallery-image">
-    </a>
-  </div>
-
-
-</div> -->
-
-<!-- @if ( paginationInfo$ | async; as paginationInfo) {
-  <div class="d-flex justify-content-center">
-
- 
-  <p>Page {{ paginationInfo.currentPage }} of {{ paginationInfo.totalPages }}</p>
-  <button (click)="onPageChange(paginationInfo.currentPage - 1)" [disabled]="paginationInfo.currentPage <= 1">Previous</button>
-<button (click)="onPageChange(paginationInfo.currentPage + 1)" [disabled]="paginationInfo.currentPage >=paginationInfo.totalPages" >
-Next
-</button>
- </div>
-  
-
-} -->
+      
 @if (paginationInfo$ | async; as paginationInfo) {
-  <div class="d-flex flex-column justify-content-center align-items-center mt-5">
+  <div class="d-flex flex-column justify-content-center align-items-center">
     <p class="mb-3">Page {{ paginationInfo.currentPage }} of {{ paginationInfo.totalPages }}</p>
 
 
     <div>
-      <button
-        class="button custom-btn me-2"
-        (click)="onPageChange(paginationInfo.currentPage - 1)"
+      <button class="button custom-btn me-2" (click)="onPageChange(paginationInfo.currentPage - 1)"
         [disabled]="paginationInfo.currentPage <= 1"
       >
         Previous
       </button>
-      <button
-        class="button custom-btn btn-primary"
-        (click)="onPageChange(paginationInfo.currentPage + 1)"
+      <button class="button custom-btn btn-primary" (click)="onPageChange(paginationInfo.currentPage + 1)"
         [disabled]="paginationInfo.currentPage >= paginationInfo.totalPages"
       >
         Next

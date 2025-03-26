@@ -1,5 +1,4 @@
 .background-container {
-
   margin: 0;
   width: 100%;
   height: 100%;
@@ -8,170 +7,13 @@
   background-image: url('/images/backdrop.jpg');
   background-repeat: no-repeat;
   z-index: 0;
-  height:100vh;
+  height:100svh;
 }
 
 .players-container {
-  /* position:absolute; */
-  /* bottom:5%;
-  left:50%; */
   transform: translateY(-105%);
 }
-/* 
-}
 
-
-
-.content {
-  background-color: rgba(255, 255, 255, 0.9);
-  width: 100%;
-  max-width: 1200px;
-  margin-bottom: 40px;
-  height: 80vh;
-  border-radius: 30px;
-  border: 5px solid #000;
-  padding: 30px;
-  z-index: 2;
-  box-shadow: 10px 10px 0 rgba(0,0,0,0.5);
-  background-image: 
-    radial-gradient(#4ecdc4 2px, transparent 2px),
-    radial-gradient(#4ecdc4 2px, transparent 2px);
-  position: relative;
-  overflow: hidden;
-  font-family: 'Bangers', cursive;
-}
-
-.content::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    radial-gradient(#4ecdc4 2px, transparent 2px),
-    radial-gradient(#4ecdc4 2px, transparent 2px);
-  background-size: 40px 40px;
-  background-position: 0 0, 20px 20px;
-  opacity: 0.3;
-  z-index: -1;
-}
-
-
-.btn-class-name {
-  width: 60px;
-  height: 50px;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  user-select: none;
-  touch-action: manipulation;
-  border-radius: 100%;
-  position: relative;
-  transition: 0.3s;
-  overflow: hidden;
-}
-
-.btn-class-name .back {
-  border-radius: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.btn-class-name .front {
-  border-radius: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.2rem;
-  font-weight: 600;
-  font-family: inherit;
-  transform: translateY(-15%);
-  transition: 0.15s;
-  z-index: 2;
-}
-
-.btn-class-name:hover .front {
-  transform: translateY(-10%);
-}
-
-.btn-class-name:active .front {
-  transform: translateY(0%);
-  box-shadow: 0 0;
-}
-
-.btn-start {
-  --primary: 50, 200, 100;
-  --secondary: 20, 100, 50;
-  outline: 10px solid rgba(var(--primary), 0.5);
-}
-
-.btn-start .back {
-  background: rgb(var(--secondary));
-}
-
-.btn-start .front {
-  background: linear-gradient(0deg, rgba(var(--primary), 0.6) 20%, rgba(var(--primary), 1) 50%);
-  box-shadow: 0 0.5em 1em -0.2em rgba(var(--secondary), 0.5);
-  border: 1px solid rgb(var(--secondary));
-  color: rgb(var(--secondary));
-}
-
-
-.btn-exit {
-  --primary: 255, 90, 120;
-  --secondary: 150, 50, 60; 
-  outline: 10px solid rgba(var(--primary), 0.5);
-}
-
-.btn-exit .back {
-  background: rgb(var(--secondary));
-}
-
-.btn-exit .front {
-  background: linear-gradient(0deg, rgba(var(--primary), 0.6) 20%, rgba(var(--primary), 1) 50%);
-  box-shadow: 0 0.5em 1em -0.2em rgba(var(--secondary), 0.5);
-  border: 1px solid rgb(var(--secondary));
-  color: rgb(var(--secondary));
-}
-
-.game-code-container {
-  position: absolute;  
-  top: 10px;
-  left: 10px;
-
-}
-
-button_game {
-  background: #fbca1f;
-  font-family: inherit;
-  padding: 0.6em 1.3em;
-  font-weight: 900;
-  font-size: 18px;
-  border: 3px solid black;
-  border-radius: 0.4em;
-  box-shadow: 0.1em 0.1em;
-  cursor: pointer;
-}
-
-button_game:hover {
-  transform: translate(-0.05em, -0.05em);
-  box-shadow: 0.15em 0.15em;
-}
-
-button:active {
-  transform: translate(0.05em, 0.05em);
-  box-shadow: 0.05em 0.05em;
-} */
 .audio {
   position:absolute;
   z-index:10;
@@ -182,7 +24,6 @@ button:active {
   width: 100vw;
   height: 100vh;
   overflow-y: hidden;
-  /* background: red; */
 }
 
 .qrcode {
@@ -191,3 +32,42 @@ button:active {
   top:5%;
   right:5%;
 }
+
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #FFF;
+  border-bottom-color: #FF3D00;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  } 
+
+  .loading-container {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover; 
+    background-position: center;
+    background-image: url('/images/lobby1.jpg');
+    background-repeat: no-repeat;
+    z-index: 0;
+    height:100svh;
+  }

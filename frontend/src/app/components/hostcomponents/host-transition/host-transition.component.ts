@@ -1,15 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GameState, Transition } from '../../../models/gamemodels';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-host-transition',
-  imports: [JsonPipe],
+  imports: [],
   templateUrl: './host-transition.component.html',
   styleUrl: './host-transition.component.css'
 })
 export class HostTransitionComponent implements OnInit{
-
+  // this is a transition component to display a message and play a sound when transitioning between game states
   @Input({required:true})
   transitionChild!:Transition 
   message:string='Default message'
@@ -17,9 +16,8 @@ export class HostTransitionComponent implements OnInit{
   audio!:any;
   playSound:boolean = false;
 
-  
-
   ngOnInit(): void {
+    // the various transition messages and voice commentary that will be played at each stage
     if (this.transitionChild.fromState===GameState.QUEUING) {
       this.message = "Let's start! Please draw the funniest drawing you can think of based on the prompt!"
       this.audioSrc='/music/t1.mp3';
@@ -45,24 +43,17 @@ export class HostTransitionComponent implements OnInit{
     }
   }
 
-  //  playSound:boolean = false;
-  // audio = new Audio('/music/track1.mp3'); // Create the audio object once
 
-
-  // constructor() {
-  //   this.audio.loop = true; // Enable looping
-  // }
-
+  // remove the music when game is not active
   ngOnDestroy(): void {
     this.playSound=false;
     this.playVoice();
   }
 
   playVoice(): void {
-      // this.playSound = !this.playSound;
       
       if (this.playSound) {
-          this.audio.currentTime = 0; // Reset to the beginning
+          this.audio.currentTime = 0; 
           this.audio.load();
           this.audio.play().catch((err: any) => console.error("Error playing audio:", err));
       } else {

@@ -2,12 +2,11 @@ import { Component, inject, Input, OnInit, Output, TemplateRef } from '@angular/
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PostComment } from '../../../models/post';
 import { Subject } from 'rxjs';
-import { JsonPipe } from '@angular/common';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-addcomment',
-  imports: [ReactiveFormsModule,JsonPipe],
+  imports: [ReactiveFormsModule],
   templateUrl: './addcomment.component.html',
   styleUrl: './addcomment.component.css'
 })
@@ -22,35 +21,33 @@ export class AddcommentComponent implements OnInit{
   private fb = inject(FormBuilder)
 
   protected form!:FormGroup
-  modalRef!: BsModalRef; // Reference to the modal
+  modalRef!: BsModalRef; 
   constructor(private modalService: BsModalService) {}
   
-
+  // create a form to add comment using a modal
   ngOnInit(): void {
     this.form = this.createForm();
 
   }
+  // create modal to add comment
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
-
+  
   processForm():void {
     const postComment:PostComment = {
       postId:this.postId,
-      username: localStorage.getItem('username') || 'anonymous',
+      username: sessionStorage.getItem('username') || 'anonymous',
       comment: this.form.value.comment
     }
+    // to pass to parent
     this.emitPostComment.next(postComment);
 
     this.form = this.createForm();
-    this.modalRef.hide(); // Close the modal
+    this.modalRef.hide(); 
   }
 
-//   export interface PostComment {
-//     postId:string,
-//     username:string;
-//     comment:string;
-// }
+
   createForm():FormGroup {
     return this.fb.group({
        comment: this.fb.control<string>('')

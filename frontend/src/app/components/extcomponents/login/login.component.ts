@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Auth, user } from '@angular/fire/auth';
+import { Auth } from '@angular/fire/auth';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { FireAuthService } from '../../../services/fire-auth.service';
@@ -16,7 +16,7 @@ import { UserService } from '../../../services/user.service';
 })
 export class LoginComponent {
   
-
+  // inject firebase
   auth = inject(Auth);
   router = inject(Router);
   private fb = inject(FormBuilder)
@@ -35,13 +35,13 @@ export class LoginComponent {
   constructor() {}
 
 
-
+  //if user logs in via email and password
   onSubmit():void {
     const rawForm = this.form.getRawValue();
     this.fireAuthService.loginViaEmailAndPassword(rawForm.email,rawForm.password)
     .subscribe({
       next: () => {
-       
+       // if it works, navigate to dashboard
         this.router.navigate(['/dashboard'])
     },
       error: (err) => {
@@ -49,12 +49,12 @@ export class LoginComponent {
       }
   });
   } 
-
+  // if user logs in via google
   loginViaGoogle():void {
     this.fireAuthService.loginViaGoogle()
     .subscribe({
       next: () => {
-
+        // if successful, navigate to dashboard
         this.router.navigate(['/dashboard'])
       },
       error: (err) => {
@@ -63,18 +63,7 @@ export class LoginComponent {
     })
   }
 
-  // loginViaGitHub():void {
-  //   this.fireAuthService.loginViaGitHub()
-  //   .subscribe({
-  //     next: () => {
 
-  //       this.router.navigate(['/dashboard'])
-  //     },
-  //     error: (err) => {
-  //       this.errorMessage = err.code
-  //     }
-  //   })
-  // }
  
 
 

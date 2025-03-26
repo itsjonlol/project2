@@ -1,98 +1,12 @@
-<!-- <h1>Host Game Lobby</h1>
-<p><strong>Game Code:</strong> {{ gameCode }}</p>
-<p>Host: {{ username }}</p>
-<p>Share this code with your friends so they can join the game!</p>
-
-<h2>Players Joined:</h2>
-<ul>
-  <li *ngFor="let player of players">{{ player }}</li>
-</ul>
-
-<button id="startGame" [disabled]="players.length < 2">Start Game</button>
-<button (click)="testStartGame()">Join a Game</button> -->
-
-<!-- <p>Current Game State: {{ gameStateManagerService.gameStateManager$ | async }}</p> -->
-
-<!-- <p>Parent Current game state: {{currentGameState}}</p> -->
-
-<!-- <p>Game Code: {{ (gameRoomState$ | async)?.gameCode }}</p>
-<p>Game State: {{ (gameRoomState$ | async)?.gameState }}</p> -->
-
-
-
-
-<!-- @if (!gameStarted) {
-
-
-  <div class="lobby-container">
-    <h1>Host Game Lobby</h1>
-    <p><strong>Game Code:</strong> <span class="game-code">{{gameRoomResponse?.gameCode}}</span></p>
-    <p>Host: {{ username }}</p>
-    <p>Share this code with your friends so they can join the game!</p>
-  
-
-    <div class="buttons-container">
-      <button id="startGame" class="btn btn-primary" (click)="startGame()">🚀 Start Game</button>
-      <button class="btn btn-danger" (click)="disconnect()">Disconnect</button>
-    </div>
-  
-   
-    <div class="players-container">
-      <h2>👥 Players Joined:</h2>
-      
-      <div class="row justify-content-center">
-        <div class="col-md-3 col-sm-6 player-card" *ngFor="let player of players">
-          <div class="player-box">
-            <div class="player-name">{{ player.name }}</div>
-            <img class="mascot-image" [src]="player.mascot" alt="Mascot">
-          </div>
-        </div>
-      </div>
-  
-      <p *ngIf="players.length === 0">Waiting for players to join...</p>
-    </div>
+@if (currentGameState==='LOADING') {
+  <div class="loading-container">
+    <span class="loader loading"></span>
   </div>
-} 
-
-@if (gameStarted) {
-  <app-host-prompt></app-host-prompt>
-} -->
-<!-- <h1>Observable game state: {{ storeGameState$ | async}}</h1> -->
-
-<!-- <h1 class="transition-message">{{transition | json}}</h1> -->
+}
 
 
-
-@if  (currentGameState === 'QUEUING' || currentGameState ==="AVAILABLE") {
-  <!-- <div class="lobby-container">
-    <h1>Host Game Lobby</h1>
-    <p><strong>Game Code:</strong> <span class="game-code">{{gameRoomResponse?.gameCode}}</span></p>
-    <p>Host: {{ username }}</p>
-    <p>Share this code with your friends so they can join the game!</p>
-  
-
-    <div class="buttons-container">
-      <button id="startGame" class="btn btn-primary" (click)="startGame()">🚀 Start Game</button>
-      <button class="btn btn-danger" (click)="disconnect()">Disconnect</button>
-    </div>
-  
-   
-    <div class="players-container">
-      <h2>👥 Players Joined:</h2>
-      
-      <div class="row justify-content-center">
-        <div class="col-md-3 col-sm-6 player-card" *ngFor="let player of players">
-          <div class="player-box">
-            <div class="player-name">{{ player.name }}</div>
-            <img class="mascot-image" [src]="player.mascot" alt="Mascot">
-          </div>
-        </div>
-      </div>
-  
-      <p *ngIf="players.length === 0">Waiting for players to join...</p>
-    </div>
-  </div> -->
-
+@if (currentGameState === 'QUEUING' || currentGameState ==="AVAILABLE") {
+ 
   <div class="waitingroom">
     <div class="qrcode">
       <app-qrcode></app-qrcode>
@@ -100,83 +14,8 @@
 
   <app-host-waiting-room [players]="players" [gameCode]="gameCode" [username]="username" (emitEvent)="processEvent($event)"></app-host-waiting-room>
   
- 
 </div>
 
-
-
-
-<!-- <app-host-prompt [submission]="submission" [currentGameState]="currentGameState"></app-host-prompt> -->
-
- <!-- <div class="background-container">
-    <app-host-show-drawings [submissionshow]="submission"  ></app-host-show-drawings>
-    <div class="players-container">
-      <app-host-player-votes [submissionvote]="submission"></app-host-player-votes>
-
-    </div>
-  
-
-  </div>  -->
-  
-
-
-  <!-- <app-host-prompt [submission]="submission" [currentGameState]="currentGameState"></app-host-prompt> -->
-  
-  <!-- <div class="background-container d-flex align-items-center justify-content-center">
-    <div class="content d-flex flex-column justify-content-between align-items-center">
-        
-      <div class="game-code-container">
-        
-
-        <button class="button_game">
-         Game Code: {{gameCode}}
-        
-        </button>
-       
-      </div>
-        <h1>Host: {{username}}</h1>
-  
-
-      <div class="container">
-        <div class="row justify-content-center">
-          
-        
-           @for (player of players; let idx=$index ; track idx) {
-            <div class="col-md-3 col-6">
-                <div class="mascot-card">
-                  <div class="mascot-image-container">
-                    <img [src]="player.mascot" alt="mascot" class="mascot-image">
-                  </div>
-                  <div class="mascot-name-tag">{{player.name}}</div>
-                </div>
-              </div>
-           } @empty {
-            <p>I need friends...</p>
-           }
-          
-          
-          
-        </div>
-      </div>
-      
-  
-      <div class="button-container d-flex gap-5">
-        
-       
-  
-        <button class="btn btn-class-name btn-start" (click)="startGame()">
-          <span class="back"></span>
-          <span class="front">Start</span>
-        </button>
-        <button class="btn btn-class-name btn-exit" (click)="disconnect()">
-          <span class="back"></span>
-          <span class="front">Exit</span>
-        </button>
-      </div>
-      
-  
-    </div>  
-  </div> -->
 
 
 
@@ -190,17 +29,9 @@
   <app-host-prompt [submission]="submission" [currentGameState]="currentGameState"></app-host-prompt>
 }
 
-<!-- @if (storeGameState$ | async; as state) {
-  @if (state === 'STARTED' || state === 'DESCRIBE') {
-    <app-host-prompt [currentGameState]="state"></app-host-prompt>
-  }
-} -->
 
 
 @if ( currentGameState === "VOTING") {
-  <!-- <app-host-show-drawings [submissionshow]="submission"  ></app-host-show-drawings>
-
-  <app-host-player-votes [submissionvote]="submission"></app-host-player-votes> -->
   <div class="background-container">
     <app-host-show-drawings [submissionshow]="submission"  ></app-host-show-drawings>
     <div class="players-container">
@@ -215,4 +46,5 @@
 @if (currentGameState === "RESULTS") {
   <app-host-results [submissionresults]="submission"></app-host-results>
 }
-<app-audio class="audio" [volume]="audioVolume" [currentGameState]="currentGameState"></app-audio>
+
+<app-audio class="audio" [volume]="audioVolume"></app-audio>

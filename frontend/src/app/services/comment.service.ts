@@ -12,10 +12,7 @@ export class CommentService {
   constructor() { }
 
   httpClient = inject(HttpClient);
-
-  // private backendUrl = 'http://localhost:4000/api'
-
-
+  //CRUD operations for comment section
   getPostSocial(postId:string): Observable<PostSocial> {
     return this.httpClient.get<PostSocial>(`${environment.backendUrl}/postsocial/${postId}`)
   }

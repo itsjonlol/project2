@@ -1,54 +1,37 @@
 
-
-
 .bg-container {
   position: fixed;
-  top: 0;
-  left: 0;
+
   width: 100%;
-  height: 100vh; /* Full viewport height */
+  height: 100vh; 
   background-image: url('/images/beigebg.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
-  text-align: center;
+  padding: 4em 3em;
 
 }
-
 .content {
-  border: 2px solid black;
+  border: 1em solid black;
+  border-radius:2em;
   height: 1000px;
   width: 1000px;
   background-color: peachpuff;
   opacity: 0.9;
- /* padding-top:10em; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-}
-
-
-.inv-container.winner {
-  text-align: center;
-  margin-bottom: 20px;
+  gap: 1em;
 }
 
 .inv-container.winner p {
   font-size: 24px;
-  font-weight: 600;
-
+  font-weight: bold;
   margin: 10px 0 0;
-}
-
-.inv-container.winner span {
-  font-weight: 700;
-  color: #333;
 }
 
 
@@ -61,37 +44,12 @@
 }
 
 .inv-container.d-flex {
-  display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  
-  border-radius: 10px;
-  padding: 15px;
-  width: 150px;
+  justify-content: center;
 }
 
 .button {
   background-color: red;
   color:white;
 }
-/* End Game Button */
-/* button {
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #fff;
-  background-color: #e67e22;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #d35400;
-}
-
-button:active {
-  transform: scale(0.95);
-} */

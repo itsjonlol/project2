@@ -10,26 +10,8 @@
  
   }
   
-  .toolbar {
-    display: flex;
-    gap: 10px;
-    padding: 10px;
-    background: #ddd;
-    border-radius: 5px;
-  }
-  
-  /* button {
-    padding: 5px 10px;
-    cursor: pointer;
-    border: none;
-   
-    color: white;
-    border-radius: 5px;
-  } */
-  
- 
 
-
+  
   .toolsection {
     display: flex;
     flex-direction: column;
@@ -40,18 +22,18 @@
   
   .color-picker {
     display: flex;
-    flex-wrap: wrap; /* Allows buttons to wrap if screen is small */
+    flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
     margin: 10px 0;
-    max-width: 90%; /* Ensures it doesn't stretch too wide */
+    max-width: 90%; 
   }
   
   .color-button {
     width: 40px;
     height: 40px;
     border: 2px solid black;
-    border-radius: 50%; /* Makes it circular */
+    border-radius: 50%;
     cursor: pointer;
     transition: transform 0.2s;
   }
@@ -66,7 +48,7 @@
 .yellow { background-color:yellow; }
 .red { background-color: red; }
 
-
+/* referenced from uiverse */
 .slider {
   -webkit-appearance: none;
   width: 100%;

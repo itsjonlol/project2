@@ -1,24 +1,20 @@
-import { Component, inject, Input, input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { WebSocketService } from '../../../services/websocket.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameState, GameStateManager, Submission } from '../../../models/gamemodels';
 import { StompSubscription } from '@stomp/stompjs';
-import { HostShowDrawingsComponent } from '../host-show-drawings/host-show-drawings.component';
-import { HostPlayerVotesComponent } from '../host-player-votes/host-player-votes.component';
-import { interval, map, Observable, Subscription, timer } from 'rxjs';
-import { JsonPipe } from '@angular/common';
-import { HostResultsComponent } from '../host-results/host-results.component';
+import { interval, Observable, Subscription } from 'rxjs';
 import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 import { GameRoomPrompt, GameService } from '../../../services/game.service';
 
 @Component({
   selector: 'app-host-prompt',
-  imports: [HostShowDrawingsComponent,HostPlayerVotesComponent,HostResultsComponent,JsonPipe,LottieComponent],
+  imports: [LottieComponent],
   templateUrl: './host-prompt.component.html',
   styleUrl: './host-prompt.component.css'
 })
 export class HostPromptComponent implements OnInit,OnDestroy{
-
+  // add lottie files
   options1: AnimationOptions = {
     path: '/lottiefiles/animation3.json',
   };
@@ -31,8 +27,8 @@ export class HostPromptComponent implements OnInit,OnDestroy{
   router = inject(Router);
   state!:GameStateManager
   gameService = inject(GameService);
+  //fallback prompt
   prompt:string = "SKETCH A UFO"
-  
   
 
   @Input()
@@ -69,18 +65,16 @@ export class HostPromptComponent implements OnInit,OnDestroy{
   ngOnInit(): void {
     const gameCodeParam = this.activatedRoute.snapshot.paramMap.get('gameCode');
 
-
-
-    this.username = localStorage.getItem("username") || 'player';
+    this.username = sessionStorage.getItem("username") || 'player';
     if (gameCodeParam) {
       // Convert the parameter to a number
       this.gameCode = +gameCodeParam;
+      //get game room prompt once i obtain game code
       this.gamePromptSubscription = this.gameService.getGameRoomPrompt(this.gameCode).subscribe((r:GameRoomPrompt) => {
-        console.log(r)
+        // console.log(r)
         this.prompt=r.gamePrompt})
-    } else {
-      console.error('Game code not found in route parameters.');
-    }
+    } 
+   
     this.submission = {
       gameCode:this.gameCode,
       players:[],
@@ -90,55 +84,10 @@ export class HostPromptComponent implements OnInit,OnDestroy{
     this.connectionSub= this.wsService.isConnected$.subscribe((isConnected) => {
       if (isConnected) {
         console.log("Websocket connected");
-        if (this.gameStateSubscription) {
-          this.gameStateSubscription.unsubscribe();
-        }
-
-        // this.gameStateSubscription=this.wsService.client.subscribe(`/topic/gamestate/${this.gameCode}`, (message) => {
-        //   console.log(message.body);
-
-          
-        //   // if (data.gameState === GameState.VOTING) {
-        //   //   // console.log(true);
-        //   //   // this.router.navigate(['host','showdrawings',this.gameCode])
-        //   //   // this.isDrawing = false;
-
-        //   //   //TO COMMENT OUT
-        //   //   setTimeout(()=>this.isDrawing=false,6000);
-        //   // } 
-        //   // if (data.gameState === GameState.RESULTS) {
-        //   //   // this.router.navigate(['host','results',this.gameCode])
-    
-        //   //   setTimeout(()=>this.displayResults=true,2000);
-        //   // }
-        //   // if (data.gameState === GameState.FINISHED) {
-        //   //   setTimeout(()=>this.router.navigate(["dashboard"]));
-        //   //   this.wsService.disconnect();
-        //   // }
-          
-         
-        // })
-        
-        // // if (this.submissionSubscription) {
-        // //   this.submissionSubscription.unsubscribe();
-        // // }
-
-        // this.submissionSubscription=this.wsService.client.subscribe(`/topic/submission/${this.gameCode}`, (message) => {
-        //   console.log(message.body)
-
-        //   // const data = JSON.parse(message.body);
-        //   // const players = data.players;
-        //   // const playerSubmissions = data.playerSubmissions;
-        //   // this.submission = {
-        //   //   gameCode:this.gameCode,
-        //   //   players:players,
-        //   //   playerSubmissions:playerSubmissions
-        //   // }
- 
-        //  })
-        
+       
       }
     })
+    //start the timer countdown once connection is established
     setTimeout(()=> {
       this.startTimer();
     },4000)
@@ -146,18 +95,15 @@ export class HostPromptComponent implements OnInit,OnDestroy{
     
   }
 
- 
-
   private startTimer() {
     this.timerSubscription = this.timerSource$.subscribe({
       next: (response) => {
-        this.timerCountDown  = this.timerDuration -response;
+        this.timerCountDown  = this.timerDuration -response; // for the 75 second timer
 
         if (this.timerCountDown===0) {
           if (!this.hasResetOnce) {
 
-            //audio
-
+            // play the audio telling players to describe their drawings
             this.audioSrc='/music/t2.mp3';
             this.audio = new Audio(this.audioSrc);
             this.playSound = true;
@@ -165,11 +111,13 @@ export class HostPromptComponent implements OnInit,OnDestroy{
 
             this.resetTimer();
             this.hasResetOnce=true;
+
             const data = {
               gameCode: this.gameCode,
               gameState : GameState.DESCRIBE
             }
-            console.log("sending describe...")
+            // console.log("sending describe...")
+            //host tells backend that the players are to describe their drawings
             this.wsService.publish(`/app/gamestate/${this.gameCode}`,data);
           } else {
             this.stopTimer();
@@ -187,57 +135,53 @@ export class HostPromptComponent implements OnInit,OnDestroy{
     }
 
   }
-
+  // reset timer for describing phase
   private resetTimer() {
     this.stopTimer();
-    this.timerDuration = 5;
+    this.timerDuration = 10;
     this.startTimer();
 
   }
+  // function to go to the next phase i.e. to show the drawings
   showDrawings() {
     this.state = {
       gameCode: this.gameCode,
       gameState : GameState.VOTING
     }
-  
+    // send to backend that we are now going to the voting phase
     this.wsService.publish(`/app/gamestate/${this.gameCode}`,this.state);
   }
   
+  //clean up subscriptions
   ngOnDestroy(): void {
-    // setTimeout(()=>this.isDrawing=false,6000);
+  
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
-      console.log("✅ Unsubscribed from gameStateSubscription");
+    
   }
 
-  // ✅ Unsubscribe from submissionSubscription
   if (this.submissionSubscription) {
       this.submissionSubscription.unsubscribe();
-      console.log("✅ Unsubscribed from submissionSubscription");
   }
 
-  // ✅ Unsubscribe from WebSocket connection observable
+ 
   if (this.connectionSub) {
       this.connectionSub.unsubscribe();
-      console.log("✅ Unsubscribed from WebSocket isConnected$");
+    
   }
 
-  // ✅ Unsubscribe from timerSubscription
   if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
-      console.log("✅ Unsubscribed from timerSubscription");
   }
 
   if (this.gamePromptSubscription) {
     this.gamePromptSubscription.unsubscribe();
   }
 
-    console.log("prompt destroyed")
-    // this.wsService.disconnect();
-    
+
   }
   playVoice(): void {
-    // this.playSound = !this.playSound;
+   // play the description audio
 
     if (this.playSound) {
         this.audio.currentTime = 0; // Reset to the beginning

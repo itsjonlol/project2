@@ -19,4 +19,24 @@
     }
 }
 
+::ng-deep .nav-tabs {
+    background-color: transparent;
+    display: flex;
+    justify-content: center; 
+    gap: 1rem;
+    border-bottom: none; 
+  }
+
+  ::ng-deep .nav-tabs .nav-link {
+    color: black; 
+
+    
+  }
+  
+  ::ng-deep .nav-tabs .nav-link.active {
+    background-color: peachpuff;
+    color: black;
+   
+  }
+
 

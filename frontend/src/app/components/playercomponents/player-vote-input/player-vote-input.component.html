@@ -1,6 +1,6 @@
-<!-- @if(!displayResults){ -->
+
     <h1>Vote between 1 and 10!</h1>
-    <!-- {{form.value|json}} -->
+
     
     @if (hasVoted) {
         <p>You have submitted your vote for the current drawing.</p>
@@ -9,12 +9,11 @@
             <div class="container">
 
            
-            <!-- <form (submit)="processVote(voteString.value)">
-                <input type="number" min="1" max="10" #voteString class ="form-control mb-5 mt-5" >
-                <button type="button" (click)="processVote(voteString.value)" [disabled]="hasVoted" class="mb-5"> Submit vote!</button>
-            </form> -->
-
-            <form [formGroup]="form" (submit)="processVote2()">
+          
+            @if (form.get('playerVote')?.errors?.['min'] || form.get('playerVote')?.errors?.['max']) {
+                <p class="text-danger">Please enter a value between 1 and 10</p>
+                }
+            <form [formGroup]="form" (submit)="processVote()">
                 <input type="number" min="1" max="10" formControlName="playerVote" class ="form-control mb-5 mt-5" >
                 <button type="submit" [disabled]="form.invalid" class="mb-5"> Submit vote!</button>
             </form>
@@ -25,11 +24,3 @@
     }
     
    
-<!-- } @else {
-    <app-player-results [submission]="submission"></app-player-results>
-} -->
-
-
-<!-- {{submission |json }} -->
-
-<!-- {{playerVote.vote}} -->

@@ -28,12 +28,7 @@ export class PostService {
   constructor() { }
   httpClient = inject(HttpClient);
 
-  // private backendUrl = 'http://localhost:4000/api'
-
-  // getPaginatedPosts(page:number):Observable<PaginatedPostResponse> {
-  //   return this.httpClient.get<PaginatedPostResponse>(`${this.backendUrl}/allposts?page=${page}`)
-  // }
-
+  //CRUD operations for posts
   getAllPosts():Observable<Post[]> {
     return this.httpClient.get<Post[]>(`${environment.backendUrl}/allposts`)
   }
@@ -46,20 +41,12 @@ export class PostService {
     return this.httpClient.delete<DeleteResponse>(`${environment.backendUrl}/deletepost/${postId}`)
   }
 
-  /*
-  @GetMapping(path="getpost",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getPostsByUsername(@RequestParam("username") String username) {
-        List<Post> posts = postService.retrieveAllPostsByUsername(username);
-
-        return ResponseEntity.status(200).body(posts);
-    }
-  */
-
   getPostsByUser(username:string):Observable<Post[]> {
     console.log(`${environment.backendUrl}/getposts?username=${username}`)
     return this.httpClient.get<Post[]>(`${environment.backendUrl}/getposts?username=${username}`);
   }
 
+  // implemented but not used in this current project (generate ai image)-> for future development
   requestAiImage(aiImageRequest:AiImage):Observable<AiImageRequestResponse> {
     return this.httpClient.post<AiImageRequestResponse>(`${environment.backendUrl}/generateimage`,aiImageRequest);
   }

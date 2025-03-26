@@ -1,4 +1,4 @@
-import { Component, Input, input, Output } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { Player } from '../../../models/gamemodels';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
@@ -23,10 +23,17 @@ export class HostWaitingRoomComponent {
     @Output()
     emitEvent = new Subject<string>();
 
+    // when host clicks on start or end game
     toggleEvent(event:string) {
+
       this.emitEvent.next(event)
     }
+    // only enable start button if more than 2 players
+    checkIfSufficientPlayers():boolean {
+      return this.players.length >= 2
+    }
     
+
 
 
 }

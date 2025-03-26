@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebSocketService } from '../../../services/websocket.service';
 import * as fabric from 'fabric';
@@ -7,17 +7,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { GameState, UploadResponse } from '../../../models/gamemodels';
 import { FormsModule } from '@angular/forms';
 import { StompSubscription } from '@stomp/stompjs';
-import { PlayerVoteInputComponent } from '../player-vote-input/player-vote-input.component';
 import { GameService } from '../../../services/game.service';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-player-drawing',
-  imports: [FormsModule,PlayerVoteInputComponent],
+  imports: [FormsModule],
   templateUrl: './player-drawing.component.html',
   styleUrl: './player-drawing.component.css'
 })
-export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
+export class PlayerDrawingComponent implements OnInit,OnDestroy{
 
 
 
@@ -43,8 +42,6 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
 
   private gameStateSubscription!: StompSubscription;
 
-  //trial
-  // isVoting:boolean = false;
 
   gameService = inject(GameService)
   connectionSub!: Subscription
@@ -54,108 +51,48 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
 
 
   private canvas!: fabric.Canvas;
-  brushColor: string = 'black'; // Default brush color
-  brushWidth: number = 5; // Default brush size
-  isErasing: boolean = false; // Eraser mode flag
-  backgroundColor: string = "white"; // Background color (same as canvas)
-  // protected _canvas?: fabric.Canvas;
-  // @ViewChild('canvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
+  //default brush settings
+  brushColor: string = 'black'; 
+  brushWidth: number = 5; 
+  isErasing: boolean = false; 
+  backgroundColor: string = "white"; 
+ 
 
 
   ngOnInit(): void {
     const gameCodeParam = this.activatedRoute.snapshot.paramMap.get('gameCode');
-    this.username = localStorage.getItem("username") || 'player';
-    this.userId = sessionStorage.getItem("userid") || 'blank'
+    this.username = sessionStorage.getItem("username") || 'player';
+    this.userId = sessionStorage.getItem("userId") || 'blank'
   
     if (gameCodeParam) {
-      // Convert the parameter to a number
+  
       this.gameCode = +gameCodeParam;
-    } else {
-      console.error('Game code not found in route parameters.');
     }
-
-    
+  
 
     this.initializeCanvas();
     this.wsService.connect();
-    // this.gameService.getGameRoomState(this.gameCode).subscribe(d=>this.currentGameState=d.gameState)
     
-    /// from here
-
-
+    // ensure websocket is connected for publishing to a topic purposes
     this.connectionSub = this.wsService.isConnected$.subscribe((isConnected)=>{
       if (isConnected) {
-        if (this.gameStateSubscription) {
-          this.gameStateSubscription.unsubscribe();
-        }//unsubscribe from prev games
-        this.gameStateSubscription=this.wsService.client.subscribe(`/topic/gamestate/${this.gameCode}`, (message) => {
-          console.log(message.body);
-
-          
-          const data = JSON.parse(message.body);
-
-          // if (data.gameState === GameState.STARTED) {
-          //   console.log("New round started, resetting data...");
-          //   this.isDrawingMode = false;
-          //   this.isUploaded = false; // Reset upload state
-          //   this.uploadedImageUrl = ""; // Reset image URL
-          //   this.title = "";
-          //   this.description = "";
-          //   this.clearCanvas(); // Reset canvas
-          // }
-
-          // if (data.gameState === GameState.DESCRIBE && this.isDrawingMode) {
-          //   // console.log(true);
-          //   // this.currentGameState= GameState.DESCRIBE
-          //   this.isDrawingMode=false;
-
-          //   // TO COMMENT OUT
-          //   this.submitCanvas();
-            
-          // }
-          
-          // if (data.gameState === GameState.VOTING ) {
-          //   // console.log(true);
-          //   // this.currentGameState= GameState.VOTING
-          //   this.onSubmitDetails();  
-
-          //   // this.isVoting=true;
-          //   // this.router.navigate(['player','vote',this.gameCode])
-
-          //   //TO COMMENT OUT
-          //   // setTimeout(()=>this.router.navigate(['player','vote',this.gameCode]),3000)
-          // }
-
-
-          
-        })
+     
+        console.log("connected");
+     
       }
     })
   }
 
+  // when the game state changes, stop drawing, submit the canvas to backend 
   ngOnChanges():void {
     if (this.currentGameState === GameState.DESCRIBE) {
       this.canvas.isDrawingMode=false;
       this.isDrawingMode=false;
       this.submitCanvas()
     }
-    // if (this.currentGameState === GameState.VOTING) {
-    //   this.submitCanvas();
-    // }
+ 
   }
 
-  /// to here
-
-  ngAfterViewInit(): void {
-    
-    // this.initializeCanvas();
-    // this.updateBrush();
-    // this.canvas = new fabric.Canvas('myCanvas');
-    // this.canvas.add(new fabric.IText('Hello Fabric!'));
-    // this.canvas.add(new fabric.IText('Hello World !'))
-    // this.canvas.freeDrawingBrush = new fabric.PencilBrush(this.canvas);
-
-  }
 
   private initializeCanvas(): void {
     this.canvas = new fabric.Canvas('canvas', {
@@ -167,37 +104,42 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
     this.updateBrush();
   }
 
+  //update brush settings
   public updateBrush(): void {
     if (this.canvas) {
       this.canvas.freeDrawingBrush = new fabric.PencilBrush(this.canvas);
+      // erase 
       this.canvas.freeDrawingBrush.color = this.isErasing ? this.backgroundColor : this.brushColor;
       this.canvas.freeDrawingBrush.width = this.brushWidth;
     }
   }
-
+  //update brush color
   public setBrushColor(color: string): void {
     this.brushColor = color;
     this.isErasing = false; // Disable erasing mode
     this.updateBrush();
   }
-
+  //update brush size
   public setBrushSize(size: any): void {
   
     this.brushWidth= size.target.value;
-    // this.brushWidth = size;
+    
     this.updateBrush();
   }
-
+  // if player clicks on eraser
   public enableEraser(): void {
     this.isErasing = true;
     this.updateBrush();
   }
 
+  //clear whole canvas and reset the background color
   public clearCanvas(): void {
     this.canvas.clear();
-    this.canvas.backgroundColor = this.backgroundColor; // Reset background
+    this.canvas.backgroundColor = this.backgroundColor; 
   }
-
+  // convert canvas to base 64, then to blob, then submit to backend.
+  //backend will take the blob, upload to s3 service, send the url to openai, then receive
+  // the image url and ai comments here
   submitCanvas() {
     const dataUrl = this.canvas.toDataURL({ format: 'png', multiplier: 1.0 });
 
@@ -207,7 +149,7 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
 
     this.imageService.uploadBlob(blob).subscribe({
       next: (response:UploadResponse) => {
-        console.log('Upload success:', response);
+        // console.log('Upload success:', response);
         
         if (response.url) {
           this.uploadedImageUrl = response.url; 
@@ -220,7 +162,7 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
       }
     })
   }
-
+  // send the whole details to backend
   onSubmitDetails() {
     console.log("Submitting to backend...");
 
@@ -236,31 +178,24 @@ export class PlayerDrawingComponent implements OnInit,AfterViewInit,OnDestroy{
 
     this.wsService.publish(`/app/playersubmission/${this.gameCode}`,data);
   }
-
+  //clean up subscriptions
   ngOnDestroy(): void {
     
     this.onSubmitDetails()
 
     if (this.gameStateSubscription) {
       this.gameStateSubscription.unsubscribe();
-      console.log("✅ Unsubscribed from gameStateSubscription");
+     
   }
 
-  // ✅ Unsubscribe from WebSocket connection observable
+
   if (this.connectionSub) {
       this.connectionSub.unsubscribe();
-      console.log("✅ Unsubscribed from WebSocket isConnected$");
-  }
-    // this.wsService.disconnect();
-    // this.resetState();
+    
   }
 
-  // private resetState(): void {
-  //   this.title = '';
-  //   this.description = '';
-  //   this.uploadedImageUrl = '';
-  //   this.isUploaded = false;
-  //   this.clearCanvas(); // Clear the canvas for the new round
-  // }
+  }
+
+
 
 }

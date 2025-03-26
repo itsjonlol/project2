@@ -1,91 +1,8 @@
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
-  gap: 16px; /* Space between images */
-  padding: 16px;
-}
-
-/* Gallery Item - Adds a frame effect */
-.gallery-item {
-  position: relative;
-  overflow: hidden;
-  padding: 12px; /* Space between frame and image */
-  background: #f8f1e9; /* Soft beige frame color */
-  border: 8px solid #c3a27f; /* Outer wooden frame effect */
-  border-radius: 12px; /* Smooth rounded corners */
-  box-shadow: 
-    0 6px 12px rgba(0, 0, 0, 0.2), /* Deep shadow for depth */
-    inset 0 0 10px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background-image: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.2) 0%,
-    rgba(0, 0, 0, 0.1) 100%
-  ); /* Subtle gradient for texture */
-}
-
-/* Hover effect for frame */
-.gallery-item:hover {
-  transform: scale(1.05);
-  box-shadow: 
-    0 10px 20px rgba(0, 0, 0, 0.3), /* Deeper shadow on hover */
-    inset 0 0 15px rgba(0, 0, 0, 0.2); /* Stronger inner shadow on hover */
-}
-
-/* Inner frame styling */
-.gallery-item::before {
-  content: "";
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  right: 5px;
-  bottom: 5px;
-  border: 6px solid #e7d3b0; /* Lighter inner frame color */
-  border-radius: 8px;
-  z-index: 1;
-  box-shadow: 
-    inset 0 0 8px rgba(0, 0, 0, 0.1), /* Inner shadow for depth */
-    0 0 8px rgba(255, 255, 255, 0.5); /* Outer glow for highlight */
-}
-
-/* Image inside the frame */
-.gallery-image {
-  width: 100%;
-  height: auto;
-  object-fit: cover; /* Keeps proportions */
-  display: block;
-  border-radius: 6px; /* Matches frame style */
-  border: 3px solid white; /* Adds a white matting effect inside */
-  position: relative;
-  z-index: 2; /* Keeps image above the inner frame */
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-/* Hover effect for image */
-.gallery-item:hover .gallery-image {
-  transform: scale(1.02); /* Slight zoom effect */
-  filter: brightness(1.05); /* Slight brightness increase */
-}
-
-/* Optional: Add a subtle texture to the frame */
-.gallery-item::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'); /* Wood texture */
-  opacity: 0.2; /* Subtle texture effect */
-  pointer-events: none; /* Ensure clicks pass through */
-  border-radius: 12px; /* Match frame border radius */
-}
-
 
 
   
 .container {
-  /* height: 100vh; */
+
   margin-top:10em;
   display: flex;
   flex-direction: column;
@@ -93,15 +10,10 @@
   align-items: center;
 }
 
-h1 {
-  color: #fff;
-  font-size: 55px;
-  margin: 80px 0;
-}
-
 swiper-container {
   width: 100%;
-  height: 100%;
+  height: 350px;
+
 }
 
 swiper-slide {
@@ -117,62 +29,40 @@ swiper-slide {
   outline: none;
 }
 
-/* swiper-slide img {
-  display: block;
-  height:100%;
-  width: 100%;
-  -webkit-box-reflect: below 1px linear-gradient(transparent, transparent, #0002, #0004);
-} */
-
-/* .frame {
-  border: 8px solid #b59a63;
-  border-radius: 3px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5),
-              inset 0 0 5px rgba(0, 0, 0, 0.5);
-  padding: 3px;
-  background-color: #0f0f0f;
-  position: relative;
-  overflow: hidden;
-}
-
-.frame::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border: 1px solid #d4af37;
-  pointer-events: none;
-} */
-
-
+/* referenced from codepen*/
 #frame {
   position: relative;
-  border: solid 15px black;
+ 
   border-radius: 10px;
-  max-width: 100%; /* Ensure the frame doesn't exceed its container */
-  margin: 0 auto; /* Center the frame */
+  max-width: 100%; 
+  margin: 0 auto; 
   box-shadow: -3px -3px 12px #999;
-  overflow: hidden; /* Ensure the border doesn't overflow */
-  height: 300px; /* Set a fixed height for the frame */
+  overflow: hidden; 
+  height: 300px;
+
+  box-shadow:				4px 6px 12px 0 black;
+	border-width:			15px;
+	border-style:			solid;
+	border-color:			rgb(109, 84, 58) rgb(24, 19, 13) rgb(24, 19, 13) rgb(109, 84, 58);
+	
 }
 
-/* Border styling */
+
 #border {
   position: relative;
-  border: solid 1em peachpuff;
-  box-shadow: -3px -3px 12px #999;
-  overflow: hidden; /* Ensure the image doesn't overflow */
-  height: 100%; /* Ensure the border takes the full height of the frame */
+  border-width:			5px;
+	border-style:			solid;
+	border-color:			beige;
+  overflow: hidden; 
+  height: 100%;
 }
 
-/* Image styling */
+
 img {
   display: block;
-  width: 100%; /* Ensure the image takes the full width of its container */
-  height: 100%; /* Ensure the image takes the full height of its container */
-  object-fit: cover; /* Ensure the image covers the entire area without distortion */
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
   border-top: solid 2px #aaa;
   border-left: solid 2px #aaa;
   border-bottom: solid 2px #ccc;

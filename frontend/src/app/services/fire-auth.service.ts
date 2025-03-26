@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Auth, user, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, signOut } from '@angular/fire/auth';
+import { Auth, user, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, signOut, browserSessionPersistence, setPersistence } from '@angular/fire/auth';
 import { EMPTY, Observable, from, switchMap } from 'rxjs';
 import { UserInterface } from '../models/userinterface';
 import { UserService } from './user.service';
@@ -15,27 +15,32 @@ export class FireAuthService {
   user$ = user(this.firebaseAuth)
   currentUserSig = signal<UserInterface | null | undefined>(undefined)
 
-  register(email:string,username:string,password:string):Observable<void> {
-    const promise = createUserWithEmailAndPassword
-      (this.firebaseAuth,email,password)
-      .then(response => updateProfile(response.user,{displayName:username}))
-
-    return from(promise);  
+  //set persistence to browser session for firebase auth
+  constructor() {
+    
+    this.firebaseAuth.setPersistence(browserSessionPersistence)
+      .catch((error) => {
+        console.error('error setting persistence:', error);
+      });
   }
 
-  // loginViaEmailAndPassword(email:string,password:string):Observable<void> {
-  //   const promise = signInWithEmailAndPassword(this.firebaseAuth,email,password).then(()=>{})
-  //   return from(promise)
-  // }
+
+  // register a user with email and password, but log them out after registration
+  register(email: string, username: string, password: string): Observable<void> {
+        const promise = createUserWithEmailAndPassword(this.firebaseAuth,email,password)
+          .then(response => updateProfile(response.user,{displayName:username}))
+
+        return from(promise.then(() => signOut(this.firebaseAuth)));
+  }
+
+
+  
   loginViaEmailAndPassword(email: string, password: string): Observable<void> {
     return from(signInWithEmailAndPassword(this.firebaseAuth, email, password)).pipe(
       switchMap(response => {
         const user = response.user;
-        if (!user) return EMPTY; // If no user, return an empty observable
+        if (!user) return EMPTY; 
   
-        console.log("User logged in:", user.uid);
-        
-        // Send user data to backend
         return this.userService.postUser({
           userId: user.uid,
           email: user.email!,
@@ -45,21 +50,14 @@ export class FireAuthService {
     );
   }
 
-  // loginViaGoogle():Observable<void> {
-  //   const promise = signInWithPopup(this.firebaseAuth,new GoogleAuthProvider()).then(()=>{})
-  //   return from(promise);
-
-  // }
-  // to change syntax
   loginViaGoogle(): Observable<void> {
     return from(signInWithPopup(this.firebaseAuth, new GoogleAuthProvider())).pipe(
       switchMap((response) => {
         const user = response.user;
-        if (!user) return EMPTY; // ✅ If login fails, return an empty observable
+        if (!user) return EMPTY; 
   
-        console.log("User logged in via Google:", user.uid);
+        // console.log("user logged in via google:", user.uid);
   
-        // ✅ Send user data to backend
         return this.userService.postUser({
           userId: user.uid,
           email: user.email!,
@@ -68,14 +66,6 @@ export class FireAuthService {
       })
     );
   }
-  //may have to remove
-  loginViaGitHub():Observable<void> {
-    const promise = signInWithPopup(this.firebaseAuth,new GithubAuthProvider()).then(()=>{
-    
-    })
-    return from(promise);
-  }
-  
 
   logout():Observable<void> {
     const promise = signOut(this.firebaseAuth)

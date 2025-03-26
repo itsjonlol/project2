@@ -1,30 +1,7 @@
-<!-- <p>player-lobby works!</p>
-<p>Parent {{currentGameState}}</p>
-{{gameStarted}}
-
-{{transition | json }} -->
-
-<!-- @if ( storeGameState$ | async; as state ) {
-    <h1>Observable game state: {{ state}}</h1>
-} -->
-
-<!-- @if(!gameStarted) {
-    <h1>
-        <p>Waiting for host to start the game for code: {{gameCode}}</p>
-    </h1>
-} 
-
-@if(gameStarted || currentGameState==="STARTED"){
-    <app-player-drawing [currentGameState]="currentGameState"></app-player-drawing>
-} -->
-
-
-
 
 <div class="background-container">
 @if (this.currentGameState==="QUEUING") {
-    <!-- <app-player-drawing [currentGameState]="currentGameState"></app-player-drawing> -->
-
+ 
         <div class="message-container">
         
             <h1>Waiting for host to start the game for code: {{gameCode}}...</h1>
@@ -33,15 +10,7 @@
         <div class="leave-room">
             <app-disconnect (emitDisconnect)="handleDisconnection($event)"></app-disconnect>
         </div>
-     
-      
-        <!-- <div class="message-container">
-            <app-player-vote-input [currentGameState]="currentGameState"></app-player-vote-input>
-        </div> -->
         
-
-        
-           
         
     
 }
@@ -51,11 +20,9 @@
     <app-player-transition [transitionChild]="transition"></app-player-transition>
     </div>
 }
-
 @if (this.currentGameState==="STARTED" || this.currentGameState==="DESCRIBE") {
     
     <app-player-drawing [currentGameState]="currentGameState"></app-player-drawing>
-
 } 
 
 @if( this.currentGameState==="VOTING") {
@@ -72,20 +39,6 @@
     </div>
   
 }
-
-<!-- @if(!gameStarted) {
-    <h1>
-        <p>Waiting for host to start the game for code: {{gameCode}}</p>
-    </h1>
-} @else {
-    <app-player-drawing></app-player-drawing>
-} -->
-    
-<!-- @if (currentGameState === "RESULTS") {
-    <app-player-results></app-player-results>
-} -->
-
-<!-- <button type="button" class="btn btn-danger leave-room" (click)="disconnect()">Leave room</button> -->
 
 </div>
 
