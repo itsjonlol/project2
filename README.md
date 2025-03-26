@@ -29,27 +29,27 @@ After 75 seconds, host screen will tell players to give their drawings a title a
 (Player Instructions - meant to use a phone for a better drawing experience)
 
 <img src="docs/images/image.png" alt="Main lobby screen" width="300">
-0. If host has their lobby screen up. Feel free to scan the QR code to be redirected to the website
-Please create an account / login afterwards.
 
-1. Player clicks on "Join a Game" Button
+1. If host has their lobby screen up. Feel free to scan the QR code to be redirected to the website Please create an account / login afterwards.
+
+2. Player clicks on "Join a Game" Button
 
 <img src="docs/images/image-2.png" alt="Player entering a game room screen" width="300">
 
-2. Enter the game code shown in Host Instructions (step 2)
+3. Enter the game code shown in Host Instructions (step 2)
 
-3. While in the game lobby, just watch the host screen and read/listen to the instructions given
+4. While in the game lobby, just watch the host screen and read/listen to the instructions given
 by the host screen
 
-4. Draw on the canvas when instructed to do so
+5. Draw on the canvas when instructed to do so
 <img src="docs/images/player-canvas.png" alt="Player canvas" width="300">
 
-5. Give your image a title and description when instructed to do so
+6. Give your image a title and description when instructed to do so
 <img src="docs/images/player-describe.png" alt="Player describing drawing" width="300">
 
-6. Give each drawing your vote from 1 to 10!
+7. Give each drawing your vote from 1 to 10!
 <img src="docs/images/player-vote.png" alt="Player voting" width="300">
 
-7. Game results
+8. Game results
 <img src="docs/images/results-player.png" alt="Player results" width="300">
 
