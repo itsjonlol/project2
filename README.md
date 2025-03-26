@@ -15,7 +15,7 @@ Click on "Start" and the game will play itself with instructions via text/audio.
 
 4. Host screen will show a prompt where players will take this time to draw on their canvas.
 After 75 seconds, host screen will tell players to give their drawings a title and description (30 seconds)
-<img src="docs/images/host-prompt.jpg" alt="Host prompt" width="500">
+<img src="docs/images/host-prompt2.jpg" alt="Host prompt" width="500">
 
 5. During voting phase, host screen will show each drawing one by one. Players can all vote for each drawing
 (for now, all players can vote their own drawings)
@@ -28,13 +28,13 @@ After 75 seconds, host screen will tell players to give their drawings a title a
 
 (Player Instructions - meant to use a phone for a better drawing experience)
 
-![Main lobby screen](docs/images/image.png){: width="50%"}
+<img src="docs/images/image.png" alt="Main lobby screen" width="300">
 0. If host has their lobby screen up. Feel free to scan the QR code to be redirected to the website
 Please create an account / login afterwards.
 
 1. Player clicks on "Join a Game" Button
 
-![Player entering a game room screen](docs/images/image-2.png){: width="50%"}
+<img src="docs/images/image-2.png" alt="Player entering a game room screen" width="300">
 
 2. Enter the game code shown in Host Instructions (step 2)
 
@@ -42,14 +42,14 @@ Please create an account / login afterwards.
 by the host screen
 
 4. Draw on the canvas when instructed to do so
-![Player canvas](docs/images/player-canvas.png){: width="50%"}
+<img src="docs/images/player-canvas.png" alt="Player canvas" width="300">
 
 5. Give your image a title and description when instructed to do so
-![Player describing drawing](docs/images/player-describe.png){: width="50%"}
+<img src="docs/images/player-describe.png" alt="Player describing drawing" width="300">
 
 6. Give each drawing your vote from 1 to 10!
-![Player voting](docs/images/player-vote.png){: width="50%"}
+<img src="docs/images/player-vote.png" alt="Player voting" width="300">
 
 7. Game results
-![Player results](docs/images/results-player.png)
+<img src="docs/images/results-player.png" alt="Player results" width="300">
 
