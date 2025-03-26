@@ -51,7 +51,7 @@ export class HostPromptComponent implements OnInit,OnDestroy{
 
   timerSubscription!: Subscription;
   timerCountDown!:number;
-  timerDuration:number=5;
+  timerDuration:number=75;
   timerSource$:Observable<number> = interval(1000);
   hasResetOnce:boolean=false;
   connectionSub!: Subscription
@@ -138,7 +138,7 @@ export class HostPromptComponent implements OnInit,OnDestroy{
   // reset timer for describing phase
   private resetTimer() {
     this.stopTimer();
-    this.timerDuration = 10;
+    this.timerDuration = 35;
     this.startTimer();
 
   }
