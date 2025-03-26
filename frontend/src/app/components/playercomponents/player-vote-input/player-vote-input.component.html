@@ -9,8 +9,8 @@
             <div class="container">
 
            
-          
-            @if (form.get('playerVote')?.errors?.['min'] || form.get('playerVote')?.errors?.['max']) {
+                
+            @if (form.invalid) {
                 <p class="text-danger">Please enter a value between 1 and 10</p>
                 }
             <form [formGroup]="form" (submit)="processVote()">
